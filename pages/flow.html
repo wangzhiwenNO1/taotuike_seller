@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>任务发布</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<link href="../css/mui.imageViewers.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../icont/iconfont.css" />
+		<style type="text/css">
+			.mui-bar .mui-title {
+				font-size: 18px;
+				color: #333;
+				left: 100px;
+				right: 100px;
+
+			}
+
+			.lishi {
+				margin-top: 12px;
+				color: #999;
+				font-size: 15px;
+			}
+
+			body,
+			.mui-content {
+				background: #F2F2F2;
+			}
+
+			.header {
+				background: #66D1CF;
+			}
+
+			.header_l {
+				margin: 15px 10px;
+			}
+
+			.header_l p {
+				color: #fff;
+				font-size: 15px;
+			}
+
+			.header_l .date {
+				margin-bottom: 0px;
+			}
+
+			.tabsBox {
+				display: flex;
+				justify-content: space-between;
+				align-self: center;
+				padding: 0.7rem 1.25rem;
+				background-color: rgba(102, 209, 207, 0.1);
+			}
+
+			.tabsBox>div {
+				height: 2rem;
+
+				color: #666666;
+				line-height: 2rem;
+				width: 5rem;
+				text-align: center;
+				border-radius: 1rem;
+			}
+
+			.tabsBox>div.active {
+				background-color: #F56B1A;
+				color: #FFFFFF;
+			}
+			
+			.mainTop{
+				background-color: #FFFFFF;
+				padding:0.6rem;
+			}
+			.title{
+				display: flex;
+				align-items: center;
+				padding:0.7rem 0;
+				border-bottom: 1px solid #EEEEEE;
+				margin-bottom: 0.3rem;
+			}
+			.title .icon{
+				display: inline-block;
+				width:1.25rem;
+				height: 1.25rem;
+				background-color: pink;
+				margin-right: 0.66rem;
+			}
+			
+			.typesBox{
+				display: flex;
+				align-items: center;
+				padding:0.5rem 0;
+			}
+			
+			.typesBox>div{
+				width:5.25rem;
+				height:2rem;
+				line-height: 2rem;
+				text-align: center;
+				border-radius:0.25rem;
+				margin-right: 0.4rem;
+				background:rgba(242,242,242,1);
+				color:rgba(51, 51, 51, 0.9);
+			}
+			.typesBox>div.active{
+				background:rgba(102,209,207,1);
+				color:#FFF;
+			}
+			
+			/* 任务日期 */
+			.timeBox{
+				display: flex;
+				align-items: center;
+			}
+			
+			
+			.flowBox ul{
+				display: flex;
+				align-items: center;
+			}
+			.flowBox ul li{
+				margin-right: 0.78rem;
+				color:rgba(102, 102, 102, 1);
+			}
+			.flowBox ul li:first-child{
+				color:rgba(51, 51, 51, 1);
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<div class="mui-pull-left lishi"><i class="iconFont"></i>教程</div>
+				<h1 class="mui-title">任务发布</h1>
+			</header>
+			<div class="mui-content">
+
+				<!-- tabs切换 -->
+				<div class="tabsBox">
+					<div class="active">流量任务</div>
+					<div>收藏任务</div>
+					<div>加购任务</div>
+					<div>淘宝直播</div>
+				</div>
+				<div class="mainTop">
+					<!-- 流量任务类型 -->
+					<div class="flowBox">
+						<div class="title">
+							<i class="icon"></i>
+							<div>任务类型</div>
+						</div>
+						<div class="typesBox">
+							<div class="active">APP 流量</div>
+							<div>PC 流量</div>
+							<div>直访流量</div>
+						</div>
+					</div>
+
+
+					<!-- 任务日期 -->
+					<div class="flowBox">
+						<div class="title">
+							<i class="icon"></i>
+							<div>任务日期</div>
+						</div>
+						<div class="timeBox">
+							<div>
+								<div>2020-02-27</div>
+								<i class="icon"></i>
+							</div>
+							<div>—</div>
+							<div>
+								<div>2020-02-27</div>
+								<i class="icon"></i>
+							</div>
+						</div>
+						<ul>
+							<li>快速选择：</li>
+							<li>1天</li>
+							<li>3天</li>
+							<li>7天</li>
+							<li>10天</li>
+							<li>15天</li>
+							<li>30天</li>
+						</ul>
+						<div>任务时长 <span>1</span> 天，每天发布 <span>100</span> 个任务量，此次合计发布<span>100</span>个任务</div>
+					</div>
+				</div>
+
+
+			</div>
+		</section>
+
+		<script src="../js/jquery-3.2.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/storage.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/babel">
+
+			var app = new Vue({
+				el:'#app',
+				data(){
+					return {
+					}
+				},
+				computed:{
+					// 计算应付金额
+					
+				},
+				methods:{
+					
+					
+				},
+				mounted(){
+					mui.init({
+					    subpages:[{
+					      url:"./flow/traffic_task.html",//子页面HTML地址，支持本地地址和网络地址
+					      id:"traffic_task",//子页面标志
+					      styles:{
+					        top:0,//子页面顶部位置
+					        bottom:0,//子页面底部位置
+					       
+					      },
+					      extras:{}//额外扩展参数
+					    }]
+					  });
+					
+					mui.plusReady(function(){
+						
+					});
+					
+					
+				},
+				watch:{
+
+				}
+			});
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>底部导航</title>
+	<!--引入初始化样式-->
+	<link rel="stylesheet" type="text/css" href="css/base.css" />
+	<!--引入MUI基本样式-->
+	<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+	<!--<link rel="stylesheet" type="text/css" href="icont/iconfont.css" />-->
+	<style type="text/css">
+		.mui-bar-tab .mui-tab-item.mui-active {
+			color: #66D1CF;
+		}
+		.mui-bar-tab {
+			/*height: 67px;*/
+			height: 60px;
+			/* background: url(img/bqbg.png) no-repeat; */
+			background-size: 100% 100%;
+			/*background: #E5F4F4;*/
+		}
+
+		.mui-bar .mui-icon {
+			font-size: 18px;
+		}
+
+		.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label {
+			font-size: 12px;
+			line-height: 20px;
+		}
+
+		.mui-bar-tab {
+			/*background-color: #fff;*/
+		}
+
+		.mui-bar {
+			box-shadow: inherit;
+		}
+		.mui-tab-item span img{
+			width: 20px;
+			height: 20px;
+		}
+		/* .mui-tab-item .addTask{
+			/*width: 40px;
+            height: 40px;*/
+			width: 30px;
+			height: 30px;
+			margin-bottom: 20px;
+		} */
+		.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label{
+			font-size: 10px;
+
+		}
+		.mui-bar-tab .mui-tab-item{
+			/*height: 50px;*/
+			vertical-align: bottom;
+		}
+		.mui-bar-tab .mui-tab-item .mui-icon{
+			width: auto;
+		}
+	</style>
+</head>
+
+<body>
+<nav class="mui-bar mui-bar-tab">
+	<a class="mui-tab-item mui-active" id="pages/home.html">
+		<span class="mui-icon iconfont "><img class="navImg" src="img/homeChecked.png"/></span>
+		<span class="mui-tab-label">主页</span>
+	</a>
+	<a class="mui-tab-item" id="pages/task.html">
+		<span class="mui-icon iconfont "><img class="navImg" src="img/sales.png"/></span>
+		<span class="mui-tab-label">销量任务</span>
+	</a>
+	<a class="mui-tab-item Task" id="pages/flow.html">
+		<span class="mui-icon iconfont "><img class="navImg addTask" src="img/flow.png" alt="" /></span>
+		<span class="mui-tab-label">流量任务</span>
+	</a>
+	<a class="mui-tab-item" id="pages/mine.html">
+		<span class="mui-icon  iconfont"><img class="navImg" src="img/my.png"/></span>
+		<span class="mui-tab-label">我的</span>
+	</a>
+</nav>
+
+<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/castapp.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/axios.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/qs.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/storage.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	ca.init();
+	mui.init();
+	mui.plusReady(function () {
+	    // 动态改变webview的侧滑返回功能：
+		var wv=plus.webview.currentWebview();
+		// 关闭侧滑返回功能
+		wv.setStyle({'popGesture':'none'});
+	})
+	localStorage.setItem('shop_id', 194);
+	//退出app
+	var first = null;
+	mui.back = function() {
+		//首次按键，提示‘再按一次退出应用’
+		if(!first) {
+			first = new Date().getTime();
+			console.log(first);
+			mui.toast('再按一次退出应用');
+			setTimeout(function() {
+				first = null;
+			}, 1000);
+		} else {
+			if(new Date().getTime() - first < 1000) {
+				plus.runtime.quit();
+			}
+		}
+	};
+	var subpages = ['pages/home.html','pages/task.html', 'pages/flow.html', 'pages/mine.html'];
+	if(/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)) {
+		var subpage_style = {
+			top: '0',
+			bottom: '55px', //89px
+			scrollIndicator: 'none',
+			style: {
+				"render": "always"
+			}
+		};
+	} else {
+		var subpage_style = {
+			top: '0px',
+			bottom: '55px', //
+			scrollIndicator: 'none'
+		};
+	}
+	var aniShow = {};
+	mui.plusReady(function() {
+		var self = plus.webview.currentWebview();
+		for(var i = 0; i < 3; i++) {
+			var temp = {};
+			var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+			if(i > 0) {
+				sub.hide();
+			} else {
+				temp[subpages[i]] = "true";
+				mui.extend(aniShow, temp);
+			}
+			self.append(sub);
+		}
+	});
+	var activeTab = subpages[0];
+	var newSrc=['img/homeChecked.png','img/salesChecked.png',"img/flowChecked.png","img/myChecked.png"]
+	var oldSrc=["img/home.png","img/sales.png","img/flow.png","img/my.png"]
+	$('nav').on('tap', 'a', function(e) {
+		var targetTab = this.id;
+		var _index=$(this).index();
+		var navImg=$('.navImg');
+		for(var i=0;i<navImg.length;i++){
+			navImg[i].src=oldSrc[i];
+		}
+		$('nav a img').eq(_index).attr('src',newSrc[_index]);
+		if(targetTab == activeTab) {
+			return;
+		}
+		$(this).addClass("mui-active").siblings().removeClass("mui-active");
+
+		if(mui.os.ios || aniShow[targetTab]) {
+			plus.webview.show(targetTab, "fade-in", 300);
+		} else {
+			var temp = {};
+			temp[targetTab] = "true";
+			mui.extend(aniShow, temp);
+			plus.webview.show(targetTab, "fade-in", 300);
+		}
+		plus.webview.hide(activeTab);
+		activeTab = targetTab;
+	});
+	var wgtVer=null;
+	mui.plusReady(function () {
+		// 获取本地应用资源版本号
+		plus.runtime.getProperty(plus.runtime.appid,function(inf){
+			wgtVer=inf.version;
+			getVersion(wgtVer);
+			console.log("当前应用版本："+wgtVer);
+		});
+	});
+	// 获取服务器版本
+	function getVersion(wgtVer) {
+		var params = {
+			version:wgtVer
+		};
+		Axios.post('/api/version/index',params).then(function (res) {
+			console.log( JSON.stringify(res) ,'更新的参数');
+			if(res.code == 1){
+				if(res.data.flag == 1){
+					var downUrl =  res.data.url  // mui.os.ios ? res.data.ios_url : res.data.android_url;
+					// mui.confirm('您的应用又有更新啦','更新提示',['取消','确定'],function(e){
+					// 	if(e.index){
+							downWgt(downUrl,res.data);	//临时自动更新
+						// }
+					// })
+				}
+			}
+		})
+	}
+	// 下载wgt文件
+	function downWgt(wgtUrl,data){
+		plus.nativeUI.showWaiting("安装包下载中...");
+		plus.downloader.createDownload( wgtUrl, {filename:"_doc/update/"}, function(d,status){
+			if ( status == 200 ) {
+				console.log("安装包下载成功  ："+d.filename);
+				installWgt(d.filename); // 安装wgt包
+			} else {
+				console.log("安装包下载失败！");
+				plus.nativeUI.alert("安装包下载失败！");
+				mui.confirm('升级包安装失败，请重新下载！', '提示',['否', '是'], function(e) {
+                    if (e.index == 1) {	//确定
+                        // 下载整包
+						if( mui.os.ios ){
+							plus.runtime.openURL(data.ios_share_url);
+						}else{
+							plus.runtime.openURL(data.android_share_url);
+						}
+                    } else {	//取消
+                        plus.nativeUI.alert("为了您正常使用，请及时更新应用！");
+                    }
+                })
+			}
+			plus.nativeUI.closeWaiting();
+		}).start();
+	}
+	// 更新应用资源
+	function installWgt(path){
+		plus.nativeUI.showWaiting("安装中...");
+		plus.runtime.install(path,{},function(){
+			plus.nativeUI.closeWaiting();
+			console.log("安装成功！");
+			plus.nativeUI.alert("应用资源更新完成！",function(){
+				plus.runtime.restart();
+			});
+		},function(e){
+			plus.nativeUI.closeWaiting();
+			console.log("安装失败["+e.code+"]："+e.message);
+			plus.nativeUI.alert("安装失败["+e.code+"]："+e.message);
+		});
+	}
+
+
+	//			mui.plusReady(function() {
+	//
+	//				var audio = plus.audio.createPlayer('_www/img/audio.mp3');
+	//
+	//				plus.push.addEventListener("receive", function(msg) {
+	//
+	//					audio.play();
+	//
+	//				}, false);
+	//			})
+</script>
+</body>
+
+</html>

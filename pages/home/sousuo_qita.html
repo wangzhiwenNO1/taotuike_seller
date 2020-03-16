@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>搜索其他</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #F2F2F2;
+			}
+			
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-bar {
+				font-size: 14px;
+				color: #333;
+			}
+			
+			.mui-bar .search {
+				color: #9C9C9D;
+				width: 68%;
+				height: 35px;
+				float: left;
+				border: 1px solid #e1e1e1;
+				border-radius: 35px;
+				background: #F2F2F2;
+				line-height: 35px;
+				text-align: center;
+				margin-top: 5px;
+				margin-left: 15px;
+			}
+			
+			.search input {
+				width: 84.17%;
+				font-size: 15px;
+				color: #333;
+				border: none;
+				height: 20px;
+				margin: 0;
+				padding: 0;
+				background: #F2F2F2;
+			}
+			
+			.search .mui-icon {
+				font-size: 14px;
+				padding: 0;
+				margin: 0;
+			}
+			
+			.searchText {
+				margin-top: 15px;
+				font-size: 15px;
+				color: #999;
+			}
+			
+			.order_wrap {
+				margin-top: 15px;
+			}
+			
+			.order_wrap ul li {
+				/*background: url(../img/ddbjxq.png) no-repeat;
+				background-size: 100% 100%;*/
+				background: #fff;
+				width: 94.8%;
+				margin-left: 2.6%;
+				box-shadow: 0px 0px 5px 2px #C9D6D6;
+				/*padding-bottom: 10px;*/
+				margin-bottom: 10px;
+				/*overflow: hidden;*/
+			}
+			
+			.top {
+				border-bottom: 1px dashed #E1E1E1;
+				position: relative;
+				height: 46px;
+			}
+			
+			.top:after {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: linear-gradient(to right, #fff, #C9D6D6);
+				/*border-radius: 0px 10px 10px 0px;*/
+				border-radius: 20px;
+				position: absolute;
+				bottom: -10px;
+				left: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top:before {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: #fff;
+				/*border-radius: 10px 0 0 10px;*/
+				background: linear-gradient(to left, #fff, #C9D6D6);
+				border-radius: 10px;
+				position: absolute;
+				bottom: -10px;
+				right: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top p {
+				color: #333;
+				font-size: 14px;
+				margin-top: 14px;
+				margin-bottom: 10px;
+			}
+			
+			.top p:first-child {
+				margin-left: 10px;
+			}
+			
+			.top p:last-child {
+				margin-right: 10px;
+			}
+			
+			.pie {
+				width: 16px;
+				height: 16px;
+				float: left;
+				margin-top: 3px;
+				margin-right: 5px;
+			}
+			
+			.pie div {
+				display: inline-block;
+			}
+			
+			.top p span {
+				color: #FFA940;
+			}
+			
+			.top p button {
+				width: 50pt;
+				height: 20px;
+				border-radius: 40px;
+				border: none;
+			}
+			
+			.jinxing {
+				background: #FDF4E8;
+				color: #FFA940;
+			}
+			
+			.guoqi {
+				background: #F2F2F2;
+				color: #666;
+			}
+			
+			.wancheng {
+				background: #E4F6F6;
+				color: #54D4D4;
+			}
+			
+			.top .sucColor span:nth-child(2) {
+				color: #54D4D4;
+			}
+			
+			.msg {
+				width: 94.8%;
+				margin-left: 2.6%;
+				border-bottom: 1px dashed #E1E1E1;
+				margin-top: 10px;
+			}
+			
+			.msg div {
+				width: 50%;
+			}
+			
+			.msg div p {
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.order_wrap .goods_wrap {
+				background: #FFf;
+				padding-bottom: 10px;
+				width: 94.6%;
+				margin-left: 2.6%;
+			}
+			
+			.mui-table-view-cell {
+				padding: 0px;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+				padding-top: 0px;
+			}
+			
+			.mui-navigate-right:after,
+			.mui-push-right:after {
+				/*right: -0px;*/
+				top: 40%;
+				left: 67px;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-collapse-content {
+				margin: auto;
+				border-bottom: 1px dashed #E1E1E1;
+				padding: 5px 0px;
+			}
+			
+			.goods {
+				background: #F2F2F2;
+				border-radius: 10px;
+				padding: 5px;
+				display: flex;
+			}
+
+			.goodsImg {
+				/*width: 41.5%;
+				height: 146px;*/
+				border-radius: 10px;
+				overflow: hidden;
+				margin-right: 10px;
+				flex: 1 0 120px;
+				height: 120px;
+			}
+
+			.goodsImg img {
+				width:100%;
+				height:100%;
+			}
+
+			.mui-table-view-cell>a:not(.mui-btn) {
+				padding-right: 20px;
+				margin: 15px 0px 0px 0px;
+				color: #999;
+				font-size: 14px;
+			}
+			.goodsMsg{
+				flex:1 0 60%
+			}
+			.goodsMsg p {
+				color: #999;
+				width: 100%;
+				max-width:190px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: 12px;
+			}
+			
+			.xiagnxi {
+				color: #999;
+				font-size: 14px;
+			}
+			
+			.xiangxi i {
+				color: #66D1CF;
+				margin-left: 4px;
+				margin-right: 5px;
+			}
+			
+			.mingxi {
+				margin-top: 15px;
+				position: absolute;
+				bottom: 10px;
+				right: 2.6%;
+			}
+			
+			.mingxi button {
+				width: 65px;
+				height: 24px;
+				border-radius: 24px;
+				border-color: #979797;
+				color: #666;
+				font-size: 12px;
+			}
+			
+			.mingxi p {
+				display: inline-block;
+				color: #999;
+				font-size: 14px;
+				margin-left: 10px;
+			}
+			
+			.mingxi p span {
+				color: #FFA940;
+				font-size: 17px;
+				font-weight: bold;
+			}
+			
+			.xiangqing {
+				position: relative;
+			}
+			
+			.mui-table-view-cell:after {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<div class="search">
+				<label class="mui-icon mui-icon-search"></label>
+				<input type="text" value="小明" />
+			</div>
+			<span class="mui-pull-right searchText">搜索</span>
+		</header>
+		<div class="mui-content">
+			<div class="order_wrap">
+				<ul>
+					<li>
+						<div class="top ">
+							<p class="f_left">订单编号：Y273486234</p>
+							<p class="f_right"><span class="pie" id="pie"></span> <span></span><button class="wancheng">已完成</button></p>
+						</div>
+						<div class="msg ">
+							<p>推手手机号：17987743233</p>
+							<p>刷手旺旺账号：小明</p>
+							<p>刷手手机号码：17987743233</p>
+							<p>完成时间：2019-03-02</p>
+						</div>
+						<div class="xiangqing">
+							<div class="mui-table-view-cell mui-collapse goods_wrap">
+								<div class="mui-collapse-content ">
+									<div class="clearfix goods">
+										<div class="f_left goodsImg">
+											<img src="../../img/TB2I00qoH1YBuNjSszeXXablFXa_!!406390357.jpg" alt="" />
+										</div>
+										<div class="f_left goodsMsg">
+											<p>类型：任务发布</p>
+											<p>关键词1：帽子</p>
+											<p>单品价格：￥69.50</p>
+											<p>邮费：￥20</p>
+											<p>任务日期：2019-02-22</p>
+											<p>刷单时间：2019-02-28</p>
+										</div>
+									</div>
+								</div>
+								<a class="mui-navigate-right xiangxi" href="#">
+									<i class="iconfont icon-biao"></i>详情
+								</a>
+
+							</div>
+							<div class="mingxi">
+								<button class="">完成明细</button>
+								<p class="">费用：<span>￥200</span>+<span>12</span></p>
+							</div>
+						</div>
+
+					</li>
+					<li>
+						<div class="top ">
+							<p class="f_left">订单编号：Y273486234</p>
+							<p class="f_right"><span class="pie" id="pie"></span> <span>15</span>/20 <button class="jinxing">进行中</button></p>
+						</div>
+						<div class="msg ">
+							<p>推手手机号：17987743233</p>
+							<p>刷手旺旺账号：小明</p>
+							<p>刷手手机号码：17987743233</p>
+							<p>完成时间：2019-03-02</p>
+						</div>
+						<div class="mui-table-view-cell mui-collapse clearfix goods_wrap">
+							<div class="mui-collapse-content ">
+								<div class="clearfix goods">
+									<div class="f_left goodsImg">
+										<img src="../../img/TB2I00qoH1YBuNjSszeXXablFXa_!!406390357.jpg" alt="" />
+									</div>
+									<div class="f_left goodsMsg">
+										<p>类型：任务发布</p>
+										<p>关键词1：帽子</p>
+										<p>单品价格：￥69.50</p>
+										<p>邮费：￥20</p>
+										<p>任务日期：2019-02-22</p>
+										<p>刷单时间：2019-02-28</p>
+									</div>
+								</div>
+							</div>
+							<a class="mui-navigate-right f_left xiangxi" href="#">
+								<i class="iconfont icon-biao"></i>详情
+							</a>
+							<div class="f_right mingxi">
+								<button class="">完成明细</button>
+								<p class="">费用：<span>￥200</span>+<span>12</span></p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+		</script>
+	</body>
+
+</html>

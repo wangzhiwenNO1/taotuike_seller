@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>关于我们</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+				font-weight: 500;
+			}
+			body,.mui-content{
+				background: #fff;
+			}
+			.logo{
+				width: 100px;
+				height: 100px;
+				margin: 100px auto 15px;
+			}
+			.banben{
+				text-align: center;
+				color: #666;
+				font-size: 14px;
+			}
+			.footer{
+				position: fixed;
+				bottom: 10px;
+				width: 100%;
+			}
+			.footer p:first-child{
+				color: #999;
+				font-size: 14px;
+				margin-bottom: 0;
+				text-align: center;
+			}
+			.footer p:last-child{
+				color:#ccc;
+				font-size: 12px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">关于我们</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="logo">
+				<img src="../../img/logo.png" alt="" />
+			</div>
+			<p class="banben">当前版本 V{{version}}</p>
+			<div class="footer">
+				<p>淘任务</p>
+				<p>CopyRight@2019</p>
+			</div>
+		</div>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						version:"1.0",
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					var _this = this;
+					mui.plusReady(function(){
+						mui.getJSON("../../manifest.json", null, function(manifest){
+							var versionName = manifest.version.name;
+							var versionCode = Number(manifest.version.code);
+							_this.version = versionName;
+							console.log("版本名称："+versionName+"，版本code："+versionCode);
+						});
+					});
+				},
+				methods:{
+				}
+			})
+		</script>
+	</body>
+</html>

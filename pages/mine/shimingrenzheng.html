@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>实名认证</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			body{
+				background: #F2F2F2;
+			}
+			.mui-content{
+				background: #fff;
+			}
+			.fukuan {
+				background: #fff;
+				padding-bottom: 10px;
+			}
+			
+			.fukuan ul li {
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+				/*padding: 13px 0;*/
+			}
+			
+			.fukuan ul li:last-child {
+				border: none;
+			}
+			
+			.fukuan ul li label {
+				padding: 16px 0px;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				color: #333;
+				font-size: 15px;
+				text-align: left;
+			}
+			.mui-input-row label~input:disabled,
+			.mui-input-row label~select:disabled,
+			.mui-input-row label~textarea:disabled {
+				color: #000;
+				font-size: 15px;
+				text-align: left;
+			}
+			.pingzheng{
+				display: inline-block;
+				text-align: center;
+				margin-top: 10px;
+			}
+			.pingzheng i {
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+				border: 1px dashed #ccc;
+				font-size: 22px;
+			}
+			.hasPingZheng{
+				position: relative;
+				top:0;
+				left:0;
+				width:150px;
+				height:100px;
+			}
+			.hasPingZheng img{
+				width:100%;
+				height:100%;
+				border:1px dotted #66D1CF;
+				display: block;
+			}
+			.hasPingZheng span{
+				position:absolute;
+				top:-5px;
+				right:-5px;
+				font-size: 18px;
+				color:#66D1CF;
+				background: #fff;
+				border-radius: 50%;
+			}
+			.tijiao {
+				width: 93.6%;
+				height: 40px;
+				border-radius: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				margin-top: 30px;
+				margin-left: 3.2%;
+				position: fixed;
+				bottom: 20px;
+			}
+			
+			.fukuan .jietu {
+				margin-top: 13px;
+				border-bottom: none;
+			}
+			#name,#nameId{
+				text-align: left;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">实名认证</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="fukuan">
+				<ul>
+					<li class="mui-input-row">
+						<label>真实姓名</label>
+						<input type="text" v-model="card.true_name" id="name" placeholder="请输入您的真实姓名">
+					</li>
+					<li class="mui-input-row">
+						<label>身份证号</label>
+						<input type="text" v-model="card.idcard_num"  id="nameId" placeholder="请输入身份证号">
+					</li>
+					<li class="mui-input-row">
+						<label>身份证照片</label>
+						<!--<input type="text" class="mui-input-clear" id="phone" placeholder="请输入手机号">-->
+					</li>
+					<li class="jietu">
+						<div>身份证正面（国徽面）</div>
+						<div class="pingzheng">
+							<i class="iconfont icon-tianjia sfz2" @tap="uploadFile('cardFront')" v-if="!card.idcard_face"></i>
+							<div class="hasPingZheng" v-else>
+								<img :src="card.idcard_face" data-preview-src="" data-preview-group="1" alt="">
+								<span class="mui-icon mui-icon-close" @tap="delImage(1)"></span>
+							</div>
+						</div>
+					</li>
+					<li class="jietu">
+						<div>身份证反面（人像面）</div>
+						<div class="pingzheng">
+							<i class="iconfont icon-tianjia sfz2" @tap="uploadFile('cardBack')" v-if="!card.idcard_con"></i>
+							<div class="hasPingZheng" v-else>
+								<img :src="card.idcard_con" data-preview-src="" data-preview-group="2" alt="">
+								<span class="mui-icon mui-icon-close" @tap="delImage(2)"></span>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<button class="tijiao" id="doDiv" @tap="cardSubmit">{{isSee ? '重新认证' : '提交认证'}}</button>
+			</div>
+		</div>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.zoom.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			mui.previewImage();
+			var name;
+			var phone;
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						card:{
+							true_name:'',
+							idcard_num:'',
+							idcard_face:'',
+							idcard_con:'',
+						},
+						isSee:0,
+						cardType:''
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					var _this = this;
+					this.isSee = GetQueryString("isSee") || 0;
+					if(this.isSee){
+						this.seeUserInfo();
+					}
+					mui.plusReady(function(){
+						ca.receiveNotice('cardFront',function (event) {
+							_this.card.idcard_face = event.detail.imgUrl;
+						})
+						ca.receiveNotice('cardBack',function (event) {
+							_this.card.idcard_con = event.detail.imgUrl;
+						})
+					});
+				},
+				methods: {
+					// 余额明细详情
+					cardSubmit() {
+						if(this.card.true_name == '') {
+							ca.prompt('请输入真实姓名');
+							return;
+						}
+						if(this.card.idcard_num == '') {
+							ca.prompt('请输入身份证号');
+							return;
+						}
+						if(!(/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/.test(this.card.idcard_num))) {
+							ca.prompt('身份证输入错误');
+							return;
+						}
+						if(this.card.idcard_face==''){
+							ca.prompt('请上传身份证正面照');
+							return;
+						}
+						if(this.card.idcard_con==''){
+							ca.prompt('请上传身份证反面照');
+							return;
+						}
+						let params = this.card;
+						params.token = storage.get("token") || "";
+						Axios.post("/api/Auth/user_auth", params).then((res) => {
+							if (res.code == 1) {
+								ca.prompt("实名认证成功");
+								popToTargetAndRefresh("pages/mine.html",true,'refreshMine');
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 查看身份证信息
+					seeUserInfo() {
+						let params = {
+							token:storage.get("token") || ""
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4"
+						};
+						Axios.post("/api/Auth/auth_info", params).then((res) => {
+							if (res.code == 1) {
+								this.card.true_name = res.data.true_name;
+								this.card.idcard_num = res.data.idcard_num;
+								this.card.idcard_face = res.data.idcard_faceimage;
+								this.card.idcard_con = res.data.idcard_conimage;
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+
+					// 上传截图
+					uploadFile(type){
+						openWebview({
+							url:'../ImgCropping/cropperImg.html?type=' + type,
+							id:'cropperImg'
+						})
+					},
+
+					// 删除图片
+					delImage(type){
+						if(type == 1){
+							this.card.idcard_face = '';
+						}else{
+							this.card.idcard_con = '';
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="UTF-8">
+		<title>银行卡</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/cropper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/ImgCropping.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			
+			body {
+				background: #F2F2F2;
+			}
+			
+			.mui-content {
+				background: #fff;
+			}
+			
+			.fukuan {
+				background: #fff;
+				padding-bottom: 10px;
+			}
+			
+			.fukuan ul li {
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+				/*padding: 13px 0;*/
+			}
+			
+			.fukuan ul li:last-child {
+				border: none;
+			}
+			
+			.fukuan ul li label {
+				padding: 16px 0px;
+				width: 18%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				color: #666;
+				font-size: 15px;
+				text-align: left;
+				width: 80%;
+			}
+			.mui-input-row label~input:disabled,
+			.mui-input-row label~select:disabled,
+			.mui-input-row label~textarea:disabled {
+				color: #000;
+				font-size: 15px;
+				text-align: left;
+			}
+			.pingzheng{
+				margin-top: 10px;
+			}
+			.pingzheng i {
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+				border: 1px dashed #ccc;
+				font-size: 22px;
+			}
+			.hasPingZheng{
+				position: relative;
+				top:0;
+				left:0;
+				width:150px;
+				height:100px;
+			}
+			.hasPingZheng img{
+				width:100%;
+				height:100%;
+				border:1px dotted #66D1CF;
+				display: block;
+			}
+			.hasPingZheng span{
+				position:absolute;
+				top:-5px;
+				right:-5px;
+				font-size: 18px;
+				color:#66D1CF;
+				background: #fff;
+				border-radius: 50%;
+			}
+			.tijiao {
+				width: 93.6%;
+				height: 40px;
+				border-radius: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				margin-top: 30px;
+				margin-left: 3.2%;
+				position: fixed;
+				bottom: 10px;
+				border: none;
+			}
+			
+			.fukuan .jietu {
+				margin-top: 13px;
+				border-bottom: none;
+			}
+			
+			.yinhang {
+				display: inline-block;
+				color: #333;
+				font-size: 15px;
+				padding: 12px 10px 10px 5px;
+				position: relative;
+				width: 80%;
+			}
+			
+			.yinhang:after {
+				content: '';
+				width: 0;
+				height: 0;
+				border-width: 8px 6px 0px 6px;
+				border-color: #999 transparent;
+				border-style: solid;
+				position: absolute;
+				top: 18px;
+				right: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">{{isSee ? '更换银行卡/支付宝' : '绑定银行卡/支付宝'}}</h1>
+			</header>
+			<div class="mui-content">
+				<div class="fukuan">
+					<ul>
+						<li class="mui-input-row">
+							<label>姓名</label>
+							<input type="text" v-model="bankInfo.card_name" id="name" :placeholder="isAliPay ? '请输入支付宝持有人姓名' : '请输入银行卡持有人姓名'">
+						</li>
+						<li class="mui-input-row">
+							<label>{{isAliPay ? '支付宝' : '银行卡'}}</label>
+							<span class="yinhang" @tap="selectBank">{{bankInfo.bank_name}}</span>
+							<!--<input type="text" class="mui-input-clear" id="nameId" value="17238978947389" >-->
+						</li>
+						<li class="mui-input-row">
+							<label>{{isAliPay ? '账号' : '卡号'}}</label>
+							<input type="text" v-model="bankInfo.bank_card_num" id="kaNumber" :placeholder="isAliPay ? '请输入支付宝账号' : '请输入银行卡卡号'">
+						</li>
+						<li class="jietu" v-show="!isAliPay">
+							<label>上传银行卡照片</label>
+							<div class="pingzheng">
+								<label for="file">
+									<i class="iconfont icon-tianjia kaImg"  @tap="setUpload" v-if="!bankInfo.bank_card_image"></i>
+									<div class="hasPingZheng" v-else>
+										<img :src="bankInfo.bank_card_image ? bankInfo.bank_card_image : ''" data-preview-src="" data-preview-group="1" alt="">
+										<span class="mui-icon mui-icon-close" @tap="delImage(1)"></span>
+									</div>
+								</label>
+							</div>
+						</li>
+					</ul>
+					<button class="tijiao" id="doDiv" @tap="bindBankSubmit">{{isSee ? '更换银行卡/支付宝' : '绑定银行卡/支付宝'}}</button>
+				</div>
+<!--				<input type="file"  @change="setUpload" style="cursor:pointer;" accept="image/*" id="file" value="" />-->
+			</div>
+		</section>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.zoom.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/cropper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var floatw=null;
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						isSee:0,
+						bankInfo:{
+							card_name:'',
+							bank_id:1,
+							bank_name:"",
+							bank_card_image:'',
+							bank_card_num:'',
+						},
+						bankList:[],
+						picker:{},
+						isAliPay:false
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					mui.previewImage();
+					var _this = this;
+					this.isSee = GetQueryString("isSee") || 0;
+					if(this.isSee){
+						this.seeBankInfo();
+					}
+					this.getBankList();
+
+					mui.plusReady(function(){
+						ca.receiveNotice('bankImg',function (event) {
+							_this.bankInfo.bank_card_image = event.detail.imgUrl;
+						})
+					});
+				},
+				methods: {
+					// 添加银行卡
+					bindBankSubmit() {
+						if(this.bankInfo.card_name == '') {
+							ca.prompt('请输入姓名');
+							return;
+						}
+						if(this.bankInfo.bank_name == '') {
+							ca.prompt('请选择银行/支付宝');
+							return;
+						}
+						if(this.bankInfo.bank_card_num == '') {
+							if(this.isAliPay){
+								ca.prompt('请输入支付宝帐号');
+								return;
+							}else{
+								ca.prompt('请输入银行卡卡号');
+								return;
+							}
+						}
+						if(!this.isAliPay){
+							if(this.bankInfo.bank_card_image==''){
+								ca.prompt('请上传银行卡照片');
+								return;
+							}
+						}else{
+							this.bankInfo.bank_card_image = '';
+						}
+						let params = this.bankInfo;
+						params.token = storage.get("token") || "";
+						Axios.post("/api/Auth/add_bank", params).then((res) => {
+							if (res.code == 1) {
+								ca.prompt("绑定成功");
+								popToTargetAndRefresh("pages/mine.html",true,'refreshMine');
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 查看银行卡
+					seeBankInfo() {
+						let params = {
+							token:storage.get("token") || ""
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4"
+						};
+						console.log(params)
+						var _this = this;
+						Axios.post("/api/Auth/my_bank", params).then(function(res) {
+							if (res.code == 1) {
+								if(res.data.bank_id == 5){
+									_this.isAliPay = true;
+								}
+								_this.bankInfo = res.data;
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+
+					// 获取银行卡分类列表
+					getBankList() {
+						let params = {
+							token:storage.get("token") || ""
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4"
+						};
+						var _this = this;
+						Axios.post("/api/Index/bank_list", params ,!!this.isSee).then(function(res) {
+							if (res.code == 1) {
+								res.data.forEach(function(item,index){
+									item.value = item.bank_id;
+									item.text = item.bank_name;
+								});
+								_this.bankList = res.data;
+								_this.picker = new mui.PopPicker();
+								_this.picker.setData(_this.bankList);
+								if(!_this.isSee){
+									_this.bankInfo.bank_name = _this.bankList[0]['text'];
+									_this.bankInfo.bank_id = _this.bankList[0]['value'];
+								}
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上传截图
+					setUpload(e){
+						openWebview({
+							url:'../ImgCropping/cropperImg.html?type=bankImg',
+							id:'cropperImg'
+						})
+					},
+					// 删除图片
+					delImage(){
+						this.bankInfo.bank_card_image = '';
+					},
+					// 选择银行卡
+					selectBank(){
+						var _this = this;
+						_this.picker.show(function(SelectedItem) {
+							_this.bankInfo.bank_name = SelectedItem[0].text;
+							_this.bankInfo.bank_id = SelectedItem[0].value;
+							if(_this.bankInfo.bank_id == 5){
+								_this.isAliPay = true;
+							}else{
+								_this.isAliPay = false;
+							}
+						})
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

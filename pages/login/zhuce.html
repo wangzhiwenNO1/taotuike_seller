@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			body,.mui-content{
+				background: #fff;
+			}
+			.logo{
+				width: 100px;
+				height: 100px;
+				margin: 60px auto 30px;
+			}
+			.logo img{
+				width: 100%;
+				height: 100%;
+			}
+			.login ul li{
+				width: 80%;
+				margin-left: 10%;
+				border-bottom: 1px solid #E5E5E5;
+				padding: 17px 0px;
+				position: relative;
+			}
+			.login ul li label i{
+				color:#66D1CF ;
+				font-size: 16px;
+				padding-right: 10px;
+			}
+			.login ul li input {
+				border: none;
+				font-size: 16px;
+				color: #333;
+				height: auto!important;
+				margin-bottom:0;
+				padding: 0;
+				width:auto;
+			}
+			
+			.loginBtn{
+				width: 80%;
+				height: 45px;
+				margin-left: 10%;
+				background: #66D1CF;
+				color: #fff;
+				font-size:17px ;
+				border: none;
+				border-radius: 45px;
+				margin-top: 45px;
+			}
+			.yanzm{
+				color: #66D1CF;
+				font-size: 12px;
+				position: absolute;
+				top:17px;
+				right:10px;
+			}
+			.yanzm:enabled:active{
+				background: #fff;
+				color:#ccc;
+			}
+			.yanzm:disabled{
+				background: #fff;
+				color:#333;
+			}
+			.xieyi{
+				text-align: center;
+				font-size: 11px;
+				color: #666;
+				margin-top: 30px;
+			}
+			.xieyi span{
+				color: #66D1CF;
+			}
+			.yaoqing{
+				padding:3px 6px;
+				background: #66D1CF;
+				color:#fff;
+				border-radius: 10px;
+			}
+			.mui-popup-title+.mui-popup-text{
+				color:#000;
+				font-size: 18px;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="logo">
+				<img src="../../img/logo.png" alt="" />
+			</div>
+			<div class="login">
+				<ul>
+					<li>
+						<label for=""><i class="iconfont icon-shouji"></i></label>
+						<input type="number" v-model="register.phone" id="phone" placeholder="请输入手机号" pattern="[0-9]*"/>
+					</li>
+					<li>
+						<label for=""><i class="iconfont icon-anquan"></i></label>
+						<input type="text" v-model="register.yzm" id="yzm" value="" placeholder="请输入验证码"/>
+						<button class="yanzm f_right" :disabled="time<60" @tap="getSmsCode">{{codeText}}</button>
+					</li>
+					<li>
+						<label for=""><i class="iconfont icon-suo"></i></label>
+						<input type="password" v-model="register.pwd" id="pwd" value="" placeholder="请输入密码(6~12位)"/>
+					</li>
+					<li>
+						<label for=""><i class="iconfont icon-guanzhu"></i></label>
+						<input type="text" v-model="register.yqm" id="yqm" value="" placeholder="请输入邀请码"/>
+						<button class="yanzm f_right" @tap="getAskCode">获取邀请码</button>
+					</li>
+				</ul>
+				<button class="loginBtn" @tap="nextStep">下一步</button>
+			</div>
+			<p class="xieyi">点击注册即默认同意<span @tap="seeXieYi">《用户注册协议》</span></p>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			let app = new Vue({
+				el:"#app",
+				data(){
+					return {
+						register:{
+							phone:'',
+							yzm:'',
+							pwd:'',
+							yqm:''
+						},
+						codeText:'获取验证码',
+						time:60
+					}
+				},
+				methods:{
+					// 获取短信验证码
+					getSmsCode(){
+						if(this.register.phone == ''){
+							 ca.prompt('请输入手机号');
+							 return;
+						}
+						if(!(/^1[3-9][0-9]{9}$/.test(this.register.phone.replace(/(^\s*)|(\s*$)/g, "")))){
+							 ca.prompt('手机号格式不正确');
+							 return;
+						}
+						let params = {
+							mobile:this.register.phone,
+							event:"register"
+						};
+						var _this = this;
+						Axios.post('/api/sms/send',params).then(function(res)  {
+							if(res.code == 1){
+								var interval;
+								_this.time--;
+								_this.codeText = "剩余("+_this.time+")秒";
+								interval = setInterval(function() {
+									_this.time--;
+									if(_this.time <= 0) {
+										_this.codeText = "重新获取验证码";
+										_this.time = 60;
+										clearInterval(interval);
+									}else{
+										_this.codeText = "剩余("+_this.time+")秒";
+									}
+								}, 1000);
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 下一步
+					nextStep(){
+						if(this.register.phone == ''){
+							 ca.prompt('请输入手机号');
+							 return;
+						}
+						if(!(/^1[3-9][0-9]{9}$/.test(this.register.phone.replace(/(^\s*)|(\s*$)/g, "")))) {
+							ca.prompt('手机号格式不正确');
+							return;
+						}
+						if(this.register.yzm == '') {
+							ca.prompt("请输入验证码");
+							return;
+						}
+						if(this.register.pwd == '') {
+							ca.prompt("请输入密码");
+							return;
+						}
+						if(this.register.pwd.length < 6) {
+							ca.prompt("密码长度至少6位");
+							return;
+						}
+						if(this.register.pwd.length > 12) {
+							ca.prompt("密码长度最多12位");
+							return;
+						}
+						if(this.register.yqm == '') {
+							ca.prompt("请输入邀请码");
+							return;
+						}
+						let params = {
+							mobile:this.register.phone,
+							captcha:this.register.yzm,
+							password:this.register.pwd,
+							invite:this.register.yqm,
+							group:3
+						};
+						Axios.post('/api/user/register',params).then(function(res){
+							if(res.code == 1){
+								storage.set('userInfo',res.data.userinfo);
+								storage.set('token',res.data.userinfo.token);
+								ca.prompt(res.msg);
+								setTimeout(function () {
+									openWebview({
+										url:'../mine/wanshanziliao.html?type=register',
+										id:'wanshanziliao.html'
+									})
+								},500)
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 查看协议
+					seeXieYi(){
+						ca.newInterface({
+							url:'./xieyi.html',
+							id:'xieyi.html'
+						})
+					},
+					// 获取邀请码
+					getAskCode(){
+						if(this.register.phone == ''){
+							 ca.prompt('请输入手机号');
+							 return;
+						}
+						if(!(/^1[3-9][0-9]{9}$/.test(this.register.phone.replace(/(^\s*)|(\s*$)/g, "")))) {
+							ca.prompt('手机号格式不正确');
+							return;
+						}
+						if(this.register.yzm == '') {
+							ca.prompt("请输入验证码");
+							return;
+						}
+						if(this.register.pwd == '') {
+							ca.prompt("请输入密码");
+							return;
+						}
+						if(this.register.pwd.length < 6) {
+							ca.prompt("密码长度至少6位");
+							return;
+						}
+						if(this.register.pwd.length > 12) {
+							ca.prompt("密码长度最多12位");
+							return;
+						}
+						var _this = this;
+						Axios.post('/api/others/index',{}).then(function(res){
+							if(res.code == 1){
+								var btnArray=['我知道了','拨打电话'];
+								mui.confirm(res.data.info,'请联系淘推客官方获取邀请码',btnArray,function(e){
+									if(e.index == 1){
+										plus.device.dial(res.data.info,false);
+									}
+								},'div');
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					}
+				},
+
+				mounted(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

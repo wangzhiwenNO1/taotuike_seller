@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>题目详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			body,.mui-content{
+				background: #fff;
+			}
+			body{
+				overflow: initial;
+			}
+			.mui-title{
+				font-size: 18px;
+				
+				color: #333;
+			}
+			.mui-icon-left-nav{
+				color: #666;
+			}
+			.cont ul{
+				width: 94.6%;
+				margin: 0 auto;
+			}
+			.cont ul li{
+				display: flex;
+				justify-content: space-between;
+				border-bottom: 1px solid #EEEEEE;
+			}
+			.goodsMsg{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				margin-top: 17px;
+				margin-bottom: 19px;
+				width: 63%;
+			}
+			.goods_t{
+				color: #333;
+				font-size: 15px;
+				font-weight: bold;
+				line-height: 21px;
+				margin: 0;
+			}
+			.good_date{
+				color: #999;
+				font-size: 12px;
+				margin: 0;
+			}
+			.goodsImg{
+				width: 109px;
+				height: 76px;
+				overflow: hidden;
+				border-radius: 5px;
+				margin-top: 15px;
+				margin-bottom: 22px;
+			}
+			.goodsImg img{
+				width: 100%;
+				height: 100%;
+			}
+			.empty img{
+				width: 113px;
+				height: auto;
+				display: block;
+				margin: 30px auto 10px;
+			}
+			.empty p{
+				text-align: center;
+				padding-bottom: 20px;
+			}
+		</style>
+	</head>
+		
+	<body class="mescroll" id="mescroll">
+		<section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">{{title}}</h1>
+			</header>
+			<div class="mui-content">
+				<div class="cont">
+					<ul>
+						<li class="goods" v-for="(item,index) in articleList" @tap="toArticleDetail(item.id)">
+							<div class="goodsMsg">
+								<p class="goods_t">{{item.title}}</p>
+								<p class="good_date">{{item.createtime}}</p>
+							</div>
+							<div class="goodsImg">
+								<img :src="item.image" alt="" />
+							</div>
+						</li>
+					</ul>
+					<ul class="empty" v-if="articleList.length === 0">
+						<img src="../../img/empty.png" />
+						<p>暂无数据</p>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						curPage:1,
+						articleId:0,
+						articleList: [],
+						title:''
+					}
+				},
+				mounted() {
+					mui.init();
+					ca.init();
+					this.load();
+					this.token = storage.get("token");
+					this.title = GetQueryString("title") || "";
+				},
+				methods: {
+					load() {
+						this.mescroll = new MeScroll("body", {
+							down: {
+								auto:true,
+								callback:this.refreshArticleList
+							},
+							// up: {
+							// 	callback: this.moreArticleList, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+							// 	isBounce: false,
+							// 	auto:false,
+							// 	noMoreSize: 5,
+							// 	page: {
+							// 		size: 15
+							// 	},
+							// 	htmlNodata: '<p class="upwarp-nodata">-- 没有数据啦 --</p>'
+							// }
+						});
+					},
+					// 下拉刷新文章列表
+					refreshArticleList(){
+						var cateId = GetQueryString("id") || "";
+						var params = {
+							token:storage.get('token') || "",
+							cate_id:cateId,
+							// curpage:1
+						};
+						var _this = this;
+						Axios.get("/api/Article/article_list",params).then(function(res){
+							if(res.code == 1){
+								_this.articleList = res.data.list;
+								//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+								//必传参数(当前页的数据个数, 总页数)
+								_this.mescroll.endSuccess()
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上拉加载更多文章列表
+					moreArticleList(){
+						console.log("上拉开始了");
+						let params = {
+							token:storage.get('token') || "",
+							cate_id:GetQueryString("id") || "",
+							curpage:this.curPage
+						};
+						var _this = this;
+						Axios.get("/api/Article/article_list",params).then(function(res){
+							if(res.code == 1){
+								//更新列表数据
+								var totalPage = res.data.page_num;
+								var curPageData = res.data.list;
+								_this.articleList = _this.articleList.concat(curPageData);
+								//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+								//必传参数(当前页的数据个数, 总页数)
+								_this.mescroll.endByPage(curPageData.length, totalPage);
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					/*调制文章详情*/
+					toArticleDetail(id){
+						openWebview({
+							url:"./timu_xiangqing.html?article_id=" + id,
+							id:'timu_xiangqing'
+						})
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>

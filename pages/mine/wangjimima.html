@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>忘记密码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../fonts/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			body,.mui-content{
+				background: #fff;
+			}
+			.content ul li{
+				width: 93.6%;
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+				padding: 15px 0px;
+			}
+			.content ul li input{
+				border: none;
+				padding: 0;
+				margin: 0;
+				height: auto;
+				color: #999;
+				font-size: 17px;
+			}
+			.tijiao{
+				width: 93.6%;
+				height: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				border: none;
+				border-radius: 40px;
+				position: fixed;
+				bottom: 20px;
+				margin-left: 3.2%;
+			}
+			.yanzheng{
+				position: relative;
+			}
+			.yanzheng span{
+				position: absolute;
+				right: 0px;
+				top: 15px;
+				color: #333;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">忘记密码</h1>
+		</header>
+		<div class="mui-content">
+			<div class="content">
+				<ul>
+					<li>	
+						<input type="number" id="phone" placeholder="请输入手机号" />
+					</li>
+					<li class="yanzheng">
+						<input type="number" id="yzm" placeholder="请输入验证码" />
+						<span class="yanzm">获取验证码</span>
+					</li>
+					<li>
+						<input type="password" id="newpwd" placeholder="请输入新密码（6-12位）" />
+					</li>
+					<li>
+						<input type="password" id="newpwd2" placeholder="请确认新密码" />
+					</li>
+				</ul>
+			</div>
+			<button class="tijiao">提交</button>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			var phone;
+			var newpwd;
+			var newpwd2;
+			$('.tijiao').click(function(){
+				phone=$('#phone').val();
+				newpwd=$('#newpwd').val();
+				newpwd2=$('#newpwd2').val();
+				if(phone==''){
+					ca.prompt('请输入手机号');
+					return;
+				}
+				if(!(/^1[3-9][0-9]{9}$/.test(phone))){ 
+			     		 ca.prompt('手机号格式不正确');
+			     		 return;
+					}
+				if(newpwd==''){
+					ca.prompt('请输入新密码');
+					return;
+				}
+				if(newpwd2==''){
+					ca.prompt('请确认新密码');
+					return;
+				}
+				if(newpwd2!=newpwd){
+					ca.prompt('两次密码不一致');
+					return;
+				}
+			});
+//			验证码
+			$(".yanzm").click(function() {
+			var phone=$("#phone").val();
+			if(!(/^1[3-9][0-9]{9}$/.test(phone))){ 
+	     		 ca.prompt('手机号格式不正确');
+	     		 return;
+			}
+			var obj={};
+			obj.phone = phone;
+			console.log(obj);
+			if(num>0){
+				ca.prompt('验证码发送中，请勿重复点击');
+				return;
+			}else{
+				if(mark) {	
+					mark = 0;
+					var interval;
+					num = 60;
+					$(".yanzheng button").attr('value', "重新发送(60)秒");
+					interval = setInterval(function() {
+						num--;
+						$(".yanzm").html("重新发送(" + num + ")秒");
+						if(num <= 0) {
+							mark = 1;
+							$(".yanzm").html("重新获取验证码");
+							clearInterval(interval);
+						}
+					}, 1000);
+				}
+				obj.phone = phone;
+				console.log(obj);
+//				$.ajax({
+//					type: "post",
+//					url: huixian.url + 'Login&a=sendCode',
+//					data: obj,
+//					dataType: "JSON",
+//					success: function(res) {
+//						console.log(res);
+//						if(res.status == 200) {
+//							ca.prompt("请求成功");
+//							code_huoqu = res.data.code;
+//						}else{
+//							ca.prompt(res.msg);
+//						}
+//					}
+//				})
+			}
+		});
+		</script>
+	</body>
+</html>

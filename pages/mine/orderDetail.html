@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/video-js.min.css" />
+		<style type="text/css">
+			.mui-content {
+				background: #efeff4;
+				padding-bottom: 50px;
+			}
+			
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				
+				color: #333;
+			}
+			
+			.title {
+				margin-left: 2.8%;
+				/*border-bottom: 1px solid #E5E5E5;*/
+				position: relative;
+				padding: 8px 0 8px 8px;
+				margin-bottom: 0px;
+				color: #333;
+				font-size: 15px;
+				font-weight: bold;
+			}
+			
+			.title:after {
+				content: '';
+				height: 15px;
+				border-right: 3px solid #66D1CF;
+				position: absolute;
+				top: 11px;
+				left: 0px;
+			}
+			.order_wrap{
+				background: #fff;
+				padding-bottom: 10px;
+			}
+			.order_wrap ul li {
+				/*background: url(../img/ddbjxq.png) no-repeat;
+				background-size: 100% 100%;*/
+				background: #fff;
+				width: 94.8%;
+				margin-left: 2.6%;
+				box-shadow: 0px 0px 5px 2px #C9D6D6;
+				/*padding-bottom: 10px;*/
+				margin-bottom: 10px;
+				/*overflow: hidden;*/
+			}
+			
+			.top {
+				border-bottom: 1px dashed #E1E1E1;
+				position: relative;
+				height: 46px;
+			}
+			
+			.top:after {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: linear-gradient(to right, #fff, #C9D6D6);
+				/*border-radius: 0px 10px 10px 0px;*/
+				border-radius: 20px;
+				position: absolute;
+				bottom: -10px;
+				left: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top:before {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: #fff;
+				/*border-radius: 10px 0 0 10px;*/
+				background: linear-gradient(to left, #fff, #C9D6D6);
+				border-radius: 10px;
+				position: absolute;
+				bottom: -10px;
+				right: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top p {
+				color: #333;
+				font-size: 14px;
+				margin-top: 14px;
+				margin-bottom: 10px;
+			}
+			
+			.top p:first-child {
+				margin-left: 10px;
+			}
+			
+			.top p:last-child {
+				margin-right: 10px;
+			}
+			
+			.msg {
+				width: 94.8%;
+				margin-left: 2.6%;
+				border-bottom: 1px dashed #E1E1E1;
+				margin-top: 10px;
+			}
+			
+			.msg div {
+				width: 50%;
+			}
+			
+			.msg div p {
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.order_wrap .goods_wrap {
+				background: #FFf;
+				padding-bottom: 10px;
+				width: 94.6%;
+				margin-left: 2.6%;
+			}
+			
+			.mui-table-view-cell {
+				padding: 0px;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+				padding-top: 0px;
+			}
+			
+			.mui-navigate-right:after,
+			.mui-push-right:after {
+				/*right: -0px;*/
+				top: 40%;
+				left: 43px;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-collapse-content {
+				margin: auto;
+				border-bottom: 1px dashed #E1E1E1;
+				padding: 5px 0px;
+			}
+			
+			.goods {
+				background: #F2F2F2;
+				border-radius: 10px;
+				padding: 5px;
+				display: flex;
+			}
+
+			.goodsImg {
+				/*width: 41.5%;
+				height: 146px;*/
+				border-radius: 10px;
+				overflow: hidden;
+				margin-right: 10px;
+				flex: 1 0 120px;
+				height: 120px;
+			}
+
+			.goodsImg img {
+				width:100%;
+				height:100%;
+			}
+
+			.mui-table-view-cell>a:not(.mui-btn) {
+				padding-right: 20px;
+				margin: 15px 0px 0px 0px;
+				color: #999;
+				font-size: 14px;
+			}
+			.goodsMsg{
+				flex:1 0 60%
+			}
+			.goodsMsg p {
+				color: #999;
+				width: 100%;
+				max-width:190px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: 12px;
+			}
+			
+			.xiagnxi {
+				color: #999;
+				font-size: 14px;
+			}
+			
+			.xiangxi i {
+				color: #66D1CF;
+				margin-left: 4px;
+				margin-right: 5px;
+			}
+			.xiangxi img{
+				width:16px;
+				height:16px;
+			}
+			
+			.mingxi {
+				margin-top: 15px;
+				position: absolute;
+				bottom: 16px;
+				right: 2.6%;
+			}
+			
+			.mingxi p {
+				color: #999;
+				font-size: 12px;
+				margin-bottom: 0;
+			}
+			
+			.xiangqing {
+				position: relative;
+			}
+			
+			.mui-table-view-cell:after {
+				display: none;
+			}
+			
+			.zifu  label {
+			
+				font-size: 15px;
+				color: #333;
+			}
+			.zifu label span{
+				display: inline-block;
+				color: #E3211F;
+				font-size: 12px;
+				margin-left: 5px;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 8px;
+				right: 0.8%;
+				width: 20px;
+				height: 20px;
+			}
+			
+			.mui-checkbox input[type=checkbox]:before,
+			.mui-radio input[type=radio]:before {
+				font-size: 20px;
+			}
+			
+			.mui-checkbox input[type=checkbox]:checked:before {
+				background:url(../../img/choose.png);
+				content: '\e442';
+				border: none;
+				color: rgba(255, 255, 255, 0.2);
+			}
+			.chongzhi{
+				width: 100%;
+				height: 50px;
+				position: fixed;
+				bottom: 0px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 16px;
+				border: none;
+			}
+			.zifu-box{
+				padding: 0 10px;
+				background: #fff;
+				padding-bottom: 5px;
+			}
+			.zifu {
+				display: flex;
+				border-bottom:1px solid #ccc;
+				padding:10px 0 5px 0;
+			}
+			.zifu img{
+				width:25px;
+				height:25px;
+				border-radius: 50%;
+				align-self: center;
+			}
+			.zifu .down-list{
+				display: flex;
+				justify-content: space-between;
+				align-content: center;
+				flex: auto;
+				padding:0 0 0 10px;
+			}
+			.zifu .down-left p{
+				color:#1A1A1A;
+				height: 20px;
+				line-height: 20px;
+				margin-bottom: 5px!important;
+			}
+			.zifu .down-right{
+				color:#FEB258;
+				font-size: 14px;
+				align-self: center;
+			}
+			.jindu{
+
+				font-size: 14px;
+				padding: 8px 15px 0;
+			}
+			.jindu b{
+				color:#FFA63D;
+			}
+			.jindu span{
+				border-radius: 10px;
+				font-size: 12px;
+				padding:2px 6px;
+				margin-left: 10px;
+			}
+			.jine{
+				margin-top: 10px;
+				background: #fff;
+			}
+			.empty img{
+				width: 113px;
+				height: auto;
+				display: block;
+				margin: 0 auto 10px;
+			}
+			.empty p{
+				text-align: center;
+				padding-bottom: 20px;
+			}
+			.jinxing {
+				background: #FDF4E8;
+				color: #FFA940;
+			}
+
+			.guoqi {
+				background: #F2F2F2;
+				color: #666;
+			}
+
+			.wancheng {
+				background: #E4F6F6;
+				color: #54D4D4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="order_wrap">
+				<p class="title">任务详情</p>
+				<ul>
+					<li class="">
+						<div class="top ">
+							<p class="f_left">订单编号：{{orderInfo.order_no}}</p>
+						</div>
+						<div class="msg clearfix">
+							<div class="f_left">
+								<p>关键词①：{{orderInfo.shuadan_keyword}}</p>
+								<p>单品价格：￥{{orderInfo.danpin_price}}</p>
+								<p>任务数量：{{orderInfo.shuadan_number}}单</p>
+							</div>
+							<div class="f_left">
+								<p>标签：{{orderInfo.tag}}</p>
+								<p>任务日期：{{orderInfo.task_date}}</p>
+								<p v-if="orderInfo.order_status == 20">完成时间：{{orderInfo.complete_time}}</p>
+							</div>
+						</div>
+						<div class="xiangqing">
+							<div class="mui-table-view-cell mui-collapse mui-active goods_wrap ">
+								<div class="mui-collapse-content ">
+									<div class="clearfix goods">
+										<div class="f_left goodsImg">
+											<img :src="orderInfo.goods_image ? orderInfo.goods_image : '../../img/goods3.jpg'" alt="" />
+										</div>
+										<div class="f_left goodsMsg">
+											<p>店铺名称：{{orderInfo.store_name}}</p>
+											<p>旺旺账号：{{orderInfo.wangwang}}</p>
+											<p>单品规格：{{orderInfo.danpin_spec}}</p>
+											<p>商品销量：{{orderInfo.sales_volume}}</p>
+											<p>商品价格：￥{{orderInfo.goods_price}}</p>
+											<p>所在地区：{{orderInfo.store_city }}</p>
+											<p>
+												{{orderInfo.is_card_address ? '卡地区、' : ''}}
+												{{orderInfo.is_card_sales ? '卡销量、' : ''}}
+												{{orderInfo.is_card_price ? '卡价格' : ''}}
+											</p>
+										</div>
+									</div>
+								</div>
+								<a class="mui-navigate-right xiangxi" href="#">
+									<i class="iconfont icon-biao"></i>
+									详情
+								</a>
+							</div>
+							<div class=" mingxi">
+								<p>发布时间：{{orderInfo.createtime}}</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="jine clearfix">
+				<p class="title f_left">已完成</p>
+				<p class="jindu f_right"><b>{{orderInfo.finished_number}}</b>/{{orderInfo.shuadan_number}} <span :class="orderInfo.order_status == 10 ? 'jinxing' : orderInfo.order_status == 20 ? 'wancheng' :  'guoqi'">{{orderInfo.order_status == '10' ? '进行中' : orderInfo.order_status == 20 ? '已完成' : orderInfo.order_status == 30 ? '已过期' : ''}}</span></p>
+			</div>
+			<div class="zifu-box">
+				<div class="zifu" v-for="(item,index) in orderInfo.brush_list">
+					<img :src="item.avatar ? item.avatar : '../../img/8.jpeg'" alt="">
+					<div class="down-list">
+						<div class="down-left">
+							<p>旺旺号：{{item.wangwang}}</p>
+							<p>手机号：{{item.mobile}}</p>
+						</div>
+						<div class="down-right">￥{{item.danpin_price}}</div>
+					</div>
+				</div>
+				<ul class="empty"  v-if="orderInfo.brush_list && orderInfo.brush_list.length === 0">
+					<img src="../../img/empty.png" >
+					<p>暂无数据</p>
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			let app = new Vue({
+				el:'#app',
+				data(){
+					return {
+						orderInfo:[]
+					}
+				},
+
+				mounted(){
+					mui.init();
+					ca.init();
+					this.getOrderDetail();
+					var _this = this;
+					ca.receiveNotice('refreshMoney',function (event) {
+						_this.getOrderDetail();
+					})
+				},
+				methods:{
+					// 获取订单详情
+					getOrderDetail(){
+						let params = {
+							token:storage.get("token") || "",
+							id:GetQueryString("id") || 0,
+						};
+						var _this = this;
+						Axios.post('/api/order/details',params).then(function(res){
+							if(res.code == 1){
+								_this.orderInfo = res.data;
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 付款
+					submitOrder(){
+						let params = {
+							token:storage.get("token") || "",
+							ids:GetQueryString("ids").split(',') || [],
+						};
+						Axios.post('/api/order/pay_order',params).then(function(res){
+							if(res.code == 1){
+								var parentId = '';
+								mui.plusReady(function () {
+									parentId = plus.webview.currentWebview().opener().id;
+									popToTargetAndRefresh(parentId,true,'orderToRefresh');
+									ca.prompt(res.msg);
+								});
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 去充值
+					chongzhi(){
+						ca.newInterface({
+							url:'../mine/chongzhi.html?type=order',
+							id:'mine/chongzhi.html'
+						})
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>

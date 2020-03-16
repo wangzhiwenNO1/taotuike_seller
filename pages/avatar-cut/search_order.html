@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>订单搜索</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="../../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.dtpicker.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/load/mescroll.min.css"/>
+		<style type="text/css">
+			body{
+				background: #fff;
+			}
+			.search {
+				position: relative;
+				top: 2px;
+			}
+			
+			.search input {
+				background-color: #f5f5f5;
+				width: 5.86rem;
+				border-radius: 18px;
+				font-size: 14px;
+				color: #666666;
+			}
+			
+			.icon-sousuo {
+				font-size: 18px!important;
+				color: #999;
+				position: absolute;
+				left: 32%;
+			}
+			
+			.search>.mui-pull-right {
+				line-height: 44px;
+				font-size: 14px;
+				color: #181818;
+				padding-right: 2%;
+			}
+			
+			.mui-bar {
+				padding: 0 2%;
+			}
+			/*content*/
+			
+			.mui-content {
+				background-color: #fff;
+			}
+			
+			.hot {
+				padding: 0 2% 1%;
+			}
+			
+			.hot p {
+				font-size: 15px;
+				color: #181818;
+				line-height: 44px;
+				margin-bottom: 0;
+			}
+			
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				margin: 0;
+			}
+			
+			.mui-table-view-cell {
+				padding: 0 2%;
+			}
+			
+			.mui-table-view:before {
+				height: 0;
+			}
+			
+			.mui-table-view:after {
+				background-color: #e8e8e8;
+				left: 2%;
+			}
+			
+			a {
+				color: #181818;
+				font-size: 14px;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				padding: 0;
+			}
+			
+			.mui-table-view-cell:after {
+				background-color: #e8e8e8;
+				left: 2%;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn).mui-active {
+				background-color: #fff;
+			}
+			
+			.icon-guanbi {
+				float: right;
+				color: #181818;
+				font-size: 20px;
+				margin-right: 2%;
+			}
+			/*voice*/
+			
+			.voice {
+				text-align: center;
+				font-size: 13px;
+				height: 44px;
+				background-color: #f8f8f8;
+				padding-top: 5px;
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				/*display: none;*/
+			}
+			
+			.say {
+				background-color: #fff;
+				border: 1px solid #848689;
+				border-radius: 6px;
+				width: 94%;
+				margin: 0 3%;
+				height: 34px;
+				line-height: 30px;
+			}
+			
+			.icon-AI-yuyin {
+				color: #81838e;
+				font-size: 20px
+			}
+			
+			.voice span {
+				display: inline-block;
+			}
+			
+			#output {
+				display: none;
+			}
+			/*content end*/
+			
+			.out {
+				margin: 9px;
+				height: 30%;
+				width: 90%;
+			}
+			.his-list i {
+				width: 80%;
+				display: inline-block;
+			}
+			
+			a {
+				color: #666;
+			}
+			
+			.sou {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+			}
+			
+			
+			
+			.cont_goods ul {
+				width: 94%;
+				margin: 0 auto;
+				padding-top: 1px;
+			}
+			
+			.cont_goods ul li {
+				width: 100%;
+				box-shadow: 0px 0px 5px 2px #F0F0F0;
+				margin-top: 15px;
+			}
+			
+			.cont_goods div {
+				margin-left: 13px;
+				margin-right: 12px;
+			}
+			
+			.cont_goods .bianhao {
+				padding-top: 16px;
+				border-bottom: 1px solid #E1E1E1;
+			}
+			
+			.bianhao p {
+				color: #333;
+				font-size: 12px;
+			}
+			
+			.bianhao p:last-child {
+				color: #3FAEE9;
+			}
+			
+			.shuliang {
+				border-bottom: 1px solid #E1E1E1;
+			}
+			
+			.shuliang p:first-child {
+				color: #333;
+				font-size: 14px;
+				margin-top: 15px;
+			}
+			
+			.shuliang p:first-child span {
+				display: inline-block;
+				margin-right: 30px;
+			}
+			
+			.shuliang p:last-child {
+				margin-top: 20px;
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.shuliang p:last-child span:nth-child(1) {
+				color: #FA5458;
+				font-size: 12px;
+			}
+			
+			.shuliang p:last-child span:nth-child(1) em {
+				font-size: 11px;
+			}
+			
+			.shuliang p:last-child span:nth-child(2) {
+				color: #999;
+				font-size: 11px;
+			}
+			.cont_goods{
+				margin-top: 44px;
+			}
+			
+			.empty{
+				padding-top: 60px;
+			}
+			.empty img{
+				width: 113px;
+				height: auto;
+				display: block;
+				margin: 30px auto 10px;
+			}
+			.empty p{
+				text-align: center;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="mui-content" id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<div class="search">
+					<form target="frameFile">
+						<input type="search" id="search" placeholder="搜索商品" :value="iptVal">
+					</form>
+				</div>
+				<a class="sou" @tap="serchFunc()">搜索</a>
+			</header>
+			<div>
+				<div class="cont_goods" id="box">
+					<ul class="good_xin" v-show="list.length > 0">
+						<li v-for="item in list">
+							<div class="clearfix bianhao">
+								<p class="f_left">订单编号：{{item.order_no}}</p>
+								<p class="f_right daijd">{{item.order_status_name}}</p>
+							</div>
+							<div class="shuliang">
+								<p><span>材料种类：{{item.type_num}}种</span> <span>数量：{{item.total_num}}</span></p>
+								<p><span><em>￥</em>{{item.pay_price}}</span> <span>{{item.createtime | sHuanD}}</span></p>
+							</div>
+							<div class="button clearfix" v-show="item.type==1">
+								<span>代购</span>
+							</div>
+						</li>
+					</ul>
+					<ul class="empty"  v-show="list.length === 0">
+						<img src="../../img/empty.png" >
+						<p>暂无数据</p>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../js/jquery.js"></script>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/castapp.js"></script>
+		<script src="../../js/mui.picker.min.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script src="../../js/mui.dtpicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../css/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			
+			
+			var vm = new Vue({
+				el: "#app",
+				data:{
+					list: [],
+					iptVal: "",
+					type: 10,
+				},
+				filters:{		//过滤器
+					sHuanD(result){			//将毫秒数转换成日期形式
+						var secd = result * 1000;
+						var oDate = new Date(secd),  
+							oYear = oDate.getFullYear(),  
+							oMonth = oDate.getMonth()+1,  
+							oDay = oDate.getDate(),  
+							oHour = oDate.getHours(),  
+							oMin = oDate.getMinutes(),  
+							oSen = oDate.getSeconds(),  
+							oTime = oYear +'-'+ (parseInt(oMonth) < 10 ? '0'+parseInt(oMonth) : parseInt(oMonth)) +'-'+ (parseInt(oDay) < 10 ? '0'+parseInt(oDay) : parseInt(oDay));//最后拼接时间  
+							return oTime;  
+					}
+				},
+				created(){
+					mui.init();
+					ca.init();
+				},
+				mounted(){
+					let _this = this;
+					//存当前日期;
+					let key;
+					//点击软键盘的搜索
+					let searchBtn = document.getElementById("search");
+					searchBtn.addEventListener("keypress", function(event) {
+						console.log(event.keyCode);
+						if(event.keyCode == "13") {
+							_this.load();
+						}
+					});
+					
+					mui.init({
+						beforeback:function(){
+							//清空数据
+							ca.closeCurrentInterface();
+						}
+					});
+					
+				},
+				methods:{
+					serchFunc() {
+						let self = this;
+						let search = $.trim($("#search").val());
+						//  搜索历史
+						if(!search) {
+							ca.prompt('请输入搜索内容');
+							self.list = [];
+							return;
+						}
+						let params = new URLSearchParams();
+							params.append("token",window.localStorage.getItem("token"));
+							params.append("type",self.type);
+							params.append("search",search);
+							console.log('aa'+params);
+							axios.post(config.base_url + '/addons/litestore/api.order/my',params)
+								.then(function(res) {
+									console.log(res)
+									let result = res.data;
+									if (result.code == 1) {
+										self.isLoading = true;
+										let listData = [];
+										self.list = res.data.data.data;
+									} else {
+										if (result.code == 0) {
+											ca.prompt(result.msg)
+											self.list = [];
+										}
+									}
+								})
+								.catch(function(error) {
+									ca.prompt(error)
+								});
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

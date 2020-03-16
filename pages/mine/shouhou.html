@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>售后管理</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			
+			body {
+				background: #FFF;
+			}
+			
+			.mui-content {
+				background: #F2F2F2;
+			}
+			
+			.title {
+				color: #333;
+				font-size: 15px;
+				margin-left: 3.2%;
+				padding-left: 13px;
+				position: relative;
+				padding-top: 16px;
+			}
+			
+			.title:after {
+				content: '';
+				width: 3px;
+				height: 15px;
+				background: #66D1CF;
+				border-radius: 3px;
+				position: absolute;
+				top: 18px;
+				left: 0px;
+			}
+			
+			.header {
+				background: #FFF;
+				overflow: hidden;
+			}
+			
+			.mui-checkbox,
+			.mui-radio {
+				position: relative;
+				float: left;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 8px;
+				right: 10px;
+				width: 20px;
+				height: 20px;
+			}
+			
+			.mui-checkbox input[type=checkbox]:before,
+			.mui-radio input[type=radio]:before {
+				font-size: 20px;
+			}
+			
+			.mui-radio input[type=radio]:checked:before {
+				background: url(../../img/choose.png) no-repeat;
+				background-size: 100% 100%;
+				content: '\e442';
+				border: none;
+				color: rgba(255, 255, 255, 0.2);
+			}
+			
+			.mui-checkbox.mui-left input[type=checkbox],
+			.mui-radio.mui-left input[type=radio] {
+				left: 0px;
+			}
+			
+			.mui-checkbox.mui-left label,
+			.mui-radio.mui-left label {
+				padding-left: 30px;
+			}
+			
+			.mui-input-row {
+				clear: none;
+			}
+			
+			.leixing {
+				width: 93.6%;
+				margin-left: 3.2%;
+				overflow: hidden;
+				padding: 16px 0;
+			}
+			
+			.fukuan {
+				background: #fff;
+				padding-bottom: 10px;
+				margin-top: 10px;
+			}
+			
+			.fukuan ul li {
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+				/*padding: 13px 0;*/
+			}
+			
+			.fukuan ul li:last-child {
+				border: none;
+			}
+			
+			.fukuan ul li label {
+				padding: 13px 0px;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				color: #666;
+				font-size: 15px;
+			}
+			.pingzheng{
+				position:relative;
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+				top:10px;
+				margin-right: 10px;
+			}
+			.pingzheng.img{
+				top:5px;
+			}
+			.pingzheng i,.pingzheng img {
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+				border: 1px dashed #ccc;
+				font-size: 22px;
+			}
+			.pingzheng img {
+				border: 1px dashed #66D1CF;
+			}
+			.pingzheng span{
+				position: absolute;
+				top:-8px;
+				right:2px;
+				width:10px;
+				height:10px;
+				border-radius: 50%;
+				padding: 3px;
+				font-size: 16px;
+				background: #fff;
+				color:#66D1CF;
+			}
+			.tijiao {
+				width: 93.6%;
+				height: 40px;
+				border-radius: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				margin-top: 30px;
+				margin-left: 3.2%;
+			}
+			
+			.fukuan .jietu {
+				margin-top: 13px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">售后管理</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="header">
+				<p class="title">选择售后类型</p>
+				<div class="leixing ">
+					<div class="mui-input-row mui-radio  mui-left">
+						<label>申请退款</label>
+						<input name="radio1" v-model="saleManage.type" value="1" type="radio" class="rds">
+					</div>
+					<div class="mui-input-row mui-radio  mui-left">
+						<label>差评</label>
+						<input name="radio1" v-model="saleManage.type" value="2" type="radio" class="rds">
+					</div>
+				</div>
+			</div>
+			<div class="fukuan">
+				<p class="title">填写用户信息</p>
+				<ul>
+					<li class="mui-input-row">
+						<label>姓名</label>
+						<input type="text" v-model="saleManage.name" id="name" placeholder="请输入姓名">
+					</li>
+					<li class="mui-input-row">
+						<label>旺旺账号</label>
+						<input type="text" v-model="saleManage.wangwang" id="nameId" placeholder="请输入付旺旺号">
+					</li>
+					<li class="mui-input-row">
+						<label>手机号</label>
+						<input type="text" v-model="saleManage.mobile" id="phone" placeholder="请输入手机号">
+					</li>
+					<li class="jietu">
+						<div>上传截图</div>
+						<div class="pingzheng img" v-for="(src, index) in saleManage.images">
+							<img :src="src" alt="" data-preview-src="" data-preview-group="1">
+							<span class="mui-icon mui-icon-close" @tap="delImage(index)"></span>
+						</div>
+						<div class="pingzheng">
+							<i class="iconfont icon-tianjia Img" @tap="uploadFile"></i>
+						</div>
+					</li>
+				</ul>
+				<button class="tijiao" id="doDiv" @tap="saleSubmit">提交</button>
+			</div>
+		</div>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
+		<script src="../../js/mui.zoom.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			var name;
+			var phone;
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						saleManage:{
+							type:1,
+							name:'',
+							wangwang:'',
+							mobile:'',
+							images:[]
+						}
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					mui.previewImage();
+					var _this = this;
+					mui.plusReady(function(){
+						ca.receiveNotice('sale',function (event) {
+							_this.saleManage.images.push(event.detail.imgUrl);
+						})
+					});
+				},
+				methods: {
+					// 余额明细详情
+					saleSubmit() {
+						if(this.saleManage.name == '') {
+							ca.prompt('请输入姓名');
+							return;
+						}
+						if(this.saleManage.wangwang == '') {
+							ca.prompt('请输入旺旺账号');
+							return;
+						}
+						if(this.saleManage.mobile == '') {
+							ca.prompt('请输入手机号');
+							return;
+						}
+						if(!(/^1[3-9][0-9]{9}$/.test(this.saleManage.mobile))) {
+							ca.prompt('手机号格式不正确');
+							return;
+						}
+						if(this.saleManage.images ==''){
+							ca.prompt('请上传后台截图');
+							return;
+						}
+						let params = this.saleManage;
+						params.token = storage.get("token") || "";
+						Axios.post("/api/after_sale/manage", params).then((res) => {
+							if (res.code == 1) {
+								ca.prompt(res.msg);
+								mui.back();
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上传截图
+					uploadFile(){
+						openWebview({
+							url:'../ImgCropping/cropperImg.html?type=shouhou',
+							id:'cropperImg'
+						})
+					},
+
+					// 删除截图
+					delImage(index){
+						this.saleManage.images.splice(index,1);
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

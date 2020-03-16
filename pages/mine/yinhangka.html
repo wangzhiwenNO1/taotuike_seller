@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>银行卡</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			body,.mui-content{
+				background: #fff;
+			}
+			.cont{
+				text-align: center;
+			}
+			.cont img{
+				display: block;
+				width: 144px;
+				height: 126px;
+				margin: 56px auto 15px;
+			}
+			.cont p{
+				color: #999;
+			}
+			.bdBtn{
+				width: 93.6%;
+				height: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				position: fixed;
+				bottom: 10px;
+				margin-left: 3.2%;
+				border: none;
+				border-radius: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">绑定银行卡/支付宝</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="cont">
+				<img src="../../img/yhk1.png" alt="" />
+				<p>您还没有绑定银行卡/支付宝，赶快去绑定吧~</p>
+			</div>
+			<button class="bdBtn" @tap="addCard">绑定银行卡/支付宝</button>
+		</div>
+		
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.picker.min.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+
+					}
+				},
+				methods:{
+					addCard(){
+						ca.newInterface({
+							url:'yinhangka2.html',
+							id:'mine/yinhangka2.html'
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

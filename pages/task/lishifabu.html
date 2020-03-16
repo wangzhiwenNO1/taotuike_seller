@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>历史发布</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/video-js.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css">
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #fff;
+			}
+			body{
+				overflow: initial;
+			}
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				
+				color: #333;
+			}
+			.order_wrap{
+				margin-top: 15px;
+				padding-bottom: 15px;
+			}
+			.order_wrap ul li {
+				/*background: url(../img/ddbjxq.png) no-repeat;
+				background-size: 100% 100%;*/
+				background: #fff;
+				width: 94.8%;
+				margin-left: 2.6%;
+				box-shadow: 0px 0px 5px 2px #C9D6D6;
+				/*padding-bottom: 10px;*/
+				margin-bottom: 10px;
+				/*overflow: hidden;*/
+			}
+			
+			.top {
+				border-bottom: 1px dashed #E1E1E1;
+				position: relative;
+				height: 46px;
+			}
+			
+			.top:after {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: linear-gradient(to right, #fff, #C9D6D6);
+				/*border-radius: 0px 10px 10px 0px;*/
+				border-radius: 20px;
+				position: absolute;
+				bottom: -10px;
+				left: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top:before {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: #fff;
+				/*border-radius: 10px 0 0 10px;*/
+				background: linear-gradient(to left, #fff, #C9D6D6);
+				border-radius: 10px;
+				position: absolute;
+				bottom: -10px;
+				right: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top p {
+				color: #333;
+				font-size: 14px;
+				margin-top: 14px;
+				margin-bottom: 10px;
+			}
+			
+			.top p:first-child {
+				margin-left: 10px;
+			}
+			
+			.top p:last-child {
+				margin-right: 10px;
+			}
+			
+			.msg {
+				width: 94.8%;
+				margin-left: 2.6%;
+				border-bottom: 1px dashed #E1E1E1;
+				margin-top: 10px;
+			}
+			
+			.msg div {
+				width: 50%;
+			}
+			
+			.msg div p {
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.order_wrap .goods_wrap {
+				background: #FFf;
+				padding-bottom: 10px;
+				width: 94.6%;
+				margin-left: 2.6%;
+			}
+			
+			.mui-table-view-cell {
+				padding: 0px ;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+				padding-top: 0px;
+			}
+			
+			.mui-navigate-right:after,
+			.mui-push-right:after {
+				/*right: -0px;*/
+				top: 40%;
+				left: 43px;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-collapse-content {
+				margin: auto;
+				border-bottom: 1px dashed #E1E1E1;
+				padding: 5px 0px;
+			}
+			
+			.goods {
+				background: #F2F2F2;
+				border-radius: 10px;
+				padding: 5px;
+				display: flex;
+			}
+			.goodsImg {
+				/*width: 41.5%;
+				height: 146px;*/
+				border-radius: 10px;
+				overflow: hidden;
+				margin-right: 10px;
+				flex: 1 0 120px;
+				height: 120px;
+			}
+
+			.goodsImg img {
+				width:100%;
+				height:100%;
+			}
+
+			.mui-table-view-cell>a:not(.mui-btn) {
+				padding-right: 20px;
+				margin: 15px 0px 0px 0px;
+				color: #999;
+				font-size: 14px;
+			}
+			.goodsMsg{
+				flex:1 0 60%
+			}
+			.goodsMsg p {
+				color: #999;
+				width: 100%;
+				max-width:190px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: 12px;
+			}
+			
+			.xiagnxi {
+				color: #999;
+				font-size: 14px;
+			}
+			
+			.xiangxi i {
+				color: #66D1CF;
+				margin-left: 4px;
+				margin-right: 5px;
+			}
+			
+			.mingxi {
+				margin-top: 15px;
+				position: absolute;
+				bottom: 16px;
+				right: 2.6%;
+			}
+			
+			.mingxi button {
+				width: 65px;
+				height: 24px;
+				border-radius: 24px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 12px;
+				border: none;
+			}
+			
+			.xiangqing {
+				position: relative;
+			}
+			.mui-table-view-cell:after{
+				display: none;
+			}
+			.empty img{
+				width: 113px;
+				height: auto;
+				display: block;
+				margin: 30px auto 10px;
+			}
+			.empty p{
+				text-align: center;
+				padding-bottom: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+	<section id="app" v-cloak>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">历史发布</h1>
+		</header>
+		<div class="mui-content">
+			<div class="order_wrap">
+				<ul>
+					<li class="" v-for="(item,index) in orderData">
+						<div class="top ">
+							<p class="f_left">订单编号：{{item.order_no}}</p>
+						</div>
+						<div class="msg clearfix">
+							<div class="f_left">
+								<p>关键词①：{{item.shuadan_keyword}}</p>
+								<p>单品价格：￥{{item.danpin_price}}</p>
+								<p>任务数量：{{item.shuadan_number}}单</p>
+							</div>
+							<div class="f_left">
+								<p>标签：{{item.tag}}</p>
+								<p>任务日期：{{item.task_date}}</p>
+								<p>完成时间：2019-02-22</p>
+							</div>
+						</div>
+						<div class="xiangqing">
+							<div class="mui-table-view-cell mui-collapse goods_wrap " :class="{'mui-active':index === 0}">
+								<div class="mui-collapse-content ">
+									<div class="clearfix goods">
+										<div class="f_left goodsImg">
+											<img :src="item.goods_image ? item.goods_image : '../../img/goods3.jpg'" alt="" />
+										</div>
+										<div class="f_left goodsMsg">
+											<p>店铺名称：{{item.store_name}}</p>
+											<p>旺旺账号：{{item.wangwang}}</p>
+											<p>单品规格：{{item.danpin_spec}}</p>
+											<p>商品销量：65</p>
+											<p>商品价格：￥{{item.goods_price}}</p>
+											<p>所在地区：{{item.store_city}}</p>
+											<p>
+												{{item.is_card_address ? '卡地区、' : ''}}
+												{{item.is_card_sales ? '卡销量、' : ''}}
+												{{item.is_card_price ? '卡价格' : ''}}
+											</p>
+										</div>
+									</div>
+								</div>
+								<a class="mui-navigate-right xiangxi" href="#">
+									<i class="iconfont icon-biao"></i>详情
+								</a>
+							</div>
+							<div class=" mingxi">
+								<button class="wancheng_mingxi" @tap="publishAgain(item.id)">再次发布</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<ul class="empty" v-if="orderData.length === 0">
+					<img src="../../img/empty.png" >
+					<p>暂无数据</p>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			let app = new Vue({
+				el:'#app',
+				data(){
+					return {
+						orderData:[],
+						pageIndex:0,
+						pageSize:5
+					}
+				},
+				created(){
+					mui.init();
+					ca.init();
+					this.token = storage.get("token");
+					this.load();
+					//重置列表数据
+					this.mescroll.resetUpScroll(false);
+					mui.plusReady(function () {
+						ca.receiveNotice('orderToRefresh',function (e) {
+							this.mescroll.resetUpScroll(false);
+						})
+					})
+				},
+				methods:{
+					load() {
+						this.mescroll = new MeScroll("body", {
+							down: {
+								auto:false,
+								callback:this.refreshOrderData
+							},
+							up: {
+								callback: this.moreOrderList, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+								isBounce: false,
+								auto:false,
+								noMoreSize: 5,
+								page: {
+									num:this.pageIndex,
+									size: this.pageSize,
+								},
+								htmlNodata: '<p class="upwarp-nodata">-- 没有数据啦 --</p>'
+							}
+						});
+					},
+					// 获取首页订单数据
+					refreshOrderData(){
+						var params = {
+							token:storage.get("token") || "",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							status:0,
+							date:'',
+							search:'',
+							limit_begin:this.pageIndex,
+							limit_num:this.pageSize
+						};
+						var _this = this;
+						// 当上拉加载到最后一页后，下拉刷新，重置上拉加载状态
+						if(!_this.mescroll.optUp.hasNext){
+							_this.mescroll.resetUpScroll(false);
+						}
+						Axios.post('/api/order/index',params).then(function(res){
+							if(res.code == 1){
+								_this.orderData = res.data.list;
+								_this.mescroll.endSuccess()
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上拉加载更多订单
+					moreOrderList(page){
+						console.log("上拉了");
+						var params = {
+							token:storage.get("token") || "",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							status:0,
+							date:'',
+							search:'',
+							limit_begin: page.num,
+							limit_num: page.size
+						};
+						var _this = this;
+						_this.pageSize = page.size;
+						Axios.post("/api/order/index",params).then(function(res){
+							if(res.code == 1){
+								//更新列表数据
+								var totalPage = res.data.count;
+
+								var curPageData = res.data.list;
+								if(page.num == 1) _this.orderData = [];
+								_this.orderData = _this.orderData.concat(curPageData);
+								//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+								//必传参数(当前页的数据个数, 总页数)
+								_this.mescroll.endByPage(curPageData.length, totalPage);
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 再次编辑发布
+					publishAgain(id){
+						ca.newInterface({
+							url:'./taskEdit.html?id=' + id,
+							id:'taskEdit.html'
+						})
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>

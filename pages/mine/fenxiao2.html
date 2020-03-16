@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的分销</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			
+			.max-box {
+				position: fixed;
+				top: 44px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+				display: none;
+				z-index: 999;
+			}
+			
+			body,
+			.mui-content {
+				background: #F2F2F2;
+			}
+			
+			.top {
+				width: 100%;
+				height: 36px;
+				position: fixed;
+				z-index: 5;
+				line-height: 36px;
+				background-color: #FEFCEB;
+			}
+			
+			.top p {
+				width: 96%;
+				margin-left: 2%;
+				color: #F96A0E;
+			}
+			
+			.top p .mui-pull-right {
+				/*margin-top: 10px;*/
+			}
+			
+			.top span {
+				margin-left: 2%;
+				margin-right: 2%;
+			}
+			/*时间选择*/
+			
+			.min-box {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.5);
+				z-index: 2;
+			}
+			
+			.contents {
+				position: fixed;
+				top: 44px;
+				width: 100%;
+				z-index: 3;
+				background-color: #fff;
+			}
+			
+			.contents p {
+				width: 96%;
+				margin-left: 2%;
+				height: 30px;
+				line-height: 30px;
+				color: #000;
+			}
+			
+			.contents .xuan {
+				width: 96%;
+				margin-left: 2%;
+				height: 30px;
+				/*line-height: 25px;*/
+				margin-top: 10px;
+				margin-bottom: 10px;
+				overflow: hidden;
+			}
+			
+			.contents .xuan li {
+				width: 30%;
+				margin-right: 3%;
+				float: left;
+				position: relative;
+			}
+			
+			.contents .xuan li input,
+			.contents .xuan li em {
+				width: 80%;
+				font-size: 12px;
+				height: 30px;
+				line-height: 30px;
+				padding-left: 15%;
+				display: inline-block;
+				border: 1px solid #DDDDDD;
+			}
+			
+			.contents .xuan li span {
+				float: right;
+				display: inline-block;
+				margin-top: 5px;
+			}
+			
+			.contents .xuan li i {
+				display: inline-block;
+				position: absolute;
+				right: 23%;
+				font-size: 12px;
+				color: #ccc;
+				height: 15px;
+				line-height: 15px;
+			}
+			
+			.contents .xuan li i.xia {
+				/*bottom: 5px;*/
+				bottom: 0px;
+			}
+			
+			.contents .xuan li i.shang {
+				bottom: 14px;
+				/*bottom: 18px;*/
+			}
+			
+			.contents .bottom {
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				border-top: 1px solid #ccc;
+			}
+			
+			.contents .bottom span {
+				width: 50%;
+				display: inline-block;
+				height: 40px;
+				float: left;
+				line-height: 40px;
+				text-align: center;
+			}
+			
+			.contents .bottom span.quxiao {
+				background-color: #fff;
+			}
+			
+			.contents .bottom span.queding {
+				background-color: #1C71FF;
+				color: #fff;
+			}
+			/**/
+			
+			.cont_wrap {
+				margin-top: 108px;
+			}
+			
+			.header {
+				background: #FFF;
+				position: fixed;
+				margin-top: 36px;
+				width: 100%;
+				z-index: 3;
+			}
+			
+			.h_msg {
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+			}
+			
+			.h_msg div {
+				text-align: center;
+				padding: 10px 0;
+			}
+			
+			.h_msg div p {
+				margin-bottom: 0px;
+				color: #333;
+			}
+			
+			.h_msg div P:first-child {
+				font-size: 12px;
+			}
+			
+			.h_msg div p:last-child {
+				font-size: 15px;
+			}
+			
+			.items {
+				
+				margin-top: 10px;
+			}
+			.items ul{
+				background: #fff;
+			}
+			.items ul li:last-child {
+				border-bottom: none;
+			}
+			
+			.items ul li {
+				padding: 0 10px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding-top: 5px;
+				border-bottom: 1px solid #E5E5E5;
+			}
+			
+			.touImg {
+				width: 50%;
+				overflow: hidden;
+				/*height: 100%;*/
+			}
+			
+			.touImg img {
+				width: 38px;
+				height: 38px;
+				border-radius: 38px;
+				float: left;
+				margin-right: 10px;
+			}
+			
+			.touImg p {
+				/*white-space: nowrap;*/
+				margin-bottom: 0px;
+				margin-left: 10px;
+			}
+			
+			.touImg p:nth-child(2) {
+				color: #333;
+				font-size: 15px;
+			}
+			
+			.touImg p:last-child {
+				font-size: 14px;
+				color: #999;
+			}
+			
+			.tou_msg {
+				text-align: right;
+			}
+			
+			.tou_msg p {
+				margin-bottom: 5px;
+				color: #999;
+				font-size: 12px;
+			}
+			
+			.zhishu {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的分销</h1>
+		</header>
+		<div class="mui-content">
+			<div class="top">
+				<p>筛选区间:<span class="start_time">--</span>至<span class="end_time">--</span><span class="mui-pull-right iconfont icon-rili rili"></span></p>
+			</div>
+			<div class="header">
+				<div class="h_msg">
+					<div>
+						<p>刷单量</p>
+						<p>2095</p>
+					</div>
+					<div>
+						<p>刷单费用</p>
+						<p>12095</p>
+					</div>
+					<div>
+						<p>我的提成</p>
+						<p>2095</p>
+					</div>
+				</div>
+			</div>
+			<div class="cont_wrap" id="refreshContainer">
+
+				<div class="items">
+					<ul class="tuandui">
+						<li class="">
+							<div class="touImg">
+								<img src="../../img/8.jpeg" alt="" />
+								<p class="">尹筱筱</p>
+								<p class="">1332 **** 3424</p>
+							</div>
+							<div class="tou_msg">
+								<p>刷单量：400</p>
+								<p>刷单费用：￥4000</p>
+								<p>我的提成：￥400</p>
+							</div>
+						</li>
+						<li class="">
+							<div class="touImg">
+								<img src="../../img/8.jpeg" alt="" />
+								<p class="">尹筱筱</p>
+								<p class="">1332 **** 3424</p>
+							</div>
+							<div class="tou_msg">
+								<p>刷单量：400</p>
+								<p>刷单费用：￥4000</p>
+								<p>我的提成：￥400</p>
+							</div>
+						</li>
+						<li class="">
+							<div class="touImg">
+								<img src="../../img/8.jpeg" alt="" />
+								<p class="">尹筱筱</p>
+								<p class="">1332 **** 3424</p>
+							</div>
+							<div class="tou_msg">
+								<p>刷单量：400</p>
+								<p>刷单费用：￥4000</p>
+								<p>我的提成：￥400</p>
+							</div>
+						</li>
+					</ul>
+					<ul class="zhishu">
+						<li class="">
+							<div class="touImg">
+								<img src="../../img/8.jpeg" alt="" />
+								<p class="">艾素素</p>
+								<p class="">1332 **** 3424</p>
+							</div>
+							<div class="tou_msg">
+								<p>刷单量：400</p>
+								<p>刷单费用：￥4000</p>
+								<p>我的提成：￥400</p>
+							</div>
+						</li>
+						<li class="">
+							<div class="touImg">
+								<img src="../../img/8.jpeg" alt="" />
+								<p class="">艾素素</p>
+								<p class="">1332 **** 3424</p>
+							</div>
+							<div class="tou_msg">
+								<p>刷单量：400</p>
+								<p>刷单费用：￥4000</p>
+								<p>我的提成：￥400</p>
+							</div>
+						</li>
+						<li class="">
+							<div class="touImg">
+								<img src="../../img/8.jpeg" alt="" />
+								<p class="">艾素素</p>
+								<p class="">1332 **** 3424</p>
+							</div>
+							<div class="tou_msg">
+								<p>刷单量：400</p>
+								<p>刷单费用：￥4000</p>
+								<p>我的提成：￥400</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+
+		</div>
+
+		<div class="max-box">
+			<div class="min-box">
+				<div class="contents">
+					<p>开始时间</p>
+					<ul class="xuan start btn1" data-options='{"type":"date"}'>
+						<li>
+							<em id="nian1"></em>
+							<span>年</span>
+						</li>
+						<li>
+							<em id="yue1"></em>
+							<span>月</span>
+
+						</li>
+						<li>
+							<em id="ri1"></em>
+							<span>日</span>
+						</li>
+					</ul>
+					<p>结束时间</p>
+					<ul class="xuan end btn2" data-options='{"type":"date"}'>
+						<li>
+							<em id="nian2"></em>
+							<span>年</span>
+						</li>
+						<li>
+							<em id="yue2"></em>
+							<span>月</span>
+
+						</li>
+						<li>
+							<em id="ri2"></em>
+							<span>日</span>
+						</li>
+					</ul>
+					<div class="bottom">
+						<span class="quxiao">取消</span>
+						<span class="queding">确定</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js"></script>
+		<script src="../../js/mui.picker.min.js"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			$('.h_nav').on('click', 'p', function() {
+				var _index = $(this).index();
+				$(this).addClass('Hactive').siblings().removeClass('Hactive');
+				$('.items ul').eq(_index).show().siblings().hide();
+			});
+
+			//开始时间
+			(function($) {
+				$.init();
+				//				var result = $('#time')[0];
+				var nian = $("#nian1")[0];
+				var yue = $("#yue1")[0];
+				var ri = $("#ri1")[0];
+				var btns = $('.btn1');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function(rs) {
+								//								result.innerText = rs.text;
+								nian.value = rs.y.vaue;
+								yue.value = rs.m.vaue;
+								ri.value = rs.d.vaue;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							/*
+							 * 首次显示时实例化组件
+							 * 示例为了简洁，将 options 放在了按钮的 dom 上
+							 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+							 */
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								/*
+								 * rs.value 拼合后的 value
+								 * rs.text 拼合后的 text
+								 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+								 * rs.m 月，用法同年
+								 * rs.d 日，用法同年
+								 * rs.h 时，用法同年
+								 * rs.i 分（minutes 的第二个字母），用法同年
+								 */
+								//								result.innerText = rs.text;
+								nian.innerText = rs.y.text;
+								yue.innerText = rs.m.text;
+								ri.innerText = rs.d.text;
+								/* 
+								 * 返回 false 可以阻止选择框的关闭
+								 * return false;
+								 */
+								/*
+								 * 释放组件资源，释放后将将不能再操作组件
+								 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+								 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+								 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+								 */
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+					}, false);
+				});
+			})(mui);
+			//结束时间
+			(function($) {
+				$.init();
+				var nian2 = $("#nian2")[0];
+				var yue2 = $("#yue2")[0];
+				var ri2 = $("#ri2")[0];
+				var btns = $('.btn2');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function(rs) {
+								//								result.innerText = rs.text;
+								nian2.value = rs.y.vaue;
+								yue2.value = rs.m.vaue;
+								ri2.value = rs.d.vaue;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							/*
+							 * 首次显示时实例化组件
+							 * 示例为了简洁，将 options 放在了按钮的 dom 上
+							 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+							 */
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								/*
+								 * rs.value 拼合后的 value
+								 * rs.text 拼合后的 text
+								 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+								 * rs.m 月，用法同年
+								 * rs.d 日，用法同年
+								 * rs.h 时，用法同年
+								 * rs.i 分（minutes 的第二个字母），用法同年
+								 */
+								//								result.innerText = rs.text;
+								nian2.innerText = rs.y.text;
+								yue2.innerText = rs.m.text;
+								ri2.innerText = rs.d.text;
+								/* 
+								 * 返回 false 可以阻止选择框的关闭
+								 * return false;
+								 */
+								/*
+								 * 释放组件资源，释放后将将不能再操作组件
+								 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+								 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+								 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+								 */
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+					}, false);
+				});
+			})(mui);
+			$('.rili').on('tap', function() {
+				$('.max-box').css('display', 'block')
+				mui('#refreshContainer').pullRefresh().setStopped(true); //暂时禁止滚动
+
+				$('.quxiao').on('tap', function() {
+					$('.max-box').css('display', 'none');
+					mui('#refreshContainer').pullRefresh().setStopped(false); //开启禁止滚动
+				});
+				$(".queding").click(function() {
+					if($("#nian1").html() == '') {
+						start_time == '';
+					} else {
+						start_time = $("#nian1").html() + '-' + $("#yue1").html() + '-' + $("#ri1").html();
+					}
+					if($("#nian2").html() == '') {
+						end_time == '';
+					} else {
+						end_time = $("#nian2").html() + '-' + $("#yue2").html() + '-' + $("#ri2").html();
+					}
+					var start_str = $("#nian1").html() + $("#yue1").html() + $("#ri1").html();
+					var end_str = $("#nian2").html() + $("#yue2").html() + $("#ri2").html();
+					if(end_str < start_str) {
+						ca.prompt("结束时间不能小于开始时间");
+						return;
+					}
+					$(".start_time").html(start_time);
+					$(".end_time").html(end_time);
+					page = 0;
+					mui('#refreshContainer').pullRefresh().refresh(true);
+					//			    	list();
+					$(".mui-scroll").css({
+						transform: "translate3d(0px, 0px, 0px) translateZ(0px)"
+					});
+					$('.max-box').css('display', 'none');
+					mui('#refreshContainer').pullRefresh().setStopped(false); //开启禁止滚动
+				})
+			});
+			mui.init({
+				pullRefresh: {
+					container: refreshContainer, //待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+//					up: {
+//						height: 4450, //可选.默认50.触发上拉加载拖动距离
+//						auto: false, //可选,默认false.自动上拉加载一次
+//						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+//						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+//						contentdown: '',
+//						callback: pullupRefresh
+//					},
+					down: {
+						style: 'circle',
+						callback: pulldownRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					//					list();
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					mui.toast("刷新成功");
+				}, 1500);
+			}
+
+			function pullupRefresh() {
+				setTimeout(function() {
+					var count = localStorage.getItem('count');
+					console.log(count)
+					//					list(); //调用 请求数据的 ajax 的封装函数
+					mui('#refreshContainer').pullRefresh().endPullupToRefresh(page > count);
+				}, 1000)
+			}
+		</script>
+	</body>
+
+</html>

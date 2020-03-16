@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>完善个人资料</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <link href="../../css/mui.picker.css" rel="stylesheet" />
+    <link href="../../css/mui.poppicker.css" rel="stylesheet" />
+    <link href="../../css/mui.imageViewers.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../../css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+    <style type="text/css">
+        .lishi {
+            margin-top: 12px;
+            font-size: 15px;
+            color:#66D1CF;
+        }
+        .mui-icon-left-nav {
+            color: #666;
+        }
+
+        .mui-title {
+            font-size: 18px;
+            color: #333;
+        }
+
+        body {
+            background: #FFF;
+        }
+
+        .mui-content {
+            background: #F2F2F2;
+        }
+
+        .title {
+            color: #333;
+            font-size: 15px;
+            margin-left: 3.2%;
+            padding-left: 13px;
+            position: relative;
+            padding-top: 16px;
+            width: 93.6%;
+        }
+
+        .title:after {
+            content: '';
+            width: 3px;
+            height: 15px;
+            background: #66D1CF;
+            border-radius: 3px;
+            position: absolute;
+            top: 18px;
+            left: 0px;
+        }
+
+        .header {
+            background: #FFF;
+            overflow: hidden;
+        }
+
+        .mui-checkbox,
+        .mui-radio {
+            position: relative;
+            float: left;
+        }
+
+        .mui-checkbox input[type=checkbox],
+        .mui-radio input[type=radio] {
+            top: 8px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .mui-checkbox input[type=checkbox]:before,
+        .mui-radio input[type=radio]:before {
+            font-size: 20px;
+        }
+
+        .mui-radio input[type=radio]:checked:before {
+            background: url(../../img/choose.png) no-repeat;
+            background-size: 100% 100%;
+            content: '\e442';
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .mui-checkbox.mui-left input[type=checkbox],
+        .mui-radio.mui-left input[type=radio] {
+            left: 0px;
+        }
+
+        .mui-checkbox.mui-left label,
+        .mui-radio.mui-left label {
+            padding-left: 30px;
+        }
+
+        .mui-input-row {
+            clear: none;
+        }
+
+        .leixing {
+            width: 93.6%;
+            margin-left: 3.2%;
+            overflow: hidden;
+            padding: 16px 0;
+        }
+
+        .fukuan {
+            background: #fff;
+            padding-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .fukuan ul li {
+            margin-left: 3.2%;
+            border-bottom: 1px solid #E5E5E5;
+            /*padding: 13px 0;*/
+        }
+
+        .fukuan ul li:last-child {
+            border: none;
+        }
+
+        .fukuan ul li label {
+            padding: 13px 0px;
+        }
+
+        .mui-input-row label ~ input,
+        .mui-input-row label ~ select,
+        .mui-input-row label ~ textarea {
+            color: #666;
+            font-size: 15px;
+        }
+        .jietu label{
+            display: block;
+        }
+        .pingzheng{
+            position:relative;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            top:10px;
+            margin-right: 10px;
+        }
+        .pingzheng.img{
+            top:5px;
+        }
+        .pingzheng i,.pingzheng img {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            border: 1px dashed #ccc;
+            font-size: 22px;
+        }
+        .pingzheng img{
+            border:1px dotted #66D1CF;
+        }
+        .pingzheng span{
+            position: absolute;
+            top:-8px;
+            right:2px;
+            width:10px;
+            height:10px;
+            border-radius: 50%;
+            color:#66D1CF;
+            padding: 3px;
+            font-size: 16px;
+            background: #fff;
+        }
+
+        .tijiao {
+            width: 93.6%;
+            height: 40px;
+            border-radius: 40px;
+            background: #66D1CF;
+            color: #fff;
+            font-size: 14px;
+            margin-top: 30px;
+            margin-left: 3.2%;
+            position: fixed;
+            bottom: 20px;
+        }
+
+        .fukuan .jietu {
+            margin-top: 13px;
+        }
+
+        .bangding {
+            overflow: hidden;
+        }
+
+        .bangding span {
+            color: #999;
+            font-size: 12px;
+            padding-left: 5px;
+        }
+
+        .bangding button {
+            float: right;
+            background: #66D1CF;
+            color: #fff;
+            font-size: 12px;
+            border: none;
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .bangding button i {
+            font-size: 12px;
+            padding-right: 3px;
+        }
+
+        .addr {
+            position: relative;
+        }
+
+        .addr span {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #999;
+        }
+        .wanshan{
+            color: #66d1cf !important;
+            border:1px solid #66D1CF!important;
+        }
+        .storeWarn{
+            color: #66d1cf !important;
+        }
+        /*按钮被按下时的样式*/
+        .mui-btn-warning:active {
+            color: #fff;/*按钮上文字的颜色*/
+            border: 1px solid #66D1CF;/*按钮被按下时边框线的颜色*/
+            background-color: #66D1CF !important;/*按钮被按下时的颜色*/
+        }
+        #city{
+            height:47px;
+            line-height: 47px;
+            text-align: left;
+            padding-right: 10px;
+            float: left;
+            color:#999;
+        }
+		#city.active{
+			color:#666;
+    </style>
+</head>
+
+<body>
+<section id="app" v-cloak>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" v-if="pageType == 'login'"></a>
+        <h1 class="mui-title">完善个人资料</h1>
+        <span class="mui-pull-right lishi" @tap="toLoginPage" v-if="pageType == 'register'">去登录</span>
+    </header>
+    <div class="mui-content">
+        <div class="header">
+            <p class="title">绑定微信</p>
+            <div class="leixing ">
+                <div class="mui-input-row mui-radio  mui-left" v-if="hasBindWx == 1">
+                    <label>已绑定</label>
+                    <input name="radio1" type="radio" class="rds" checked>
+                </div>
+                <button v-if="hasBindWx == 0" class="mui-btn mui-btn-warning mui-btn-outlined wanshan" @tap="authLogin('weixin')">绑定微信</button>
+            </div>
+        </div>
+        <div class="fukuan">
+            <p class="title bangding">
+                绑定店铺
+                <span>每个账号最多绑定6个店铺</span>
+                <!--					<button class="addDianpu"><i class="iconfont icon-tianjia"></i>添加绑定店铺</button>-->
+            </p>
+            <ul>
+                <li class="mui-input-row">
+                    <label>淘宝店铺</label>
+                    <input type="text" v-model="storeInfo.name" id="name" placeholder="请输入店铺名称">
+                </li>
+                <li class="mui-input-row addr" @tap="addr">
+                    <label>所在地</label>
+                    <div id="city" :class="{'active':storeInfo.city}">{{storeInfo.city || '请选择城市'}}</div>
+                </li>
+                </li>
+                <li class="mui-input-row">
+                    <label>旺旺账号</label>
+                    <input type="text" v-model="storeInfo.wangwang" id="nameId" placeholder="请输入旺旺账号">
+                </li>
+                <li class="jietu">
+                    <label>上传截图 <span class="storeWarn">(上传店铺信息)</span></label>
+                   <!-- <div class="pingzheng">
+                        <i class="iconfont icon-tianjia Img" @tap="uploadFile" v-if="!storeInfo.image_url"></i>
+                        <img :src="storeInfo.image_url" v-else alt="" data-preview-src data-preview-group="1">
+                    </div> -->
+                    <div class="pingzheng img" v-if="storeInfo.image_url">
+                        <img :src="storeInfo.image_url" alt="" data-preview-src data-preview-group="1">
+                       <span class="mui-icon mui-icon-close" @tap="delImage"></span>
+                    </div>
+                    <div class="pingzheng" v-else>
+                        <i class="iconfont icon-tianjia Img" @tap="uploadFile"></i>
+                    </div>
+                </li>
+            </ul>
+            <button class="tijiao" id="doDiv" @tap="shopSubmit">提交</button>
+        </div>
+    </div>
+</section>
+
+
+<script src="../../js/jquery-3.2.1.min.js"></script>
+<script src="../../js/mui.min.js"></script>
+<script src="../../js/mui.zoom.js"></script>
+<script src="../../js/city.data.js"></script>
+<script src="../../js/mui.picker.js"></script>
+<script src="../../js/mui.poppicker.js"></script>
+<script src="../../js/mui.previewimage.js"></script>
+<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/babel">
+    var name;
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                selectedIndex: 0,
+                storeList: [],
+                storeInfo: {
+                    name: '',
+                    city: '',
+                    wangwang: '',
+                    // image_url: ['222'],
+                    image_url: '',
+                },
+                auths: [],
+                pageType:'',
+                wxUserInfo:'',
+                hasBindWx:0
+            }
+        },
+        created() {
+            mui.init();
+            ca.init();
+            mui.previewImage();
+            var _this = this;
+            _this.hasBindWx = storage.get('userInfo')['bind_wechat'] || 0;
+            _this.pageType = GetQueryString('type') || '';
+            _this.getShopList();
+            mui.plusReady(function () {
+                // 扩展API加载完毕，现在可以正常调用扩展API
+                plus.oauth.getServices(function (services) {
+                    _this.auths = services;
+                }, function (e) {
+                    alert("获取分享服务列表失败：" + e.message + " - " + e.code);
+                })
+                ca.receiveNotice('store', function (event) {
+                    // _this.storeInfo.image_url.push(event.detail.imgUrl);
+                    _this.storeInfo.image_url = event.detail.imgUrl;
+                });
+                ca.receiveNotice('address', function (event) {
+                    _this.storeInfo.city = event.detail.address;
+                })
+            });
+        },
+        methods: {
+            // 获取已绑定店铺列表
+            getShopList() {
+                var params =  {
+                    token: storage.get("token") || ""
+                };
+                var _this = this;
+                Axios.post("/api/Store/my_store_list", params).then(function(res) {
+                    if (res.code == 1) {
+                       if(res.data.length > 0){
+                           _this.storeList = res.data;
+                           _this.storeInfo = res.data[0];
+                           _this.storeInfo.store_id = res.data[0].id;
+                       }
+                    } else {
+                        ca.prompt(res.msg);
+                    }
+                })
+            },
+            // 绑定微信
+            toBindWx(){
+                var params = {
+                    token:storage.get("token") || "",
+                    openid:this.wxUserInfo.openid,
+                    unionid:this.wxUserInfo.unionid,
+                    nickname:this.wxUserInfo.nickname,
+                    headimgurl:this.wxUserInfo.headimgurl
+                };
+                console.log(JSON.stringify(params))
+                var _this = this;
+                Axios.post('/api/user/bind_wechat', params).then(function (res) {
+                    if (res.code == 1) {
+                        ca.prompt(res.msg);
+                        _this.hasBindWx = 1;
+                    } else {
+                        ca.prompt(res.msg);
+                    }
+                })
+            },
+            // 添加/编辑店铺
+            shopSubmit() {
+
+                if (this.storeInfo.name == '') {
+                    ca.prompt('请输入店铺名称');
+                    return;
+                }
+                if (this.storeInfo.city == '') {
+                    ca.prompt('请选择城市');
+                    return;
+                }
+
+                if (this.storeInfo.wangwang == '') {
+                    ca.prompt('请输入旺旺账号');
+                    return;
+                }
+                if (this.storeInfo.image_url == '') {
+                    ca.prompt('请上传店铺图片');
+                    return;
+                }
+                var params = this.storeInfo;
+                params.token = storage.get("token") || "";
+                // params.token = "000b3fe9-d3d9-4eb9-987f-fea741ea4b03";
+                var api = this.storeList.length > 0 ? '/api/store/edit_store' : '/api/store/store_add';
+                Axios.post(api, params).then(function (res) {
+                    if (res.code == 1) {
+                        ca.prompt(res.msg);
+                        openWebview({
+                            url: "../login/verify.html",
+                            id: "verify.html"
+                        });
+                    } else {
+                        ca.prompt(res.msg);
+                    }
+                })
+            },
+            // 上传截图
+            uploadFile(){
+                openWebview({
+                    url:'../ImgCropping/cropperImg.html?type=store',
+                    id:'cropperImg'
+                })
+            },
+
+            // 删除截图
+            delImage(index){
+                this.storeInfo.image_url = '';
+            },
+            // 跳至登录页面
+            toLoginPage(){
+              ca.newInterface({
+                  url:'../login/login.html',
+                  id:'login.html'
+              })
+            },
+            // 授权操作
+            authorize(type){
+                var s;
+                var _this = this;
+                for (var i = 0; i < _this.auths.length; i++) {
+                    if (_this.auths[i].id == type) {
+                        s = _this.auths[i];
+                        break;
+                    }
+                }
+                if(!s){
+                    alert("当前环境不支持微信登录");
+                    return;
+                }
+                if (!s.authResult) {
+                    s.authorize(function(e){
+                        // alert("授权成功："+JSON.stringify(e));
+                        _this.bindWx(e.code);
+                        console.log(JSON.stringify(e))
+                    }, function(e){
+                        alert("授权失败："+JSON.stringify(e));
+                    });
+                } else {
+                    mui.toast("已经授权！");
+                }
+
+            },
+            // 绑定微信
+            bindWx(code){
+                var params = {
+                    token : storage.get("token") || "",
+                    platform:'wechat',
+                    code:code
+                };
+                Axios.post('/api/user/third', params).then(function (res) {
+                    if (res.code == 1) {
+                        console.log(res)
+                        ca.prompt(res.msg);
+                    } else {
+                        console.log(res)
+                        ca.prompt(res.msg);
+                    }
+                })
+            },
+            // 登录操作
+            authLogin(type) {
+                var s;
+                var _this = this;
+                for (var i = 0; i < _this.auths.length; i++) {
+                    if (_this.auths[i].id == type) {
+                        s = _this.auths[i];
+                        break;
+                    }
+                }
+                if (!s.authResult) {
+                    if(_this.hasBindWx == 0){
+                        s.login(function (e) {
+                            _this.authUserInfo(type);
+                        }, function (e) {
+                            alert(JSON.stringify(e))
+                            mui.toast("登录认证失败！");
+                        });
+                    }
+                } else {
+                    console.log("已经登录认证！");
+                }
+            },
+            //注销
+            authLogout() {
+                var _this = this;
+                for (var i in _this.auths) {
+                    var s = _this.auths[i];
+                    if (s.authResult) {
+                        s.logout(function(e) {
+                            console.log("注销登录认证成功！");
+                        }, function(e) {
+                            console.log("注销登录认证失败！");
+                        });
+                    }
+                }
+            },
+            // 微信登录认证信息
+            authUserInfo(type) {
+                var s;
+                var _this = this;
+                for (var i = 0; i < _this.auths.length; i++) {
+                    if (_this.auths[i].id == type) {
+                        s = _this.auths[i];
+                        break;
+                    }
+                }
+                if (!s.authResult) {
+                    mui.toast("未授权登录！");
+                } else {
+                    s.getUserInfo(function (e) {
+                        var josnStr = JSON.stringify(s.userInfo);
+                        _this.wxUserInfo = s.userInfo;
+                        _this.toBindWx();
+                        _this.authLogout();
+                    }, function (e) {
+                        alert("获取用户信息失败：" + e.message + " - " + e.code);
+                    });
+                }
+            },
+            addr(){
+                var _this = this;
+                var cityPicker3 = new mui.PopPicker({
+                    layer: 3
+                });
+                cityPicker3.setData(cityData3);
+                cityPicker3.show(function(items) {
+                    items.forEach(function (val,index) {
+                        if(index > 0){
+                            _this.storeInfo.city = _this.storeInfo.city + '-' + val.text;
+                        }else{
+                            _this.storeInfo.city = val.text;
+                        }
+                    });
+                });
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

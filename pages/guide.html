@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html class="guider-bg">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/swiper-3.4.2.min.css">
+
+		<style>
+			body,html{
+				height:100%;
+				overflow: hidden;
+				position:relative;
+			}
+			#close {
+				position: absolute;
+				width: 160px;
+				left:0;
+				right:0;
+				bottom:14%;
+				margin: auto;
+				padding: 10px;
+				color: #fff;
+				z-index: 10;
+				font-size: 16px;
+				background: #66D1CF;
+				border:1px solid #66D1CF;
+			}
+			.guider,.swiper-container{
+				height: 100%;
+			}
+			.swiper-slide{
+				padding:0 15px;
+			}
+			.swiper-slide img{
+				position: absolute;
+				left:0;
+				right:0;
+				bottom:38%;
+				width:96%;
+				height:auto;
+				margin:10px auto;
+			}
+			.swiper-content{
+				padding:0 10px;
+				width:100%;
+				position:absolute;
+				bottom:23%;
+				left:0;
+			}
+			
+			.swiper-content h5{
+				font-size: 23px;
+				color:#fff;
+				font-weight: bold;
+				letter-spacing:3px;
+				text-align: center;
+				margin: 15px auto;
+			}
+			.swiper-content p{
+				font-size: 13px;
+				color:#fff;
+				letter-spacing:1px;
+				text-align: center;
+				margin: 15px auto;
+			}
+			.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
+				bottom:8%;
+			}
+			.swiper-pagination-bullet-active{
+				background: #fff;
+			}
+			.swiper-pagination{
+				z-index: 1;
+			}
+		</style>
+	</head>
+
+	<body>
+	  	<section id="app" class="guider" v-cloak style="position: relative">
+			<div class="swiper-container" id="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" :style="{background:item.background_color}" v-for="(item,index) in swipers" :key="index">
+						<img :src="item.image" alt="">
+						<div class="swiper-content">
+							<h5>{{item.title}}</h5>
+							<p>{{item.desc}}</p>
+						</div>
+						<button v-if="index == (swipers.length - 1)" @tap="toHome" id="close" class="mui-btn mui-btn-warning mui-btn-outlined">立即体验</button>
+					</div>
+				</div>
+				<!-- 如果需要分页器 -->
+				<div class="swiper-pagination"></div>
+			</div>
+		</section>
+		<script src="../js/jquery-3.2.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						swipers: [],
+						wid:0,
+						hgt:0
+					}
+				},
+				created(){
+					mui.plusReady(function () {
+						//设置状态栏的背景颜色
+						//plus.navigator.setStatusBarBackground('#ffffff');
+						//设置系统状态栏样式 (可选值:dark,light,UIStatusBarStyleDefault,UIStatusBarStyleBlackOpaque)
+						//plus.navigator.setStatusBarStyle('dark');
+					    // plus.navigator.setFullscreen(true);
+						console.log( "是否全屏："+(plus.navigator.isFullscreen()?"是":"否") ); 
+						
+					})
+					this.getGuides();
+					mui.init();
+					//退出app
+					var first = null;
+					mui.back = function() {
+						//首次按键，提示‘再按一次退出应用’
+						if(!first) {
+							first = new Date().getTime();
+							console.log(first);
+							mui.toast('再按一次退出应用');
+							setTimeout(function() {
+								first = null;
+							}, 1000);
+						} else {
+							if(new Date().getTime() - first < 1000) {
+								plus.runtime.quit();
+							}
+						}
+					};
+				},
+				methods:{
+					// 引导轮播图
+					getGuides(){
+						var params = {
+							token:storage.get("token") || "95cc7637-91f4-4571-9a5f-ffce9ab60201"
+						};
+						var _this = this;
+						Axios.post("/api/guidance/index",params,true).then(function(res){
+							if(res.code == 1){
+
+								_this.swipers = res.data.page_list;
+								_this.$nextTick(function () {
+									var mySwiper = new Swiper('.swiper-container', {
+										observe:true,
+										observeParents: true,
+										// 如果需要分页器
+										pagination: '.swiper-pagination',
+									})
+								})
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// //立即体验按钮点击事件
+					toHome() {
+						// 添加缓存,下次不进入启动页
+						plus.storage.setItem("lauchFlag",'true');
+						plus.navigator.setFullscreen(false);	//设置沉浸式导航栏 
+						// plus.webview.currentWebview().close();
+						this.preload();
+					},
+					// 加载登录页
+					preload() {
+						var token = storage.get('token');
+						var judge_status = storage.get('userInfo')['judge_status'];
+						if (!token) {
+							// plus.webview.open('pages/mine/wanshanziliao.html','wanshanziliao.html');
+							plus.webview.open('./login/login.html','login.html');
+						}else if(token){
+							if(judge_status == 1 ||judge_status === 2 || judge_status === 3){
+								plus.webview.open('./login/login.html','login.html');
+							}else{
+								plus.webview.open('../tabbar.html','tabbar.html');
+							}
+						}
+					}
+				}
+			});
+
+
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>充值</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			
+			body {
+				background: #F2F2F2;
+			}
+			
+			.mui-content {
+				background: #F2F2F2;
+			}
+			
+			.jine {
+				background: #fff;
+				padding: 0 3.2%;
+			}
+			
+			.jine_t {
+				color: #333;
+				font-size: 14px;
+				padding-top: 20px;
+				margin-bottom: 24px;
+			}
+			
+			.inputJine {
+				padding-bottom: 23px;
+			}
+			
+			.inputJine label {
+				float: none;
+				padding: 0;
+				font-size: 30px;
+				color: #333;
+			}
+			
+			.jine .inputJine input {
+				float: none;
+				font-size: 48px;
+				color: #333;
+				height: auto;
+			}
+			
+			.mui-input-row .mui-input-clear~.mui-icon-clear,
+			.mui-input-row .mui-input-password~.mui-icon-eye,
+			.mui-input-row .mui-input-speech~.mui-icon-speech {
+				top: 25px;
+			}
+			
+			.zhifu {
+				background: #fff;
+				margin-top: 10px;
+			}
+			
+			.title {
+				margin-left: 5px;
+				margin-right: 5px;
+				color: #333;
+				font-size: 15px;
+				padding: 18px 0px 12px 13px;
+				border-bottom: 1px solid #E5E5E5;
+				position: relative;
+				margin-bottom: 0px;
+			}
+			
+			.title:after {
+				content: '';
+				width: 3px;
+				height: 15px;
+				background: #66D1CF;
+				position: absolute;
+				top: 22px;
+				left: 0px;
+			}
+			
+			.zhifu ul li {
+				padding-left: 3.2%;
+			}
+			
+			.zhifu ul li img {
+				width: 30px;
+				height: 30px;
+				margin-top: 6px;
+			}
+			
+			.zhifu .mui-radio label {
+				padding: 16px 0px;
+				margin: 0;
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.mui-checkbox,
+			.mui-radio {
+				position: relative;
+				float: right;
+				border-bottom: 1px solid #E5E5E5;
+				width: 85%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 16px;
+				right: 10px;
+				width: 20px;
+				height: 20px;
+			}
+			
+			.mui-checkbox input[type=checkbox]:before,
+			.mui-radio input[type=radio]:before {
+				font-size: 20px;
+			}
+			
+			.mui-radio input[type=radio]:checked:before {
+				background: url(../../img/choose.png) no-repeat;
+				background-size: 100% 100%;
+				content: '\e442';
+				border: none;
+				color: rgba(255, 255, 255, 0.2);
+			}
+			
+			.juti {
+				background: #fff;
+				width: 94.6%;
+				margin: 10px auto;
+				padding: 15px 10px;
+				box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+				border-radius: 4px;
+			}
+			
+			.jutiImg img {
+				width: 40px;
+				height: 40px;
+				margin-right: 10px;
+			}
+			
+			.jutiMsg {}
+			
+			.yinhang {
+				color: #333;
+				font-size: 15px;
+				margin-bottom: 0px;
+			}
+			
+			.user {
+				color: #666;
+				font-size: 12px;
+			}
+			
+			.number {
+				color: #333;
+				font-size: 14px;
+				margin-bottom: 0px;
+			}
+			
+			.copy {
+				padding: 4px 9px;
+				color: #666;
+				font-size: 12px;
+				border-radius: 20px;
+				margin-top: 15px;
+			}
+			
+			.more {
+				text-align: center;
+				color: #999;
+				font-size: 12px;
+			}
+			
+			.more i {
+				font-size: 12px;
+			}
+			
+			.fukuan {
+				background: #fff;
+				padding-bottom: 10px;
+			}
+			
+			.fukuan ul li {
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+			}
+			
+			.fukuan ul li:last-child {
+				border: none;
+			}
+			.fukuan ul li:last-child label{
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.fukuan ul li label {
+				padding: 13px 0px;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				color: #ccc;
+				font-size: 15px;
+			}
+
+			.pingzheng i {
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+				border: 1px dashed #ccc;
+				font-size: 22px;
+			}
+			.hasPingZheng{
+				position: relative;
+				top:0;
+				left:0;
+				max-width:150px;
+				min-height: 80px;
+				max-height:200px;
+			}
+			.hasPingZheng img{
+				width:100%;
+				height: 100%;
+				min-height: 80px;
+				border:1px dotted #66D1CF;
+				display: block;
+			}
+			.hasPingZheng span{
+				position:absolute;
+				top:-5px;
+				right:-5px;
+				font-size: 18px;
+				color:#66D1CF;
+				background: #fff;
+				border-radius: 50%;
+			}
+			.chongzhi {
+				width: 93.6%;
+				height: 40px;
+				border-radius: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				margin-top: 10px;
+				margin-left: 3.2%;
+				border: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">充值</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="jine">
+				<p class="jine_t">充值金额</p>
+				<div class="mui-input-row inputJine">
+					<label>￥</label>
+					<input type="number" v-model="chongzhi.re_num" class="mui-input-clear">
+				</div>
+			</div>
+			<div class="zhifu">
+				<p class="title">充值方式</p>
+				<ul>
+<!--					<li class="clearfix">-->
+<!--						<img class="" src="../../img/wallet.png" alt="" />-->
+<!--						<div class="mui-input-row mui-radio">-->
+<!--							<label>线下付款</label>-->
+<!--							<input name="radio1" checked type="radio" class="rds">-->
+<!--						</div>-->
+<!--					</li>-->
+					<li class="clearfix">
+						<img class="" src="../../img/bank.png" alt="" />
+						<div class="mui-input-row mui-radio">
+							<label>银行卡充值</label>
+							<input name="radio1" type="radio" v-model="chongzhi.bind_type" value="0" class="rds" @change="getPaySet(0)">
+						</div>
+					</li>
+					<li class="clearfix">
+						<img class="" src="../../img/alipay.png" alt="" />
+						<div class="mui-input-row mui-radio">
+							<label>支付宝充值</label>
+							<input name="radio1" type="radio" v-model="chongzhi.bind_type" value="2" class="rds" @change="getPaySet(1)">
+						</div>
+					</li>
+				</ul>
+
+			</div>
+			<div>
+				<div class="clearfix juti" v-if="chongzhi.bind_type == 0">
+					<div class="f_left jutiImg">
+						<img src="../../img/card.png" alt="" />
+					</div>
+					<div class="f_left jutiMsg">
+						<p class="yinhang">{{paySet.bank}}</p>
+						<p class="user">（{{paySet.name}}）</p>
+						<p class="number">{{paySet.pay_code}}</p>
+					</div>
+					<button class="f_right copyBank">复制账号</button>
+				</div>
+				<div class="clearfix juti" v-if="chongzhi.bind_type == 1">
+					<div class="f_left jutiImg">
+						<img src="../../img/alipay.png" alt="" />
+					</div>
+					<div class="f_left jutiMsg">
+						<p class="yinhang">{{paySet.bank}}</p>
+						<p class="user">（{{paySet.name}}）</p>
+						<p class="number">{{paySet.pay_code}}</p>
+					</div>
+					<button class="f_right copyBank">复制账号</button>
+				</div>
+<!--				<p class="more">展开更多 <i class="mui-icon mui-icon-arrowdown"></i></p>-->
+			</div>
+			<div class="fukuan">
+				<p class="title">付款信息</p>
+				<ul>
+					<li class="mui-input-row">
+						<label>账户姓名</label>
+						<input type="text" v-model="chongzhi.re_name" class="mui-input-clear" placeholder="请输入账户名">
+					</li>
+					<li class="mui-input-row">
+						<label>付款账号</label>
+						<input type="text" v-model="chongzhi.re_code" class="mui-input-clear" placeholder="请输入付款账号">
+					</li>
+					<li class="">
+						<label>付款凭证</label>
+						<div class="pingzheng">
+							<i class="iconfont icon-tianjia tjImg" @tap="uploadFile" v-if="!chongzhi.re_pic"></i>
+							<div class="hasPingZheng" v-else>
+								<img :src="chongzhi.re_pic" data-preview-src="" data-preview-group="1" alt="">
+								<span class="mui-icon mui-icon-close" @tap="delImage()"></span>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="zhuanzhang">
+					<span @tap="isAgree = !isAgree" :class="{'disagree':isAgree}"><img v-if="isAgree" src="../../img/choose.png" alt=""></span>
+					勾选表示您已阅读并同意 <b @tap="toRule">《转账须知》</b>
+				</div>
+				<button class="chongzhi" id="doDiv" @tap="addMoney">充值</button>
+			</div>
+		</div>
+		<style>
+			.zhuanzhang{
+				margin-top: 20px;
+				color:#999;
+				padding-left: 10px;
+			}
+			.zhuanzhang span{
+				width:20px;
+				height:20px;
+				border:1px solid #ccc;
+				background: #fff;
+				border-radius: 50%;
+				position: relative;
+				top:2px;
+				display: block;
+				float: left;
+				margin-right: 8px;
+			}
+			.zhuanzhang span.disagree{
+				border:1px solid transparent;
+			}
+			.zhuanzhang span img{
+				width:100%;
+				height:100%;
+				position: absolute;
+				top:0;
+				left:0;
+			}
+			.zhuanzhang b {
+				color:red;
+			}
+		</style>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
+		<script src="../../js/mui.zoom.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			var tjImg=[];
+			let app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						paySet:{},
+						isAgree:true,
+						chongzhi:{
+							re_num:0,
+							re_pic:'',
+							re_code:'',
+							re_name:'',
+							bind_type:1
+						}
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					mui.previewImage();
+					var _this = this;
+					_this.getPaySet(0);
+					mui.plusReady(function () {
+						ca.receiveNotice('chongzhi', function (event) {
+							_this.chongzhi.re_pic = event.detail.imgUrl;
+						})
+					});
+					// 使用mui的长按事件
+					mui('body').on('tap', '.copyBank', function () {
+						// 每次触发事件就会使用 innerText 获取纯文本。
+						var copy_content = _this.paySet.pay_code;
+						copyContent(copy_content);
+					})
+				},
+				methods: {
+					// 获取充值支付方式配置
+					getPaySet(type) {
+						this.chongzhi.bind_type = type;
+						let params = {
+							token: storage.get("token") || "",
+							bind_type:type
+						};
+						Axios.get('/api/Rech/get_pay_set', params).then((res) => {
+							if (res.code == 1) {
+								this.paySet = res.data;
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+
+					// 充值凭证裁切上传
+					uploadFile(){
+						openWebview({
+							url:'../ImgCropping/cropperImg.html?type=chongzhi',
+							id:'cropperImg'
+						})
+					},
+					// 删除图片
+					delImage(){
+						this.chongzhi.re_pic = '';
+					},
+					// 充值操作
+					addMoney(){
+						if(!this.chongzhi.re_num){
+							ca.prompt("请输入充值金额！");
+							return;
+						}
+						if(!this.chongzhi.re_name){
+							ca.prompt("请添加付款姓名！");
+							return;
+						}
+						if(!this.chongzhi.re_code){
+							ca.prompt("请添加付款账号！");
+							return;
+						}
+						if(!this.chongzhi.re_pic){
+							ca.prompt("请上传付款凭证！");
+							return;
+						}
+						let params = this.chongzhi;
+						params.token = storage.get("token") || "";
+						Axios.get('/api/Rech/recharge_apply', params).then(function(res) {
+							if (res.code == 1) {
+								ca.prompt(res.msg);
+								var parentId = plus.webview.currentWebview().opener().id;
+								popToTargetAndRefresh(parentId,true,'refreshMoney');
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 跳至提现规则页面
+					toRule(){
+						openWebview({
+							url:'../login/chongzhiRule.html',
+							id:'chongzhiRule.html'
+						})
+					}
+				}
+			});
+
+			// //
+			// var choose = $('.mui-radio input');
+			// for(var i = 0; i < choose.length; i++) {
+			// 	if(choose[i].checked) {
+			//
+			// 	}
+			// }
+		</script>
+	</body>
+
+</html>

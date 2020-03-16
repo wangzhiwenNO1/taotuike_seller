@@ -1,0 +1,287 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>完成明细</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #fff;
+			}
+			
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-bar .mui-title {
+				left: 80px;
+				right: 80px;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				
+				color: #333;
+			}
+			
+			.daochu {
+				font-size: 15px;
+				color: #666;
+				margin-top: 15px;
+			}
+			
+			.header {
+				background: linear-gradient(to right, #66D1CF, #2BE3E3);
+				padding: 16px 0;
+			}
+			
+			.header p {
+				color: #fff;
+				font-size: 15px;
+				margin-left: 2.8%;
+				margin-bottom: 0;
+			}
+			.cont_t{
+				color: #333;
+				font-size: 15px;
+				margin:15px 2.8%;
+			}
+			.cont i{
+				font-size: 16px;
+				color: #999;
+				display: inline-block;
+				margin-left: 5px;
+			}
+			.cont ul li {
+				/*background: url(../img/ddbjxq.png) no-repeat;
+				background-size: 100% 100%;*/
+				background: #fff;
+				width: 94.8%;
+				margin-left: 2.6%;
+				box-shadow: 0px 0px 5px 2px #C9D6D6;
+				padding-bottom: 10px;
+				margin-bottom: 10px;
+				/*overflow: hidden;*/
+			}
+			
+			.top {
+				border-bottom: 1px dashed #E1E1E1;
+				position: relative;
+				height: 46px;
+			}
+			
+			.top:after {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: linear-gradient(to right,#fff, #C9D6D6);
+				/*border-radius: 0px 10px 10px 0px;*/	
+				border-radius: 20px;
+				position: absolute;
+				bottom: -10px;
+				left: -10px;
+				
+				/*z-index: 10;*/
+			}
+			
+			.top:before {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: #fff;
+				/*border-radius: 10px 0 0 10px;*/
+				background: linear-gradient(to left,#fff,#C9D6D6);
+				border-radius: 10px;
+				position: absolute;
+				bottom: -10px;
+				right: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top p {
+				color: #333;
+				font-size: 14px;
+				margin-top: 14px;
+				margin-bottom: 10px;
+			}
+			
+			.top p:first-child {
+				margin-left: 10px;
+			}
+			
+			.top p:last-child {
+				margin-right: 10px;
+			}
+			
+			/*.pie {
+				width: 16px;
+				height: 16px;
+				float: left;
+    			margin-top: 3px;
+    			margin-right: 5px;
+			}
+			
+			.pie div {
+				display: inline-block;
+			}
+			
+			.top p span {
+				color: #FFA940;
+			}*/
+			
+			.top p button {
+				width: 50pt;
+				height: 20px;
+				border-radius: 40px;
+				border: none;
+			}
+			.jinxing {
+				background: #FDF4E8;
+				color: #FFA940;
+			}
+			
+			.guoqi {
+				background: #F2F2F2;
+				color: #666;
+			}
+			.wancheng{
+				background: #E4F6F6;
+				color: #54D4D4;
+			}
+			.msg{
+				margin: 10px;
+				border-bottom: 1px dashed #E5e5e5;
+			}
+			.msg p{
+				color: #333;
+			}
+			.msgImg{
+				margin: 10px;
+				color: #333;
+				border-bottom: 1px dashed #E5E5E5;
+				padding-bottom: 10px;
+			}
+			.msgImg img{
+				width: 164px;
+				height: 164px;
+				vertical-align: top;
+			}
+			.address{
+				margin: 10px;
+				color: #333;
+			}
+		</style>
+	</head>
+
+	<body>
+	<section id="app" v-cloak>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">完成明细</h1>
+		</header>
+		<div class="mui-content">
+			<div class="header">
+				<p>订单进度：
+					<span v-if="orderList && orderList.length > 0">{{orderList[0]['finished_number']}}/{{orderList[0]['shuadan_number']}}</span>
+					<span v-else>0/0</span>
+				</p>
+			</div>
+			<div class="cont">
+				<p class="cont_t"><span>全部</span><i class="mui-icon mui-icon-arrowdown"></i></p>
+				<ul v-for="(item,index) in orderList">
+					<li>
+						<div class="top ">
+							<p class="f_left">订单编号：{{item.order_no}}</p>
+							<p class="f_right">
+								<!--<span class="pie" id="pie"></span> <span></span> -->
+								<button class="wancheng">已完成</button>
+							</p>
+						</div>
+						<div class="msg">
+							<p>推手手机号：{{item.pusher_mobile}}</p>
+							<p>刷手旺旺账号：{{item.shuashou_wangwang}}</p>
+							<p>刷手手机号码：{{item.shuashou_mobile}}</p>
+							<p>完成时间：{{item.finishtime}}</p>
+						</div>
+						<div class="msgImg">
+							<span>订单截图：</span>
+							<img v-for="(orderImg,index) in item.order_images" :src="orderImg ? orderImg : '../../img/goods6.jpg'" alt="" />
+						</div>
+						<p class="address">机器地址：</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			let app = new Vue({
+				el:'#app',
+				data(){
+					return {
+						orderList:[],
+					}
+				},
+				created(){
+					this.token = storage.get("token");
+					this.getCompleteOrder();
+				},
+				methods:{
+					// 获取已完成订单详情
+					getCompleteOrder(status,index,key = ''){
+						var params = {
+							token:storage.get("token") || "",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							id:GetQueryString('orderId') || '',
+						};
+						var _this = this;
+						Axios.post('/api/order/finishdetails',params).then(function(res){
+							if(res.code == 1){
+								_this.orderList = res.data.list;
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 导出订单
+					exportOrder(){
+						var params = {
+							token:storage.get("token") || "",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							begin_time:GetQueryString('orderId') || '',
+							end_time:'',
+						};
+						var _this = this;
+						Axios.post('/api/order/finishdetails',params).then(function(res){
+							if(res.code == 1){
+								_this.orderList = res.data.list;
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					}
+				},
+			});
+		</script>
+
+	</body>
+
+</html>

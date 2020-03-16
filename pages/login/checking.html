@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>审核未通过</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #fff;
+			}
+			
+			.verify {
+				width: 100px;
+				height: 100px;
+				margin: 95px auto 30px;
+			}
+			
+			.verify img {
+				width: 65px;
+				height: 65px;
+				display: block;
+				margin: 0 auto 10px;
+			}
+			.verify p{
+				text-align: center;
+				font-weight: bold;
+				color:#333;
+				font-size: 16px;
+			}
+			.verify p{
+				font-weight: normal;
+				color:red;
+			}
+			.toLogin{
+				margin: 10px auto;
+			}
+		</style>
+	</head>
+	<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">审核未通过</h1>
+	</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="verify">
+				<img src="../../img/wtg.png" alt="" />
+				<p>审核未通过</p>
+				<p>{{reason}}</p>
+			</div>
+			<button type="button" class="mui-btn mui-btn-warning  mui-btn-outlined text-center mui-block toLogin" @tap="addShopAgain">重新完善个人资料</button>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+
+			var app = new Vue({
+				el: "#app",
+				data() {
+					return {
+						reason:''
+					}
+				},
+				created(){
+					mui.init();
+					ca.init();
+					this.reason = GetQueryString('reason') || '';
+				},
+				methods: {
+					// 重新完善个人资料
+					addShopAgain(){
+						ca.newInterface({
+							url:'../mine/wanshanziliao.html?type=login',
+							id:'wanshanziliao.html'
+						})
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

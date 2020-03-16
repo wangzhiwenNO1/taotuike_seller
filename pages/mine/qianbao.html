@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>钱包</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			.mui-bar{
+				/*background: #42dcdb;*/
+				background: linear-gradient(to right,#5fd3d1,#2de2e2);
+				border-bottom: none !important;
+			}
+			.mui-icon-left-nav {
+				color: #FFF;
+				
+			}
+			.mui-title {
+				font-size: 18px;
+				color: #fff;
+			}
+			body,.mui-content{
+				background: #FFF;
+			}
+			.cont_h{
+				background: url(../../img/qbbg.png) no-repeat;
+				background-size: 100% 100%;
+				text-align: center;
+				padding-top: 60px;
+				
+			}
+			.numb{
+				color: #fff;
+				font-size: 43px;
+			}
+			.keyong{
+				color: #fff;
+				font-size: 14px;
+				margin-bottom: 40px;
+			}
+			.btns{
+				border-top: 1px solid #4aaaf3;
+				/*height: 55px;*/
+			}
+			.btns button{
+				width: 48%;
+				height: 55px;
+				color: #fff;
+				font-size: 15px;
+				background: none;
+				border: none;
+			}
+			.btns button i{
+				font-size: 22px;
+				padding-right: 5px;
+			}
+			.xian{
+				display: inline-block;
+				width: 1px;
+				height: 29px;
+				background: #4aaaf3;
+				margin-top: 13px;
+			}
+			
+			.cont ul li{
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+				padding-right: 3.2%;
+				overflow: hidden;
+			}
+			.jilu{
+				float: left;
+				margin: 15px 0px;
+			}
+			.jilu p:first-child{
+				color: #1a1a1a;
+				font-size: 16px;
+			}
+			.jilu p:last-child{
+				color: #999;
+				font-size: 12px;
+				margin-bottom: 0px;
+			}
+			.money{
+				float: right;
+				font-size: 16px;
+				/*font-weight: bold;*/
+				margin-top: 28px;
+			}
+			.subMoney{
+				color: #333;
+			}
+			.addMoney{
+				color: #ffa940;
+			}
+			.active{
+				color:#FFA63D;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">钱包</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="cont_h">
+				<p class="numb">{{account.remain_money}}</p>
+				<p class="keyong">可用余额（元）</p>
+				<div class="btns">
+					<button class="czBtn" @tap="addMoreMoney"><i class="iconfont icon-chongzhi-copy"></i>充值</button>
+					<span class="xian"></span>
+					<button class="txBtn" @tap="getMoney"><i class="iconfont icon-tixian"></i>提现</button>
+				</div>
+			</div>
+			<div class="cont">
+				<ul>
+					<li v-for="(item,index) in account.money_info">
+						<div class="jilu">
+							<p>{{item.memo}}</p>
+							<p>{{item.createtime}}</p>
+						</div>
+						<p class="money subMoney" :class="{active:item.money >= 0}">{{item.money > 0 ? '+￥' + item.money : '-￥' + Math.abs(item.money)}}</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						account: {
+							remain_money:0,
+							money_info:[]
+						}
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					this.getAccountInfo();
+				},
+				methods: {
+					// 余额明细详情
+					getAccountInfo() {
+						let params = {
+							token: storage.get("token") || ""
+						};
+						Axios.get("api/user/remain_money_info", params).then((res) => {
+							if (res.code == 1) {
+								this.account = res.data;
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 充值
+					addMoreMoney(){
+						ca.newInterface({
+							url:'./chongzhi.html?type=mine',
+							id:'mine/chongzhi.html'
+						})
+					},
+					// 提现
+					getMoney(){
+						ca.newInterface({
+							url:'./yuetixian.html',
+							id:'mine/yuetixian.html'
+						})
+					}
+
+				}
+			})
+		</script>
+	</body>
+</html>

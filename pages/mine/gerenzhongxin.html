@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>个人中心</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			.tijiao{
+				color: #666;
+				font-size: 15px;
+				margin-top: 13px;
+			}
+			
+			.cont{
+				background: #fff;
+				width: 100%;
+			}
+			.cont ul li{
+				padding: 15px 0 15px 0;
+				margin-left: 2.8%;
+				border-bottom: 1px solid #E5E5E5;
+			}
+			.cont ul li:last-child{
+				border-bottom: none;
+			}
+			.cont ul li p{
+				margin-bottom: 0px;
+				width: 92%;
+				display: inline-block;
+				margin-right: 10px;
+				overflow: hidden;
+			}
+			.cont ul li p span{
+				color: #333;
+				font-size: 15px;
+			}
+			.cont ul li p em{
+				color: #999;
+				font-size: 15px;
+			}
+			.cont ul li i{
+				font-size: 12px;
+				color: #999;
+			}
+			.touxiang p img{
+				width: 30px;
+				height: 30px;
+				border-radius: 30px;
+			}
+			.cont ul li.touxiang {
+				 padding: 10px 0 10px 0;
+			 }
+			.cont ul li.touxiang span{
+				padding-top: 5px;
+			}
+			.cont input{
+				float: right;
+				border:none;
+				margin: 0;
+				padding:0;
+				width:80%;
+				height:20px;
+				line-height: 20px;
+				text-align: right;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">个人中心</h1>
+				<span class="mui-pull-right tijiao" @tap="editUserInfo">提交</span>
+			</header>
+			<div class="mui-content">
+				<div class="cont">
+					<ul>
+						<li class="touxiang clearfix">
+							<p class="f_left"><span class="f_left">淘宝店铺</span><img class="f_right" @tap="uploadFile" :src="userInfo.avatar ? userInfo.avatar : '../../img/touxiang.png'"/></p>
+<!--							<i class="f_left iconfont icon-youjiantou"></i>-->
+						</li>
+						<li class="clearfix">
+							<p class="f_left"><span class="f_left">ID</span> <em class="f_right">{{userInfo.id}}</em></p>
+						</li>
+						<li class="clearfix">
+							<p class="f_left"><span class="f_left">昵称</span> <input type="text" v-model="userInfo.nickname" placeholder="昵称"></p>
+						</li>
+						<li class=" clearfix dianpu">
+							<p class="f_left"><span class="f_left">淘宝店铺</span><em class="f_right" @tap="bindShop(userInfo.shop_authentication)">{{userInfo.shop_authentication ? '已绑定' : '未绑定'}}</em></p>
+							<i class="f_left iconfont icon-youjiantou"></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						userInfo:{}
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					var _this = this;
+					_this.getUserInfo();
+
+					mui.plusReady(function(){
+						ca.receiveNotice('updateAvatar',function (event) {
+							_this.userInfo.avatar = event.detail.imgUrl;
+						});
+						ca.receiveNotice('refreshUserInfo',function (event) {
+							_this.getUserInfo();
+						});
+					});
+				},
+				methods: {
+					// 个人信息
+					getUserInfo(){
+						var params = {
+							token:storage.get("token") || ""
+						};
+						var _this = this;
+						Axios.get("/api/user/userinfo",params).then(function(res){
+							if(res.code == 1){
+								_this.userInfo = res.data.userinfo;
+								console.log(_this.userInfo)
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 编辑个人资料
+					editUserInfo(){
+						if(!this.userInfo.nickname){
+							ca.prompt('用户昵称不能为空');
+							return
+						}
+						var params = {
+							token:storage.get("token") || "",
+							username: this.userInfo.nickname,
+							avatar: this.userInfo.avatar,
+						};
+						var _this = this;
+						Axios.get("/api/user/profile",params).then(function(res){
+							if(res.code == 1){
+								ca.prompt(res.msg);
+								popToTargetAndRefresh("pages/mine.html",true,'refreshMine');
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上传截图
+					uploadFile(){
+						openWebview({
+							url:'../ImgCropping/cropperImg.html?type=avatar',
+							id:'cropperImg'
+						})
+					},
+
+					bindShop(isBind){
+						if(isBind){
+							ca.newInterface({
+								url:'dianpuguanli.html',
+								id:'dianpuguanli.html'
+							})
+						}else{
+							ca.newInterface({
+								url:'tianjiadianpu.html',
+								id:'tianjiadianpu.html'
+							})
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>修改密码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			body,.mui-content{
+				background: #fff;
+			}
+			.content ul li{
+				width: 93.6%;
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+				padding: 15px 0px;
+			}
+			.content ul li input{
+				border: none;
+				padding: 0;
+				margin: 0;
+				height: auto;
+				color: #999;
+				font-size: 17px;
+			}
+			.tijiao{
+				width: 93.6%;
+				height: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				border: none;
+				border-radius: 40px;
+				position: fixed;
+				bottom: 20px;
+				margin-left: 3.2%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">修改密码</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="content">
+				<ul>
+					<li>	
+						<input type="password" v-model="editPwd.oldpassword" id="oldpwd" placeholder="请输入旧密码" />
+					</li>
+					<li>
+						<input type="password" v-model="editPwd.newpassword" id="newpwd" placeholder="请输入新密码" />
+					</li>
+					<li>
+						<input type="password" v-model="editPwd.confirmpassword" id="newpwd2" placeholder="请确认新密码（6-12位）" />
+					</li>
+				</ul>
+			</div>
+			<button class="tijiao" @tap="resetPwd">提交</button>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			let app = new Vue({
+				el:"#app",
+				data(){
+					return {
+						editPwd:{
+							oldpassword:'',
+							newpassword:'',
+							confirmpassword:'',
+						}
+					}
+				},
+				methods:{
+
+					// 重置密码
+					resetPwd(){
+
+						if(this.editPwd.oldpassword  == '') {
+							ca.prompt("请输入旧密码");
+							return;
+						}
+						if(this.editPwd.oldpassword.length > 12) {
+							ca.prompt("密码长度最多12位");
+							return;
+						}
+						if(this.editPwd.oldpassword.length < 6) {
+							ca.prompt("密码长度至少6位");
+							return;
+						}
+
+						if(this.editPwd.newpassword  == '') {
+							ca.prompt("请输入新密码");
+							return;
+						}
+
+						if(this.editPwd.newpassword.length < 6) {
+							ca.prompt("密码长度至少6位");
+							return;
+						}
+						if(this.editPwd.newpassword.length > 12) {
+							ca.prompt("密码长度最多12位");
+							return;
+						}
+						if(this.editPwd.confirmpassword == '') {
+							ca.prompt("请再次输入密码");
+							return;
+						}
+						if(this.editPwd.newpassword !== this.editPwd.confirmpassword){
+							ca.prompt("两次密码输入不一致");
+							return;
+						}
+						let params = this.editPwd;
+						params.token = storage.get("token") || '';
+						Axios.post('/api/user/changepwd',params).then((res) => {
+							if(res.code == 1){
+								ca.prompt(res.msg);
+								storage.clear();
+								setTimeout(function () {
+									ca.newInterface({
+										url:'../login.html',
+										id:'login.html'
+									})
+								},1000)
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

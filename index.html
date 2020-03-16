@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>底部导航</title>
+		<!--引入初始化样式-->
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<!--引入MUI基本样式-->
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<!--<link rel="stylesheet" type="text/css" href="icont/iconfont.css" />-->
+		<style type="text/css">
+		</style>
+	</head>
+
+	<body>
+
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			ca.init();
+			// 苹果x适配
+			if (/iphone/gi.test(navigator.userAgent) && (screen.height >= 812 && screen.width >= 375)) {
+				var subpage_style = {
+					popGesture: "none",
+					top:-44,
+					bottom: -44
+				}
+			} else {
+				var subpage_style = {
+					popGesture: "none",
+				}
+			}
+			function preload() {
+				var token = storage.get('token');
+				var judge_status = storage.get('userInfo')['judge_status'];
+				if (!token) {
+					// plus.webview.open('pages/mine/wanshanziliao.html','wanshanziliao.html');
+					mui.later(function() {
+						plus.webview.currentWebview().close();
+					}, 10)
+					plus.webview.open('pages/login/login.html','login.html');
+
+				}else if(token){
+					if(judge_status == 1 ||judge_status === 2 || judge_status === 3){
+						plus.webview.open('pages/login/login.html','login.html');
+						mui.later(function() {
+							plus.webview.currentWebview().close();
+						}, 10)
+					}else{
+						plus.webview.open('tabbar.html','tabbar.html');
+					}
+				}
+			}
+			mui.plusReady(function() {
+				plus.navigator.closeSplashscreen();	//关闭splash页面;
+				// plus.navigator.setFullscreen(true);	//设置沉浸式导航栏 
+				// plus.navigator.setStatusBarStyle('dark');
+				// plus.navigator.setStatusBarBackg round('#ffffff');	//设置系统状态栏背景色
+				//设置系统状态栏样式 (可选值:dark,light,UIStatusBarStyleDefault,UIStatusBarStyleBlackOpaque)
+				console.log( "是否全屏："+(plus.navigator.isFullscreen()?"是":"否") ); 
+				//读取本地存储，检查是否为首次启动
+				var showGuide = plus.storage.getItem("lauchFlag");
+				//仅支持竖屏显示
+				plus.screen.lockOrientation("portrait-primary");
+				if(showGuide) {
+					//有值，说明已经显示过了，无需显示；
+					// plus.navigator.setFullscreen(true);		//设置沉浸式导航栏
+					preload();
+				} else {
+					// plus.webview.currentWebview().close();
+					plus.navigator.setFullscreen(true);	//设置沉浸式导航栏 
+					//显示启动导航
+					mui.openWindow({
+						id: 'guide',
+						url: './pages/guide.html',
+						styles: subpage_style,
+						show: {
+							aniShow: 'none'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}
+			});
+
+		</script>
+	</body>
+
+</html>

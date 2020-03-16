@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>任务发布</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			.mui-bar .mui-title {
+				font-size: 18px;
+				color: #333;
+				left: 100px;
+				right: 100px;
+
+			}
+
+			.lishi {
+				margin-top: 12px;
+				color: #999;
+				font-size: 15px;
+			}
+
+			body,
+			.mui-content {
+				background: #F2F2F2;
+			}
+
+			.header {
+				background: #66D1CF;
+			}
+
+			.header_l {
+				margin: 15px 10px;
+			}
+
+			.header_l p {
+				color: #fff;
+				font-size: 15px;
+			}
+
+			.header_l .date {
+				margin-bottom: 0px;
+			}
+
+			.date i {
+				display: inline-block;
+				margin-left: 10px;
+			}
+
+			.header_r button {
+				/*width: 92px;*/
+				padding: 0 10px;
+				height: 24px;
+				background: #E0F5F5;
+				color: #66D1CF;
+				font-size: 12px;
+				border-radius: 24px;
+				margin: 27px 10px;
+				border: none;
+			}
+
+			.biaoqian {
+				background: #fff;
+			}
+
+			.title {
+				margin-left: 2.8%;
+				border-bottom: 1px solid #E5E5E5;
+				position: relative;
+				padding: 15px 0 10px 0;
+				margin-bottom: 0px;
+				color: #333;
+				font-size: 16px;
+				font-weight: bold;
+			}
+
+			.title img{
+				width:19px;
+				height:20px;
+				margin-right: 10px;
+			}
+			.title img.warn{
+				width:20px;
+				height:20px;
+			}
+
+			.biaoqian ul {
+				width: 94.6%;
+				margin-left: 2.8%;
+				overflow: hidden;
+				margin-top: 15px;
+			}
+
+			.biaoqian ul li {
+				float: left;
+				margin-right: 15px;
+				color: #333;
+				padding: 6px 12px;
+				background: #F2F2F2;
+				border-radius: 3px;
+				margin-bottom: 15px;
+			}
+
+			.biaoqian .biaoqianActive {
+				color: #fff;
+				background: #66D1CF;
+			}
+
+			.leibiao {
+				margin-top: 10px;
+				background: #fff;
+			}
+			.leibiao .key-index{
+				border:1px solid #333;
+				border-radius: 50%;
+				text-align: center;
+				padding:2px;
+				color:#333;
+				width:16px;
+				height: 16px;
+				font-size: 10px;
+				line-height: 11px;
+				margin-left: 3px;
+				display: inline-block;
+				font-weight: normal;
+			}
+			.leibiao ul {}
+
+			.leibiao ul li {
+				margin-left: 2.8%;
+				border-bottom: 1px solid #E5E5E5;
+				overflow: hidden;
+				position: relative;
+			}
+
+			.leibiao ul li label {
+				color: #333;
+				font-size: 15px;
+				float: left;
+				margin: 13px 0px;
+			}
+
+			.leibiao ul li input {
+				border: none;
+				width: 66%;
+				color: #666;
+				font-size: 15px;
+				margin-bottom: 0;
+				float: right;
+				padding: 13px 15px;
+				margin-top: 3px;
+				margin-right: 2.8%;
+			}
+			.leibiao ul li .order_time {
+				color: #666;
+				font-size: 12px;
+				height: 30px;
+				line-height: 30px;
+				min-width:80px!important;
+				text-align: center;
+				display: inline-block;
+				padding:0;
+			}
+			.leibiao ul li input.order_price {
+				border: none;
+				color: #666;
+				font-size: 12px;
+				float: none;
+				margin:0;
+				height: 30px;
+				padding:0;
+				text-align: center;
+			}
+			.leibiao ul li input.order_you {
+				border: none;
+				color: #666;
+				font-size: 14px;
+				float: none;
+				margin:0;
+				height: 30px;
+				width:66%!important;
+				padding:0;
+				position: absolute;
+				left:34%;
+				top:8px;
+			}
+
+			.goods ul li p {
+				color: #333;
+				font-size: 15px;
+				margin: 13px 0;
+			}
+
+			.goodsImg {
+				border-radius: 3px;
+				width: 110px;
+				height: 110px;
+				margin-bottom: 15px;
+			}
+
+			.sx {
+				position: absolute;
+				top: 18px;
+				right: 2.8%;
+			}
+
+			.mui-numbox {
+				margin-top: 12px;
+				margin-right: 2.8%;
+				position: relative;
+				display: inline-block;
+				overflow: hidden;
+				width: 130px;
+				height: 26px;
+				padding: 0 30px;
+				vertical-align: top;
+				vertical-align: middle;
+				border: solid 1px #bbb;
+				border-radius: 3px;
+				background-color: #efeff4;
+			}
+
+			.mui-numbox [class*=btn-numbox],
+			.mui-numbox [class*=numbox-btn] {
+				width: 30px;
+				color: #666;
+			}
+
+			.shuadan .mui-numbox input {
+				color: #333;
+			}
+
+			.sdDate {
+				width: 70%;
+				/*margin-right: 2.8%;*/
+				margin-top: 13px;
+				color: #333;
+				font-size: 15px;
+				padding-right: 10px;
+			}
+
+			.sdDate i {
+				margin-right: 4.2%;
+				margin-left: 10px;
+				font-size: 14px;
+				color: #666;
+			}
+
+			.sdDate img {
+				margin-top: 4px;
+			}
+
+			.del {
+				padding: 4px 21px;
+				background: #E3211F;
+				border-radius: 20px;
+				color: #fff;
+				font-size: 12px;
+				margin: 10px;
+
+			}
+			.post{
+				padding: 4px 0;
+				width:70px;
+				border: 1px solid #999!important;
+				border-radius: 20px;
+				color: #999!important;
+				font-size: 12px;
+				margin: 10px;
+				position:absolute;
+				right:0;
+				top:0;
+			}
+			.postActive{
+				background: #FF622E;
+				border: 1px solid #FF622E!important;
+				color: #fff!important;
+			}
+			.not-put{
+				position:absolute;
+				right:80px;
+				top:0;
+			}
+			.sdAdd {
+				padding: 4px 21px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 12px;
+				border-radius: 20px;
+				margin: 10px 15px;
+				border: none;
+			}
+
+			.baoyou img {
+				position: absolute;
+				top: 18px;
+				right: 10.8%;
+			}
+
+			.baoyou i {
+				position: absolute;
+				top: 15px;
+				right: 2.8%;
+			}
+
+			.danpin .mui-checkbox label {
+				padding: 16px 0px;
+				margin: 0;
+			}
+
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: -3px;
+				right: 0.8%;
+				width: 20px;
+				height: 20px;
+			}
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+				font-size: 20px;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before{
+				background: url(../../img/choose.png);
+				content: '\e442';
+				border: none;
+				color: rgba(255,255,255,0.2);
+			}
+			.danpin .jine{
+				position: absolute;
+				top: 9px;
+				left: 87px;
+				height: 35px;
+				display: flex;
+				width: 65%;
+			}
+			.danpin .jine input[type='text']{
+				width: 95px!important;
+				background: #F5F5F5;
+				float: none;
+				color: #333;
+				font-size: 15px;
+				padding: 0px 10px;
+				margin: 0;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 5px;
+			}
+			.danpin .jine input::-webkit-input-placeholder{
+				color: #ccc;
+			}
+			.jine .line{
+				display: inline-block;
+				width: 8px;
+				border-bottom: 1px solid #ccc;
+				position: relative;
+				top:-21px;
+			}
+			.jifei{
+				background: #FFF;
+				margin-top: 10px;
+				padding-bottom: 61px;
+			}
+			.yingfu{
+				/*margin-left: 2.8%;*/
+				color: #FFA940;
+				font-size: 14px;
+				margin:10px 0 17px 2.8%;
+			}
+			.not-info{
+				color: #FFA940;
+				font-size: 12px;
+				margin:10px 0 10px;
+			}
+			.jifei ul{
+				width: 94.6%;
+				margin-left: 2.8%;
+			}
+			.jifei ul li{
+				overflow: hidden;
+				border: 1px solid #999;
+				border-top: none;
+			}
+			.jifei .biao_h{
+				background: #66D1CF;
+				border: none;
+			}
+			.jifei .biao_h p{
+				padding: 6px 10px;
+				color: #333;
+
+			}
+			.jifei .biao_h p:first-child{
+				border-right: 1px solid #999;
+			}
+			.jifei li p{
+				width: 50%;
+				float: left;
+				padding:10px ;
+				color: #333;
+				margin-bottom: 0;
+			}
+			.jifei li p:first-child{
+				border-right: 1px solid #999;
+			}
+			.footer{
+				width: 100%;
+				height: 50px;
+				position: fixed;
+				bottom: 0;
+				background: #fff;
+				border-top: 1px solid #E5E5E5;
+			}
+
+			.footer p{
+				display: inline-block;
+				width: 60%;
+				height: 100%;
+				padding: 15px 10px;
+				color: #666;
+				font-size: 14px;
+				margin: 0;
+				float: left;
+			}
+			.footer p span{
+				font-size: 19px;
+				color: #FFA940;
+			}
+			.footer button{
+				width: 40%;
+				height: 100%;
+				float: right;
+				border: none;
+				background: #66D1CF;
+				color: #fff;
+				border-radius: 0;
+				font-size: 16px;
+			}
+			.pingzheng{
+				display: flex;
+				padding-right: 10px;
+				padding-bottom: 10px;
+			}
+			.pingzheng i,.pingzheng img {
+				display: block;
+				width: 120px;
+				flex:0 0 120px;
+				height: 120px;
+				line-height: 120px;
+				text-align: center;
+				border: 1px dashed #ccc;
+				font-size: 22px;
+				margin-top: 10px;
+			}
+			.pingzheng .goods-tit{
+				margin: 10px 0 0 10px;
+			}
+			.pingzheng .goods-tit textarea{
+				height:120px;
+				padding: 5px;
+				border:1px solid #e0e0e0;
+				color:#666;
+			}
+			/*数字计数器*/
+			.num-count{
+				width:131px;
+				height: 30px;
+				line-height: 30px;
+				position: relative;
+				top:10px;
+				border: solid 1px #bbb;
+				border-radius: 5px;
+				overflow: hidden;
+				margin-right: 10px;
+				display: flex;
+				justify-content: space-between;
+			}
+			.count-add,.count-desc{
+				height:28px;
+				flex:1 0 30px;
+				background: #f9f9f9;
+				color:#666;
+				line-height: 25px;
+				border-radius: 0;
+			}
+			.count-desc{
+				border-right: solid 1px #ccc!important;
+
+			}
+			.count-add{
+				border-left: solid 1px #ccc!important;
+			}
+
+			.count-input{
+				display: inline-block;
+				width: 60px!important;
+				margin: 0!important;
+				height: 25px!important;
+				line-height: 25px!important;
+				float: none!important;
+				padding: 0!important;
+				text-align: center;
+				text-overflow: ellipsis;
+				word-break: normal;
+				border: none!important;
+				border-radius: 0!important;
+			}
+			.leibiao ul li .store-div {
+				border: none;
+				width: 66%;
+				color: #999;
+				font-size: 15px;
+				margin-bottom: 0;
+				float: right;
+				padding: 13px 15px;
+				margin-top: 3px;
+				margin-right: 2.8%;
+			}
+			input::-webkit-input-placeholder { /* WebKit browsers */
+				color: #999;
+				font-size: 13px;
+			}
+
+			input::-moz-placeholder { /* Mozilla Firefox 19+ */
+				color: #999;
+				font-size: 13px;
+			}
+
+			input:-ms-input-placeholder { /* Internet Explorer 10+ */
+				color: #999;
+				font-size: 13px;
+			}
+			.tiaojian{
+				margin-top: 10px;
+				background: #fff;
+			}
+			.hasPingZheng{
+				position: relative;
+				top:0;
+				left:0;
+				width:120px;
+				height:120px;
+			}
+			.hasPingZheng img{
+				width:120px;
+				height:120px;
+				border:1px dotted #66D1CF;
+				display: block;
+			}
+			.hasPingZheng span{
+				position:absolute;
+				top:4px;
+				right:-5px;
+				font-size: 18px;
+				color:#66D1CF;
+				background: #fff;
+				border-radius: 50%;
+			}
+		</style>
+
+	</head>
+
+	<body>
+	<section id="app" v-cloak>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">再次发布</h1>
+		</header>
+		<div class="mui-content">
+			<div class="header clearfix">
+				<div class="f_left header_l" @tap="riLi">
+					<p>任务日期选择</p>
+					<p class="date"><span>{{task.task_date}}</span><i class="iconfont icon-rili rili"></i></p>
+				</div>
+				<div class="f_right header_r">
+					<button class="chakanshipin" @tap="videoList(19,'视频教程')">查看视频教程</button>
+				</div>
+			</div>
+			<div class="biaoqian">
+				<p class="title">选择标签</p>
+				<ul>
+					<li :style="{'background':tag.color}" v-for="(tag, index) in configData.tag.tagInfo" @tap="setTag(tag)">{{tag.name}}</li>
+				</ul>
+			</div>
+			<div class="goods leibiao">
+				<p class="title"><img src="../../img/msg.png" alt="">商品信息</p>
+				<ul>
+					<li>
+						<label>商品链接</label>
+						<input type="text" v-model="task.tao_password" placeholder="请输入连接或淘口令" @input="getGoodsByCode"/>
+					</li>
+					<li>
+						<p>商品主图</p>
+						<div class="pingzheng">
+							<i class="iconfont icon-tianjia sfz1"  @tap="uploadFile" v-if="!task.goods_image"></i>
+							<div class="hasPingZheng" v-else>
+								<img :src="task.goods_image" data-preview-src="" data-preview-group="1" alt="">
+								<span class="mui-icon mui-icon-close" @tap="delImage()"></span>
+							</div>
+							<div class="goods-tit">
+								<textarea cols="30" v-model="task.goods_title" placeholder="请输入商品标题"></textarea>
+							</div>
+						</div>
+					</li>
+<!--					<li>-->
+<!--						<label>商品名称</label>-->
+<!--						<input type="text" class="text_overflow" v-model="task.goods_title"  placeholder="请输入商品名称" />-->
+<!--					</li>-->
+					<li>
+						<label>店铺名称</label>
+						<div @tap="getStore(false)" class="f_left store-div">{{task.store_name || '请选择店铺'}}</div>
+						<img class="sx" src="../../img/sx.png" alt="" />
+					</li>
+					<li>
+						<label>所在地区</label>
+						<div class="f_left store-div">{{task.store_city || '所在地区'}}</div>
+						<!--						<img class="sx" src="../img/sx.png" alt="" />-->
+					</li>
+					<li>
+						<label>旺旺账号</label>
+						<!--						<input type="text" v-model="task.wangwang"  placeholder="请输入旺旺账号" />-->
+						<div class="f_left store-div">{{task.wangwang || '旺旺账号'}}</div>
+					</li>
+					<li>
+						<label>商品价格</label>
+						<input type="text" v-model="task.goods_price"  placeholder="请输入商品展示价格" />
+					</li>
+				</ul>
+
+			</div>
+			<div class="shuadan leibiao">
+				<p class="title"><img class="warn" src="../../img/warn.png" alt="">任务信息</p>
+				<ul v-for="(order,index) in task.shuadan_info">
+					<li>
+						<label>关键词<b class="key-index">{{index + 1}}</b></label>
+						<input type="text" v-model="order.shuadan_keyword" placeholder="输入关键词" />
+					</li>
+					<li>
+						<label for="">任务数量</label>
+						<div class="num-count f_right" :id="'numBox'+index">
+							<button class="count-desc" type="button" @tap="setOrderNum(order,0)">-</button>
+							<input class="count-input" v-model="order.shuadan_number" type="number" pattern="[0-9]*"/>
+							<button class="count-add" type="button" @tap="setOrderNum(order,1)">+</button>
+						</div>
+					</li>
+					<li>
+						<label for="">任务时间</label>
+						<p class="f_right sdDate">
+							<span class="f_left" style="min-width: 125px;margin-top: -5px">
+								<span class="order_time" @tap="setOrderTime(order,1)">{{order.shuadan_start_time || '开始时间'}}</span>
+								-
+								<span class="order_time"  @tap="setOrderTime(order,0)">{{order.shuadan_end_time || '结束时间'}}</span>
+							</span>
+							<!--							<i class="iconfont icon-wenti f_right"></i>-->
+							<img class="f_right" src="../../img/sx.png" />
+						</p>
+					</li>
+					<li>
+						<button class="f_right del" @tap="delOrder(index)">删除</button>
+					</li>
+				</ul>
+				<button class="sdAdd" @tap="addOrder">添加</button>
+			</div>
+			<div class="leibiao danpin">
+				<ul>
+					<li>
+						<label>付款价格</label>
+						<input type="number" v-model="task.danpin_price"  placeholder="请输入付款价格"  pattern="[0-9]*"/>
+					</li>
+					<li>
+						<label>型号规格</label>
+						<input type="text" v-model="task.danpin_spec"  placeholder="请输入付款产品型号规格" />
+					</li>
+					<li class="baoyou">
+						<div class="mui-input-row mui-checkbox">
+							<label>是否包邮</label>
+							<!--							<input type="number" v-model="postFee" :disabled="task.is_express" class="order_you"  placeholder="请输入运费价格" />-->
+							<!--							<input name="checkbox0" v-model="task.is_express" type="checkbox" @tap="isSetStatus(task,'is_express')"/>-->
+							<button class="f_right not-put post" :class="{'postActive':!task.is_express}" @tap="task.is_express = false">不包邮</button>
+							<button class="f_right post" :class="{'postActive':task.is_express}" @tap="task.is_express = true">包邮</button>
+						</div>
+
+						<!--						<i class="iconfont icon-wenti yiwen"></i>-->
+					</li>
+					<li>
+						<p  class="not-info" v-if="!task.is_express">因各地运费差异，预留{{ task.express_price || 0 }}元/单。 最终按实际运费系统多退少补。</p>
+					</li>
+<!--					<li>-->
+<!--						<div class="mui-input-row mui-checkbox">-->
+<!--							<label>卡地区</label>-->
+<!--							<input name="checkbox1" v-model="task.is_card_address" type="checkbox" @tap="isSetStatus(task,'is_card_address')">-->
+<!--						</div>-->
+<!--					</li>-->
+<!--					<li>-->
+<!--						<div class="mui-input-row mui-checkbox">-->
+<!--							<label>卡销量</label>-->
+<!--							<input name="checkbox2"  v-model="task.is_card_sales" type="checkbox" @tap="isSetStatus(task,'is_card_sales')">-->
+<!--						</div>-->
+<!--					</li>-->
+<!--					<li>-->
+<!--						<div class="mui-input-row mui-checkbox">-->
+<!--							<label>卡价格</label>-->
+<!--							<input name="checkbox3" v-model="task.is_card_price" type="checkbox" @tap="isSetStatus(task,'is_card_price')">-->
+<!--						</div>-->
+<!--						<div class="jine">-->
+<!--							<input type="text" class="order_price" v-model="startPrice" :disabled="!task.is_card_price" placeholder="起始价格"/>-->
+<!--							<span class="line"></span>-->
+<!--							<input type="text" class="order_price" v-model="endPrice" :disabled="!task.is_card_price"  placeholder="结束价格" />-->
+<!--						</div>-->
+<!--					</li>-->
+				</ul>
+			</div>
+			<div class="tiaojian">
+				<p class="title"><img src="../../img/note.png" alt="">搜索要求</p>
+				<div class="shuadan leibiao danpin">
+					<ul>
+						<li>
+							<div class="mui-input-row mui-checkbox">
+								<label>卡地区</label>
+								<input name="checkbox1" v-model="task.is_card_address" type="checkbox" @tap="isSetStatus(task,'is_card_address')">
+							</div>
+						</li>
+						<li>
+							<div class="mui-input-row mui-checkbox">
+								<label>卡销量</label>
+								<input name="checkbox2"  v-model="task.is_card_sales" type="checkbox" @tap="isSetStatus(task,'is_card_sales')">
+							</div>
+						</li>
+<!--						<li>-->
+<!--							<label>卡地区</label>-->
+<!--							<div class="f_left store-div" @tap="setAddress">{{task.is_card_address || '请选择地区'}}</div>-->
+<!--							<img class="sx" src="../../img/sx.png" alt="" />-->
+
+<!--						</li>-->
+<!--						<li>-->
+<!--							<label>卡销量</label>-->
+<!--							<div class="f_left store-div" @tap="setSales">{{sales_type || '请选择销量'}}</div>-->
+<!--							<img class="sx" src="../../img/sx.png" alt="" />-->
+<!--						</li>-->
+						<li>
+							<div class="mui-input-row mui-checkbox">
+								<label>卡价格</label>
+								<div class="jine">
+									<input type="number" class="order_price" pattern="[0-9]*" v-model="startPrice" :disabled="!task.is_card_price" placeholder="开始价格"/>
+									<span class="line"></span>
+									<input type="number" class="order_price" pattern="[0-9]*" v-model="endPrice"  :disabled="!task.is_card_price"  placeholder="结束价格" />
+								</div>
+								<input name="checkbox3" v-model="task.is_card_price" type="checkbox" @tap="isSetStatus(task,'is_card_price')">
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="jifei">
+				<p class="title"><img src="../../img/cpunt.png" alt="">计费方式</p>
+				<p  class="yingfu">应付 = (付款价格+每单费用*折扣) * 任务数量</p>
+				<ul>
+					<li class="biao_h">
+						<p>单价</p>
+						<p>地推费用</p>
+					</li>
+					<li v-for="(fee,index) in configData.fee">
+						<p>{{fee.min_price}}-{{fee.max_price}}元</p>
+						<p>{{fee.shuadan_price}}元/单</p>
+					</li>
+				</ul>
+				<div class="footer">
+					<p>应付金额: <span>￥{{countFee}}</span></p>
+					<button @tap="taskPublish">提交订单</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.picker.min.js"></script>
+		<script src="../../js/mui.zoom.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/babel">
+
+		var app = new Vue({
+			el:'#app',
+			data(){
+				return {
+					task:{
+						shuadan_price:'', //  刷单单价
+						// express_price:'', //  运费单价
+						task_date:this.getNowFormatDate(), //  任务日期
+						tao_password:'', //  淘口令
+						goods_image:'', //  商品图片
+						store_id:'', //  店铺id
+						store_name:'', //  店铺名称
+						goods_title:'', //  商品名称
+						store_city:'', //  店铺地区
+						// city:'',
+						wangwang:'', //  旺旺账号
+						shuadan_info:[
+							{
+								shuadan_keyword:'',  //  刷单关键词
+								shuadan_number:1,   //  刷单数量
+								shuadan_start_time:'',//  刷单开始时间
+								shuadan_end_time:'22:00'   //  刷单结束时间
+							}
+						], // 刷单信息
+						goods_price:'', //  商品价格
+						danpin_price:'', //  单品价格
+						danpin_spec:'', //  单品规格
+						is_express:false, //  是否包邮
+						tag:'', //  标签
+						is_card_address:'', //  卡地址
+						is_card_sales:false, //  卡销量
+						is_card_price:false, //  卡价格
+					},
+					selectedIndex:0,
+					startPrice:'',
+					endPrice:'',
+					postFee:0,
+					tagArr:[],
+					configData:{
+						tag:{},
+						fee:[],
+						address:[]
+					},
+					timePicker:{},
+					orderTotalNum:0,
+					shuaFee:0,
+					totalFee:0,
+					danId:0,
+					timer:0,
+					storeList:[],
+					userLevel:{
+						level:0,
+						discount:0
+					},
+					sales_type:'',
+					salesList: [{
+						value:0,
+						text:'销量优先'
+					},{
+						value:1,
+						text:'价格优先'
+					}]
+				}
+			},
+			computed:{
+				// 计算应付金额
+				countFee(){
+					this.orderTotalNum = 0;
+					var _this = this;
+					this.task.shuadan_info.forEach(function(item,index){
+						_this.orderTotalNum = _this.orderTotalNum + parseInt(item.shuadan_number);
+					});
+					for(var i = this.configData.fee.length -1 ;i >= 0;i--){
+						var item = this.configData.fee[i];
+						if(this.validateNumber(this.task.danpin_price)){
+							if(parseFloat(this.task.danpin_price) > parseFloat(item.min_price)){
+								this.shuaFee = parseFloat(item.shuadan_price);
+								break;
+							}
+						}
+					}
+					if(this.validateNumber(this.task.danpin_price)){
+						var postFee = parseFloat( this.task.is_express ? 0 : this.postFee );
+						this.totalFee = (parseFloat(this.task.danpin_price) + this.shuaFee * parseInt(this.userLevel.discount) / 10 + postFee )*this.orderTotalNum;
+					}else{
+						this.totalFee = 0;
+					}
+					return (this.totalFee).toFixed(2);
+				}
+			},
+			methods:{
+				// 发布任务
+				taskPublish(){
+					let params = {
+						token:storage.get("token") || "",
+						// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+						shuadan_price:this.task.shuadan_price,
+						express_price:!this.task.is_express ? this.postFee : 0,
+						task_date:this.task.task_date,
+						tao_password:this.task.tao_password,
+						goods_image:this.task.goods_image,
+						store_id:this.task.store_id,
+						store_name:this.task.store_name,
+						goods_title:this.task.goods_title,
+						store_city:this.task.store_city,
+						// city:this.task.city,
+						wangwang:this.task.wangwang,
+						goods_price:this.task.goods_price,
+						danpin_price:this.task.danpin_price,
+						danpin_spec:this.task.danpin_spec,
+						// is_express:this.task.is_express ? 0 : 20,
+						is_express:this.task.is_express?1:0,
+						tag:this.task.tag.toString(),
+						is_card_address:this.task.is_card_address ? 1 : 0,
+						is_card_sales:this.task.is_card_sales ? 1 : 0,
+						is_card_price:this.task.is_card_price ? this.startPrice + '-'+ this.endPrice  : 0,
+						shuadan_info:this.task.shuadan_info,
+					};
+					console.log(params);
+					if(storage.get("userInfo")['judge_status'] === 1){
+						ca.prompt("请先绑定店铺信息，才能发布任务哦!");
+						return;
+					}
+					// if(storage.get("userInfo")['group_id'] != 3){
+					// 	ca.prompt("仅商家才可以发布任务!");
+					// 	return;
+					// }
+					if(!this.task.task_date){
+						ca.prompt('请输入任务日期');
+						return;
+					}
+					if(!this.task.tag.toString()){
+						ca.prompt('请选择标签');
+						return;
+					}
+
+					if(!this.task.goods_image){
+						ca.prompt('请添加商品图片');
+						return;
+					}
+					if(!this.task.store_id || !this.task.store_name || !this.task.store_city || !this.task.wangwang){
+						ca.prompt('请选择您的店铺');
+						return;
+					}
+					if(!this.task.goods_title){
+						ca.prompt('请输入商品名称');
+						return;
+					}
+					if(!this.task.goods_price){
+						ca.prompt('请输入商品价格');
+						return;
+					}
+					var isEach = true;
+					for(var i = 0; i<this.task.shuadan_info.length; i++){
+						var item = this.task.shuadan_info[i];
+						for(var j in item){
+							if(!item[j]){
+								if(j == 'shuadan_keyword'){
+									ca.prompt('请输入任务关键字');
+									isEach = false;
+									return;
+								}
+								if(j == 'shuadan_start_time'){
+									ca.prompt('请输入开始时间');
+									isEach = false;
+									return;
+								}
+								if(j == 'shuadan_end_time'){
+									ca.prompt('请输入结束时间');
+									isEach = false;
+									return;
+								}
+							}
+						}
+						if(!isEach){
+							break;
+						}
+					}
+
+					if(!this.task.goods_price){
+						ca.prompt('请输入商品价格');
+						return;
+					}
+					if(!this.task.danpin_price){
+						ca.prompt('请输入付款价格');
+						return;
+					}if(!this.task.danpin_spec){
+						ca.prompt('请输入型号规格');
+						return;
+					}
+					if(!this.task.task_date){
+						ca.prompt('请输入任务日期');
+						return;
+					}
+					// if(!this.task.is_express){
+					// 	if(!this.postFee){
+					// 		ca.prompt('请输入运费');
+					// 		return;
+					// 	}
+					// }
+					if(this.task.is_card_price){
+						if(!this.startPrice){
+							ca.prompt('请输入起始价格');
+							return;
+						}
+						if(!this.endPrice){
+							ca.prompt('请输入结束价格');
+							return;
+						}
+					}
+					Axios.post('/api/order/save_order',params).then(function(res){
+						if(res.code == 1){
+							ca.prompt(res.msg);
+							ca.newInterface({
+								url:'./tijiaodingdan.html?ids=' + res.data.ids.toString(),
+								id:'task/tijiaodingdan.html'
+							})
+						}else{
+							ca.prompt(res.msg);
+						}
+					})
+				},
+				// 获取店铺列表
+				getStore(isAuto){
+					let params = {
+						token:storage.get("token") || ""
+					};
+					var _this = this;
+					Axios.get('/api/Store/my_store_list',params,true).then(function(res){
+						if(res.code == 1){
+							_this.storeList = res.data;
+							if(!isAuto){
+								_this.setStore();
+							}
+						}else{
+							ca.prompt(res.msg);
+						}
+					})
+				},
+				// 卡销量
+				setSales(){
+					var picker = new mui.PopPicker();
+					picker.setData(this.salesList);
+					var _this = this;
+					// 点击取消按钮关闭滚动锁定状态
+					var btn = $("button.mui-poppicker-btn-cancel")[0];
+					btn.addEventListener('tap',function () {
+						picker.dispose();
+					});
+					picker.show(function (selectItems) {
+						_this.task.is_card_sales = selectItems[0].value;
+						_this.sales_type = selectItems[0].text;
+						picker.dispose();
+					})
+				},
+				// 卡地区
+				setAddress(){
+					var address = [];
+					var addressObj = {};
+					this.configData.address.forEach(function (item) {
+						addressObj = {};
+						addressObj.value = item.id;
+						addressObj.text = item.city;
+						address.push(addressObj);
+					});
+					var picker = new mui.PopPicker();
+					picker.setData(address);
+					var _this = this;
+					// 点击取消按钮关闭滚动锁定状态
+					var btn = $("button.mui-poppicker-btn-cancel")[0];
+					btn.addEventListener('tap',function () {
+						picker.dispose();
+					});
+					picker.show(function (selectItems) {
+						_this.task.is_card_address = selectItems[0].text;
+						picker.dispose();
+					})
+				},
+				// 获取发布任务配置信息
+				getConfig(){
+					let params = {
+						token:storage.get("token") || ""
+					};
+					var _this = this;
+					Axios.get('/api/Index/config_get',params).then(function(res){
+						if(res.code == 1){
+							var tagObjArr = [];
+							var tagObj = {};
+							res.data[32]['value'].forEach(function(curTag,index){
+								tagObj = {};
+								tagObj.status = false;
+								tagObj.name = curTag;
+								tagObj.color = '#F2F2F2';
+								tagObjArr.push(tagObj);
+							});
+							res.data[32].tagInfo = tagObjArr;
+							_this.configData.tag = res.data[32];
+							_this.configData.fee = res.data["unit_price"];
+							_this.configData.address = res.data['address_list'];
+							_this.task.express_price = res.data.express_price;
+							console.log(_this.task.express_price);
+							if(_this.danId){
+								_this.getOrderInfo();
+							}
+							_this.getRank();
+						}else{
+							ca.prompt(res.msg);
+						}
+					})
+				},
+				// 删除图片
+				delImage(){
+					this.task.goods_image = '';
+				},
+				// 再次编辑获取上次发布订单信息
+				getOrderInfo(){
+					let params = {
+						token:storage.get("token") || "",
+						id:this.danId
+					};
+					var _this = this;
+					Axios.get('/api/order/details',params).then(function(res) {
+						if (res.code == 1) {
+							// res.data.shuadan_info = [];
+							// var shuadan = {
+							// 	shuadan_keyword:res.data.shuadan_keyword,
+							// 	shuadan_number:res.data.shuadan_number,
+							// 	shuadan_start_time:res.data.shuadan_start_time,
+							// 	shuadan_end_time:res.data.shuadan_end_time,
+							// };
+							// res.data.shuadan_info.push(shuadan);
+							_this.postFee = res.data.express_price;
+							res.data.tag = res.data.tag.split(',');
+							_this.salesList.forEach(function (item) {
+								if(item.value == res.data.is_card_sales){
+									_this.sales_type = item.text;
+								}
+							})
+							var cardPrice = res.data.is_card_price.split('-');
+							if(cardPrice && cardPrice != 0 && cardPrice != ',' && cardPrice.length > 0){
+								_this.startPrice = cardPrice[0];
+								_this.endPrice = cardPrice[1];
+								res.data.is_card_price = true;
+							}else{
+								res.data.is_card_price = false;
+							}
+							_this.task.task_date = res.data.createtime;
+							_this.configData.tag.tagInfo.forEach(function(item,index){
+								res.data.tag.forEach(function(curTag){
+									if(curTag == item.name){
+										item.status = true;
+									}
+								})
+							});
+							res.data.task_date = _this.getNowFormatDate();
+							_this.task = res.data;
+
+						} else {
+							ca.prompt(res.msg);
+						}
+					})
+				},
+				// 新增刷单单子
+				addOrder(){
+					var _this = this;
+					var orderOne = {
+						shuadan_keyword:'',  //  刷单关键词
+						shuadan_number:1,   //  刷单数量
+						shuadan_start_time:this.comStartTime(),//  刷单开始时间
+						shuadan_end_time:'22:00'   //  刷单结束时间
+					};
+					_this.task.shuadan_info.push(orderOne);
+				},
+
+				// 删除刷单单子
+				delOrder(index){
+					if(this.task.shuadan_info.length > 1){
+						this.task.shuadan_info.splice(index,1);
+					}else{
+						ca.prompt("至少需要添加一个任务信息");
+					}
+				},
+				// 获取会员等级
+				getRank(){
+					let params = {
+						token:storage.get("token") || ""
+					};
+					var _this = this;
+					Axios.get('/api/User/level',params,true).then(function(res){
+						if(res.code == 1){
+							_this.userLevel = res.data;
+						}else{
+							ca.prompt(res.msg);
+						}
+					})
+				},
+				// 根据淘口令获取商品信息
+				getGoodsByCode(){
+					// 延迟防抖
+					var _this = this;
+					clearTimeout(_this.timer);
+					_this.timer = setTimeout(function () {
+						let params = {
+							token:storage.get("token") || "",
+							kouling:_this.task.tao_password
+						};
+						if(_this.task.tao_password != ''){
+							Axios.post('/api/top/index',params).then(function(res){
+								if(res.code == 1){
+									_this.task.goods_title = res.data.goods_title || '';
+									_this.task.goods_image = res.data.goods_image || '';
+									if(res.data.store_id !== 0){
+										_this.storeList.forEach(function(item,index){
+											if(item.id == res.data.store_id){
+												_this.task.store_name = res.data.store_name;
+												_this.task.store_id = res.data.store_id;
+												_this.task.store_city = res.data.store_city;
+												_this.task.wangwang = res.data.wangwang;
+												_this.task.goods_price = res.data.goods_price;
+											}
+										});
+									}else{
+										_this.task.store_name = '';
+										_this.task.store_id = '';
+										_this.task.store_city = '';
+										_this.task.wangwang = '';
+										_this.task.goods_price = '';
+										ca.prompt('该口令商品不在您账户店铺中哦！');
+									}
+								}else{
+									ca.prompt(res.msg);
+								}
+							})
+						}
+
+					},800)
+				},
+				// 加减刷单数量
+				setOrderNum(item,type){
+					if(type){
+						item.shuadan_number ++;
+					}else{
+						if(item.shuadan_number > 1){
+							item.shuadan_number --;
+						}
+					}
+				},
+
+				// 设置刷单时间
+				// 设置刷单时间
+				setOrderTime(item,type){
+					var time = new Date();
+					var startHour = bigTaskDate(this.task.task_date) ? 8 : time.getHours();
+					var startMinutes = bigTaskDate(this.task.task_date) ? 0 : time.getMinutes();
+					this.timePicker = new mui.DtPicker({
+						type: "time", //设置日历初始视图模式
+						customData: {
+							h: getTime(startHour,21),
+							i: getTime(startMinutes,59)
+						}//时间/日期别名
+					});
+					this.timePicker.show((selectItems) => {
+						if(type){
+							if(item.shuadan_end_time && selectItems > item.shuadan_end_time){
+								ca.prompt('开始时间不能大于结束时间！');
+								return;
+							}
+							item.shuadan_start_time = selectItems.text;
+						}else{
+							if(item.shuadan_start_time && selectItems < item.shuadan_start_time){
+								ca.prompt('结束时间不能小于开始时间！');
+								return;
+							}
+							item.shuadan_end_time = selectItems.text;
+						}
+						this.timePicker.dispose();
+					});
+				},
+				comStartTime(){
+					var _this = this;
+					var time = new Date();
+					var hour = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
+					var minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+					return bigTaskDate(_this.task.task_date) ? '08:00' : hour + ':' +  minutes;
+				},
+				// 设置是否包邮，卡地区、卡价格、卡销量
+				isSetStatus(item,prop){
+					item[prop] = !item[prop];
+				},
+				// 选择标签
+				setTag(item){
+					if(!item.status){
+						if(this.tagArr.length > 2){
+							ca.prompt('最多可选择3个标签！');
+							return;
+						}
+						this.tagArr.push(item.name);
+						item.color = randomColor();
+					}else{
+						this.arrDelete(this.tagArr,item.name);
+						item.color = '#F2F2F2';
+					}
+					item.status = !item.status;
+					this.task.tag = this.tagArr;
+				},
+
+				arrDelete (arr,val) {
+					var index = arr.indexOf(val);
+					if (index > -1) {
+						arr.splice(index, 1);
+					}
+				},
+				validateNumber(num) {
+					var reg = /^\d+(?=\.{0,1}\d+$|$)/;
+					if(reg.test(num)) return true;
+					return false ;
+				},
+				// 商品图片裁切上传
+				uploadFile(){
+					openWebview({
+						url:'../ImgCropping/cropperImg.html?type=taskEdit',
+						id:'cropperImg'
+					})
+				},
+				// 文章列表
+				videoList(id,title){
+					openWebview({
+						url:"./home/timu.html?id=" + id + "&title=" + title,
+						id:'timu.html'
+					})
+				},
+				// 调出日历
+				riLi(){
+					var dtpicker = new mui.DtPicker({
+						type: "date", //设置日历初始视图模式
+						beginDate: new Date(), //设置开始日期
+						endDate: '', //设置结束日期
+						labels: ['年', '月', '日'], //设置默认标签区域提示语
+					});
+					var _this= this;
+					// 点击取消按钮关闭滚动锁定状态
+					var btn = $("button[data-id='btn-cancel']")[0];
+					btn.addEventListener('tap',function () {
+						dtpicker.dispose();
+					});
+					dtpicker.show(function(selectItems) {
+						_this.task.task_date = selectItems.text;
+						dtpicker.dispose();
+					})
+				},
+				// 配置店铺选项框
+				setStore(){
+					var storeTmp = {};
+					var storeArr = [];
+					if(this.storeList.length > 0){
+						this.storeList.forEach(function(item,index){
+							storeTmp = {};
+							storeTmp.value = item.id;
+							storeTmp.text = item.name;
+							storeArr.push(storeTmp);
+						});
+						var picker = new mui.PopPicker();
+						picker.setData(storeArr);
+						var _this = this;
+						// 点击取消按钮关闭滚动锁定状态
+						var btn = $("button.mui-poppicker-btn-cancel")[0];
+						btn.addEventListener('tap',function () {
+							picker.dispose();
+						});
+						picker.show(function (selectItems) {
+							_this.task.store_name = selectItems[0].text;
+							_this.task.store_id = selectItems[0].value;
+							_this.storeList.forEach(function(item,index){
+								if(item.id == selectItems[0].value){
+									_this.task.store_city = item.city;
+									_this.task.wangwang = item.wangwang;
+								}
+							});
+							picker.dispose();
+						})
+					}else{
+						ca.prompt('店铺不存在，请先添加绑定店铺哦！');
+					}
+				},
+				// 获取当前日期
+				getNowFormatDate() {
+					var date = new Date();
+					var seperator1 = "-";
+					var year = date.getFullYear();
+					var month = date.getMonth() + 1;
+					var strDate = date.getDate();
+					if (month >= 1 && month <= 9) {
+						month = "0" + month;
+					}
+					if (strDate >= 0 && strDate <= 9) {
+						strDate = "0" + strDate;
+					}
+					var currentdate = year + seperator1 + month + seperator1 + strDate;
+					return currentdate;
+				},
+				// 历史发布
+				lishi(){
+					ca.newInterface({
+						url:'./lishifabu.html',
+						id:'lishifabu.html'
+					})
+				}
+			},
+			mounted(){
+				mui.init();
+				ca.init();
+				mui.previewImage();
+				var _this = this;
+				_this.task.shuadan_info[0].shuadan_start_time = this.comStartTime();
+				mui.plusReady(function(){
+					ca.receiveNotice('task',function (event) {
+						_this.task.goods_image = event.detail.imgUrl;
+					});
+				});
+				_this.danId = GetQueryString("id") || 0;
+				this.getConfig();
+				this.getStore(true);
+			}
+		});
+	</script>
+	</body>
+
+</html>

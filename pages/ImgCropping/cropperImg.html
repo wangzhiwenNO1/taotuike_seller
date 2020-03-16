@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>图片裁剪</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="./css/cropper.min.css">
+    <link rel="stylesheet" href="./css/ImgCropping.css">
+    <link href="../../css/mui.min.css" rel="stylesheet" />
+    <link href="../../css/base.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div class="tailoring-container" id="tailoring-container">
+    <div class="box-blank">
+        +
+        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" onchange="selectImg(this)" >
+    </div>
+    <div class="tailoring-content">
+        <div class="tailoring-content-two">
+            <div class="tailoring-box-parcel">
+                <img id="tailoringImg">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="opear-box">
+    <div class="btn-top justify-flex">
+        <img src="./img/scaleBig.png" id="scaleBig"/>
+        <img src="./img/scaleLittle.png" id="scaleLittle"/>
+        <img src="./img/left.png" id="rotateLeft"/>
+        <img src="./img/right.png" id="rotateRight" />
+        <img src="./img/refresh.png" id="reset" alt="">
+    </div>
+    <div class="btn-bottom justify-flex">
+        <a class="fanhui mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <div class="add-new">
+            <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" onchange="selectImg(this)" >
+            <div>更换图片</div>
+        </div>
+        <img src="./img/dui.png" id="sureCut" alt="">
+    </div>
+</div>
+
+<script src="./js/jquery-2.1.1.js"></script>
+<script src="./js/cropper.min.js"></script>
+<script src="../../js/castapp.js"></script>
+<script src="../../js/mui.js"></script>
+<script src="../../js/axios.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/qs.js"></script>
+<script src="../../js/api.js"></script>
+<script src="../../js/storage.js"></script>
+<script>
+    mui.init();
+    ca.init();
+    var cropper = "";
+    var fileName = "";
+    var type = GetQueryString("type") || '';
+    let swiperContainer = document.getElementById('tailoring-container');
+	setTimeout(function(){
+		swiperContainer.style.height = (client().height - 109) + 'px';
+		swiperContainer.style.width = client().width + 'px';
+	},500);
+    //图像上传
+    function selectImg(file) {
+        if (!file.files || !file.files[0]){
+            return;
+        }
+        mui.showLoading("加载中...","div");
+        fileName = file.files[0].name;
+		var fileSize = file.files[0].size/1024;	//文件大小
+		console.log('文件大小'+fileSize);
+		// if( fileSize > 2000 ){
+		// 	mui.hideLoading();
+		// 	mui.alert('请上传小于2M的图片');
+		// 	return false;
+		// }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            var replaceSrc = evt.target.result;
+            //更换cropper的图片
+            mui.hideLoading(); 
+            cropper.replace(replaceSrc,false);//默认false，适应高度，不失真
+            $(".tailoring-container").show();
+            $(".box-blank").hide();
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+    //cropper图片裁剪
+    var imgCropper = document.getElementById('tailoringImg');
+    cropper = new Cropper(imgCropper,{
+        autoCropArea: 0.5,  //0-1之间的数值，定义自动剪裁区域的大小，默认0.8
+        movable: true,  //是否允许移动剪裁框
+        resizable: true,  //是否允许改变裁剪框的大小
+        zoomable: true,  //是否允许缩放图片大小
+        scalable: true,  //是否允许缩放图片大小
+        mouseWheelZoom: false,  //是否允许通过鼠标滚轮来缩放图片
+        touchDragZoom: false,  //是否允许通过触摸移动来缩放图片
+        rotatable: true,  //是否允许旋转图片
+        crop: function(e) {
+            // 输出结果数据裁剪图像。
+        }
+    });
+    //旋转
+    $("#rotateLeft").on("click",function () {
+        if ($("#tailoringImg").attr("src") == null ){
+            ca.prompt('请先添加图片');
+            return false;
+        }
+        cropper.rotate(-45);
+    });
+    $("#rotateRight").on("click",function () {
+        if ($("#tailoringImg").attr("src") == null ){
+            ca.prompt('请先添加图片');
+            return false;
+        }
+        cropper.rotate(45);
+    });
+    //复位
+    $("#reset").on("click",function () {
+        if ($("#tailoringImg").attr("src") == null ){
+            ca.prompt('请先添加图片');
+            return false;
+        }
+        cropper.reset();
+    });
+    //换向
+    var flagX = true;
+    var num = 1;
+    // 放大
+    $("#scaleBig").on("click",function () {
+        if ($("#tailoringImg").attr("src") == null ){
+            ca.prompt('请先添加图片');
+            return false;
+        }
+        num += 0.2;
+        cropper.scale(num,num);
+    });
+    // 缩小
+    $("#scaleLittle").on("click",function () {
+        if ($("#tailoringImg").attr("src") == null ){
+            ca.prompt('请先添加图片');
+            return false;
+        }
+        if(num >= 0.4){
+            num -= 0.2;
+        }
+        cropper.scale(num,num);
+    });
+
+    //裁剪后的处理
+    $("#sureCut").on("click",function () {
+        if ($("#tailoringImg").attr("src") == null ){
+            ca.prompt('请先添加图片');
+            return false;
+        }else{
+			mui.showLoading("加载中...","div");
+            var base64url = cropper.url; //转换为base64地址形式
+            cropper.getCroppedCanvas({
+                fillColor: '#fff',
+				maxWidth:1024, 
+                imageSmoothingEnabled: false,
+                imageSmoothingQuality: 'high',//设置图像的质量，一个“low”(默认)、“medium”或“high”
+            }).toBlob(function (blob) {
+				console.log(blob,'获取的文件');
+                Axios.uploadFile(blob,fileName,1).then(function (imgUrl) {
+					console.log(imgUrl,'上传的图片');
+                    switch (type) {
+                        // 添加任务，上传店铺图片
+                        case 'task':
+                            ca.sendNotice(['pages/task.html'],'task',{"imgUrl":imgUrl});
+                            break;
+                        // 重新发布任务
+                        case 'taskEdit':
+                            ca.sendNotice(['taskEdit.html'],'task',{"imgUrl":imgUrl});
+                            break;
+                        // 售后服务，添加截图
+                        case 'shouhou':
+                            ca.sendNotice(['mine/shouhou.html'],'sale',{"imgUrl":imgUrl});
+                            break;
+                        // 添加身份证正面
+                        case 'cardFront':
+                            ca.sendNotice(['mine/shimingrenzheng.html'],'cardFront',{"imgUrl":imgUrl});
+                            break;
+                        // 添加身份证背面
+                        case 'cardBack':
+                            ca.sendNotice(['mine/shimingrenzheng.html'],'cardBack',{"imgUrl":imgUrl});
+                            break;
+                        // 添加银行卡图片
+                        case 'bankImg':
+                            ca.sendNotice(['mine/yinhangka2.html'],'bankImg',{"imgUrl":imgUrl});
+                            break;
+                        // 意见反馈
+                        case 'idea':
+                            ca.sendNotice(['yijianfankui.html'],'idea',{"imgUrl":imgUrl});
+                            break;
+                        // 添加店铺
+                        case 'store':
+                            ca.sendNotice(['tianjiadianpu.html','wanshanziliao.html'],'store',{"imgUrl":imgUrl});
+                            break;
+                        // 充值
+                        case 'chongzhi':
+                            ca.sendNotice(['mine/chongzhi.html'],'chongzhi',{"imgUrl":imgUrl});
+                            break;
+                        // 个人头像
+                        case 'avatar':
+                            ca.sendNotice(['mine/gerenzhongxin.html'],'updateAvatar',{"imgUrl":imgUrl});
+                            break;
+                        default :
+                            break;
+                    }
+                    ca.closeCurrentInterface();
+                })
+            });
+        }
+    });
+</script>
+
+</body></html>

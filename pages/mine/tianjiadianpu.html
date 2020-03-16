@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加店铺</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			body{
+				background: #F2F2F2;
+			}
+			.mui-content{
+				background: #F2F2F2;
+			}
+			.fukuan {
+				background: #fff;
+				padding-bottom: 10px;
+			}
+			
+			.fukuan ul li {
+				margin-left: 3.2%;
+				border-bottom: 1px solid #E5E5E5;
+				/*padding: 13px 0;*/
+			}
+			
+			.fukuan ul li:last-child {
+				border: none;
+			}
+			
+			.fukuan ul li label {
+				padding: 16px 0px;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				color: #333;
+				font-size: 15px;
+				/*text-align: right;*/
+			}
+
+			.pingzheng{
+				margin-top: 10px;
+			}
+			.pingzheng i {
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+				border: 1px dashed #ccc;
+				font-size: 22px;
+			}
+			.hasPingZheng{
+				position: relative;
+				top:0;
+				left:0;
+				width:60px;
+				height:60px;
+			}
+			.hasPingZheng img{
+				width:100%;
+				height:100%;
+				border:1px dotted #66D1CF;
+				display: block;
+			}
+			.hasPingZheng span{
+				position:absolute;
+				top:-5px;
+				right:-5px;
+				font-size: 18px;
+				color:#66D1CF;
+				background: #fff;
+				border-radius: 50%;
+			}
+			.tijiao {
+				width: 93.6%;
+				height: 40px;
+				border-radius: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				margin-top: 30px;
+				margin-left: 3.2%;
+				position: fixed;
+				bottom: 10px;
+				border: none;
+			}
+			
+			.fukuan .jietu {
+				margin-top: 13px;
+				border-bottom: none;
+			}
+			.addr{
+				position: relative;
+			}
+			.addr span{
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				font-size: 20px;
+				color: #999;
+			}
+			.beizhu{
+				margin-left: 2.67%;
+				font-size: 12px;
+				color: #999;
+			}
+			.beizhu span{
+				color: #E3211F;
+			}
+			#city{
+				height:47px;
+				line-height: 47px;
+				text-align: left;
+				padding-right: 10px;
+				float: left;
+				color:#333;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">添加店铺</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="fukuan">
+				<ul>
+					<li class="mui-input-row">
+						<label>淘宝店铺</label>
+						<input type="text" v-model="storeInfo.name" id="name" placeholder="请输入店铺名称">
+					</li>
+					<li class="mui-input-row addr" @tap="addr">
+						<label>所在地</label>
+						<div id="city">{{storeInfo.city || '请选择城市'}}</div>
+					</li>
+					<li class="mui-input-row">
+						<label>旺旺账号</label>
+						<input type="text" v-model="storeInfo.wangwang" id="code" placeholder="请输入旺旺账号">
+					</li>
+					<li class="jietu">
+						<label>后台截图</label>
+						<div class="pingzheng">
+							<i class="iconfont icon-tianjia htImg"  @tap="uploadFile" v-if="!storeInfo.image_url"></i>
+							<div class="hasPingZheng" v-else>
+								<img :src="storeInfo.image_url ? storeInfo.image_url : ''" data-preview-src="" data-preview-group="1" alt="">
+								<span class="mui-icon mui-icon-close" @tap="delImage()"></span>
+							</div>
+						</div>
+					</li>	
+				</ul>
+				<button class="tijiao" id="doDiv" @tap="shopSubmit">提交</button>
+			</div>
+			<p class="beizhu"><span>*</span>每个账号最多绑定6个店铺</p>
+		</div>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.zoom.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
+		<script src="../../js/city.data.js"></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						selectedIndex:0,
+						storeList:[],
+						storeInfo:{
+							name:'',
+							city:'',
+							wangwang:'',
+							image_url:'',
+							store_id:0
+						}
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					mui.previewImage();
+					var _this = this;
+					_this.storeId = GetQueryString("storeId") || '';
+					if(_this.storeId){
+						_this.getShopInfo();
+					}
+					mui.plusReady(function(){
+						ca.receiveNotice('store',function (event) {
+							_this.storeInfo.image_url = event.detail.imgUrl;
+						});
+						ca.receiveNotice('address',function (event) {
+							_this.storeInfo.city = event.detail.address;
+						})
+					});
+				},
+				methods: {
+					// 添加店铺
+					shopSubmit() {
+						if(this.storeInfo.name == '') {
+							ca.prompt('请输入姓名');
+							return;
+						}
+						if(this.storeInfo.city == '') {
+							ca.prompt('请输入城市');
+							return;
+						}
+
+						if(this.storeInfo.wangwang==''){
+							ca.prompt('请输入旺旺账号');
+							return;
+						}
+						if(this.storeInfo.image_url==''){
+							ca.prompt('请上传店铺图片');
+							return;
+						}
+						this.storeInfo.store_id = this.storeId || 0;
+						var params = this.storeInfo;
+						var _this = this;
+						params.token = storage.get("token") || "";
+						var api = _this.storeId ? '/api/store/edit_store' : '/api/store/store_add';
+						Axios.post(api, params).then(function(res) {
+							if (res.code == 1) {
+								ca.prompt(res.msg);
+								setTimeout(function () {
+									var parentId = plus.webview.currentWebview().opener().id;
+									popToTargetAndRefresh(parentId,true,'refreshStore');
+								},500)
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 获取已绑定店铺信息
+					getShopInfo() {
+						var params =  {
+							store_id:this.storeId,
+							token: storage.get("token") || ""
+						};;
+						var _this = this;
+						Axios.post("/api/Store/mystore_info", params).then(function(res) {
+							if (res.code == 1) {
+								_this.storeInfo = res.data;
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+
+					// 商品图片裁切上传
+					uploadFile(){
+						openWebview({
+							url:'../ImgCropping/cropperImg.html?type=store',
+							id:'cropperImg'
+						})
+					},
+					// 删除图片
+					delImage(){
+						this.storeInfo.image_url = '';
+					},
+					addr(){
+						var _this = this;
+						var cityPicker3 = new mui.PopPicker({
+							layer: 3
+						});
+						cityPicker3.setData(cityData3);
+						cityPicker3.show(function(items) {
+							items.forEach(function (val,index) {
+								if(index > 0){
+									_this.storeInfo.city = _this.storeInfo.city + '-' + val.text;
+								}else{
+									_this.storeInfo.city = val.text;
+								}
+							});
+						});
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../icont/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../js/load/mescroll.min.css"/>
+
+		<style type="text/css">
+			.header {
+				background: url(../img/bg.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			body{
+				overflow: initial;
+			}
+			.shezhi {
+				color: #fff;
+				font-size: 22px;
+				margin-right: 10px;
+				padding-top: 5px;
+				text-align: right;
+				display: block;
+			}
+			
+			.huiyuan {
+				margin-left: 2.8%;
+				padding-bottom: 70px;
+			}
+			
+			.huiyuan img {
+				width: 68px;
+				height: 68px;
+				border-radius: 50%;
+			}
+			.touxiang{
+				display: inline-block;
+				margin-left: 15px;
+				width: 150px;
+			}
+			.phone {
+				color: #fff;
+				font-size: 18px;
+				margin-top: 5px;
+			}
+			
+			.huiyuan p:last-child {
+				color: #fff;
+				font-size: 14px;
+			}
+			
+			.content_wrap {
+				position: relative;
+				background: #F2F2F2;
+				width: 100%;
+			}
+			
+			.content {
+				width: 100%;
+				position: absolute;
+				top: -60px;
+			}
+			
+			.yifabu {
+				background: #fff;
+				width: 94.6%;
+				margin-left: 2.8%;
+				box-shadow: 0px 0px 1px 1px #e0e0e0;
+				border-radius: 4px;
+			}
+			
+			.title {
+				border-bottom: 1px solid #E5E5E5;
+				padding: 10px;
+			}
+			
+			.title p {
+				margin-bottom: 0;
+			}
+			
+			.title p:first-child {
+				color: #333;
+				font-size: 15px;
+			}
+			
+			.renwu i {
+				color: #66D1CF;
+				padding-right: 5px;
+				font-size: 16px;
+			}
+			
+			.all,.tixian {
+				color: #999;
+				font-size: 12px;
+			}
+			
+			.all i,.tixian i {
+				font-size: 10px;
+				padding-left: 5px;
+			}
+			
+			.zhuangtai {
+				overflow: hidden;
+			}
+			.items {
+				width: 33.333%;
+				float: left;
+				text-align: center;
+				margin-top: 15px;
+			}
+			.items.order {
+				width: 25%;
+				float: left;
+				text-align: center;
+				margin-top: 15px;
+			}
+
+			
+			.items p:first-child {
+				color: #666;
+				font-size: 12px;
+			}
+			
+			.zhuangtai .jinxingzhong p:last-child {
+				color: #FFA63D;
+				font-size: 19px;
+			}
+			
+			.zhuangtai .wancheng p:last-child {
+				color: #54D4D4;
+				font-size: 19px;
+			}
+			
+			.zhuangtai .weiwanchaeng p:last-child {
+				color: #666;
+				font-size: 19px;
+			}
+			
+			.zhanghu {
+				background: #fff;
+				width: 94.6%;
+				margin-left: 2.8%;
+				box-shadow: 0px 0px 1px 1px #e0e0e0;
+				border-radius: 4px;
+				margin-top: 15px;
+			}
+			
+			.items p:last-child {
+				color: #666;
+				font-size: 19px;
+			}
+			
+			.wode i {
+				color: #FFA940;
+				padding-right: 5px;
+				font-size: 16px;
+			}
+			
+			.yue {
+				padding: 10px;
+				border-top: 1px solid #E5E5E5;
+				margin-top: 5px;
+			}
+			
+			.yue p {
+				margin-bottom: 0px;
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.yue p span {
+				color: #FFA940;
+				font-size: 16px;
+			}
+			
+			.yue p button {
+				background: #66D1CF;
+				color: #fff;
+				font-size: 12px;
+				padding: 4px 21px;
+				border: none;
+				border-radius: 21px;
+			}
+			.more{
+				width: 94.6%;
+				margin-left: 2.8%;
+				margin-top: 15px;
+				margin-bottom: 15px;
+				box-shadow: 0px 0px 1px 1px #e0e0e0;
+				border-radius: 4px;
+			}
+			.more ul li{
+				margin-left: 10px;
+				margin-right: 12px;
+				color: #333;
+				font-size: 15px;
+			}
+			.more ul li i{
+				padding-right: 10px;
+			}
+			.more ul li span{
+				margin-right: 13px;
+			}
+			.more ul li span.active{
+				color:#66D1CF;
+			}
+			.mui-table-view-cell{
+				padding: 15px 8px;
+			}
+			.mui-table-view-cell:after{
+				left: 0px;
+				background-color: #EEE;
+			}
+			.mui-navigate-right:after, .mui-push-right:after{
+				right: 4px;
+			}
+			.icon-yaoqing{
+				color: #FFA940;
+			}
+			.icon-tuikuan{
+				color: #FF622E;
+			}
+			.icon-xiazai{
+				color: #66D1CF;
+			}
+			.icon-kefu{
+				color: #1890FF;
+			}
+			.icon-shenfenzheng{
+				color: #66D1CF;
+			}
+			.icon-YINHANGKA{
+				color:#FF622E ;
+			}
+			.icon-tuandui{
+				color: #66D1CF;
+			}
+			.bind-store{
+				float: right;
+				margin-top: 20px;
+				margin-right: 10px;
+				background: #FFA63D;
+				border-radius:12px;
+				color:#fff;
+				padding:3px 12px;
+			}
+			.bind-store img{
+				width:14px;
+				height:14px;
+				margin-right: 5px;
+				position:relative;
+				top:-2px;
+			}
+			#zhifubao img{
+				position: relative;
+				width:18px;
+				height:18px;
+				top:-2px;
+				left:-2px;
+				margin-right: 6px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<section id="app" v-cloak>
+			<div class="header">
+				<i class="iconfont icon-shezhi shezhi" @tap="toSet"></i>
+				<div class="clearfix huiyuan">
+					<img class="f_left" :src="'../img/level' + myInfo.userinfo.level + '.png'"  @tap="toHuiYuan" alt="" />
+					<div class="touxiang" @tap="toHuiYuan">
+						<p class="phone">{{myInfo.userinfo.mobile}}</p>
+						<p>{{myInfo.userinfo.level_name}}</p>
+					</div>
+					<button class="bind-store" @tap="bindStore"><img src="../img/store.png" alt="">绑定店铺</button>
+				</div>
+			</div>
+			<div class="content_wrap">
+				<div class="content">
+					<div class="yifabu">
+						<div class="title clearfix">
+							<p class="f_left renwu"><i class="iconfont icon-daohang"></i>已发布的任务</p>
+							<p class="f_right all" @tap="toOrderList(0,'全部订单')">全部订单<i class="iconfont icon-youjiantou"></i></p>
+						</div>
+						<ul class="zhuangtai">
+							<li class="items order wancheng" id="daifukuan" @tap="toOrderList(5,'待付款')">
+								<p>待付款</p>
+								<p>{{myInfo.task.waitpay}}</p>
+							</li>
+							<li class="items order jinxingzhong" id="jinxz" @tap="toOrderList(10,'进行中')">
+								<p>进行中</p>
+								<p>{{myInfo.task.ongoing}}</p>
+							</li>
+							<li class="items order wancheng" id="yiwc" @tap="toOrderList(20,'已完成')">
+								<p>已完成</p>
+								<p>{{myInfo.task.finished}}</p>
+							</li>
+							<li class="items order weiwanchaeng" id="weiwc" @tap="toOrderList(30,'未完成')">
+								<p>未完成</p>
+								<p>{{myInfo.task.overdue}}</p>
+							</li>
+						</ul>
+					</div>
+					<div class="zhanghu">
+						<div class="title clearfix">
+							<p class="f_left wode"><i class="iconfont icon-qianbao"></i>我的账户</p>
+							<p class="f_right tixian" @tap="toTiXian">提现<i class="iconfont icon-youjiantou"></i></p>
+						</div>
+						<div class="zhuangtai ">
+							<div class="items" @tap="getCount()">
+								<p>已返还本金（元）</p>
+								<p>{{myInfo.myaccount.principal}}</p>
+							</div>
+							<div class="items " @tap="getCount()">
+								<p>已消费佣金（元）</p>
+								<p>{{myInfo.myaccount.brokerage}}</p>
+							</div>
+							<div class="items" @tap="getCount()">
+								<p>退款</p>
+								<p>{{myInfo.myaccount.refund}}</p>
+							</div>
+						</div>
+						<div class="yue clearfix">
+							<p>账户余额： <span>￥{{myInfo.myaccount.account_money}}</span> <button class="f_right chongzhi" @tap="toChongZhi">充值</button></p>
+						</div>
+					</div>
+					<div class="more">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell" @tap="toOtherPage('liuliang')">
+								<a class="mui-navigate-right" id="huiyuan"><i class="iconfont icon-yaoqing"></i>流量订单</a>
+							</li>
+							<li class="mui-table-view-cell" @tap="toOtherPage('fenxiao')" v-if="myInfo.userinfo.group_id == 4 || myInfo.userinfo.group_id == 5">
+								<a class="mui-navigate-right" id="fenxiao"><i class="iconfont icon-tuandui"></i>我的分销</a>
+							</li>
+							<li class="mui-table-view-cell" @tap="toOtherPage('huiyuan')">
+								<a class="mui-navigate-right" id="huiyuan"><i class="iconfont icon-yaoqing"></i>会员制度</a>
+							</li>
+							<li class="mui-table-view-cell" @tap="toOtherPage('shouhou')">
+								<a class="mui-navigate-right" id="shouhou"><i class="iconfont icon-tuikuan"></i>售后管理</a>
+							</li>
+							<li class="mui-table-view-cell" @tap="toOtherPage('daochu')">
+								<a class="mui-navigate-right" id="daochu"><i class="iconfont icon-xiazai"></i>导出订单</a>
+							</li>
+							<li class="mui-table-view-cell" @tap="toOtherPage('lianxikefu')">
+								<a class="mui-navigate-right" id="lianxikefu">
+									<i class="iconfont icon-kefu"></i>联系客服
+								</a>
+							</li>
+							<li class="mui-table-view-cell" @tap="toAuthName(myInfo.userinfo.real_authentication)">
+								<a class="mui-navigate-right" id="shimingrenzheng">
+									<i class="iconfont icon-shenfenzheng"></i>实名认证
+									<span class="f_right" :class="myInfo.userinfo.real_authentication ? 'active' : ''">{{myInfo.userinfo.real_authentication ? '已认证' : '未认证'}}</span>
+								</a>
+							</li>
+							<li class="mui-table-view-cell" @tap="toCheckCard(myInfo.userinfo.card_authentication)">
+								<a class="mui-navigate-right" id="yinhangka">
+									<i class="iconfont icon-YINHANGKA"></i>银行卡/支付宝
+									<span class="f_right" :class="myInfo.userinfo.card_authentication ? 'active' : ''">{{myInfo.userinfo.card_authentication ? '已绑定' : '未绑定'}}</span>
+								</a>
+							</li>
+<!--							<li class="mui-table-view-cell" @tap="toCheckAli(myInfo.userinfo.card_authentication)">-->
+<!--								<a class="mui-navigate-right" id="zhifubao">-->
+<!--									<img src="../img/ali.png" alt="">支付宝-->
+<!--									<span class="f_right" :class="!myInfo.userinfo.card_authentication ? 'active' : ''">{{myInfo.userinfo.card_authentication ? '已绑定' : '未绑定'}}</span>-->
+<!--								</a>-->
+<!--							</li>-->
+							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<script src="../js/jquery-3.2.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.plusReady(function(){
+				if( !isIPhoneX() ){
+					$(".header").css('paddingTop','24px')
+				}
+			})
+			
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						myInfo: {
+							userinfo:{},
+							task:{
+
+							},
+							myaccount:{}
+						},
+						mescroll:{},
+						isSaler:0
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					var _this = this;
+					_this.load();
+					mui.plusReady(function(){
+						var showGuide = plus.storage.getItem("lauchFlag");
+						ca.receiveNotice('refreshMine',function (event) {
+							_this.getUserInfo();
+						});
+						ca.receiveNotice('refreshMoney',function (event) {
+							_this.mescroll.resetUpScroll(false);
+						})
+					});
+				},
+				methods: {
+					load() {
+						this.mescroll = new MeScroll("body", {
+							down: {
+								auto:true,
+								callback:this.getUserInfo
+							},
+						});
+					},
+					// 个人信息
+					getUserInfo(){
+						var params = {
+							token:storage.get("token") || ""
+						};
+						var _this = this;
+						Axios.get(`/api/user/userinfo`,params).then(function(res){
+							if(res.code == 1){
+								_this.myInfo.userinfo = res.data.userinfo;
+								_this.myInfo.task = res.data.task;
+								_this.myInfo.myaccount = res.data.myaccount;
+								_this.mescroll.resetUpScroll( false );
+								_this.mescroll.endSuccess()
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 跳至相应状态订单管理
+					toOrderList(status,title){
+						openWebview({
+							url:"./mine/dingdan.html?status=" + status + "&title=" + title,
+							id:'dingdan.html'
+						})
+					},
+					getCount(){
+						openWebview({
+							url:'./mine/qianbao.html',
+							id:'qianbao.html'
+						})
+					},
+					// 添加实名认证、查看认证信息
+					toAuthName(isAuth){
+						if(!isAuth){
+							ca.newInterface({
+								url:'mine/shimingrenzheng.html',
+								id:'mine/shimingrenzheng.html'
+							})
+						}else{
+							ca.newInterface({
+								url:'mine/shimingrenzheng.html?isSee=1',
+								id:'mine/shimingrenzheng.html'
+							})
+						}
+					},
+					// 添加绑定银行卡、查看已绑定的银行卡信息
+					toCheckCard(isBind){
+						if(!isBind){
+							ca.newInterface({
+								url:'mine/yinhangka.html',
+								id:'mine/yinhangka.html'
+							})
+						}else{
+							ca.newInterface({
+								url:'mine/yinhangka2.html?isSee=1',
+								id:'mine/yinhangka2.html'
+							})
+						}
+
+					},
+					// 添加绑定支付宝、查看已绑定的支付宝信息
+					toCheckAli(isBind){
+						var url = isBind ? 'mine/aliAccount.html?isSee=1' :'mine/aliAccount.html';
+						ca.newInterface({
+							url:url,
+							id:'mine/aliAccount.html'
+						})
+					},
+					// 会员制度,售后管理,联系客服、我的分销
+					toOtherPage(name){
+						ca.newInterface({
+							url:'mine/'+ name +'.html',
+							id:'mine/'+ name +'.html'
+						})
+					},
+					// 去设置页面
+					toSet(){
+						ca.newInterface({
+							url:'mine/xitongshezhi.html',
+							id:'mine/xitongshezhi.html'
+						})
+					},
+					// 去会员
+					toHuiYuan(){
+						ca.newInterface({
+							url:'mine/gerenzhongxin.html',
+							id:'mine/gerenzhongxin.html'
+						})
+					},
+					// 去提现
+					toTiXian(){
+						if(!this.myInfo.userinfo.real_authentication){
+							mui.confirm('请先完成实名认证哦','提示',['取消','确定'],function (e) {
+								if(e.index == 1){
+									ca.newInterface({
+										url:'mine/shimingrenzheng.html',
+										id:'mine/shimingrenzheng.html'
+									})
+								}
+							})
+						}else{
+							ca.newInterface({
+								url:'mine/yuetixian.html',
+								id:'mine/yuetixian.html'
+							})
+						}
+
+					},
+					// 充值
+					toChongZhi(){
+						ca.newInterface({
+							url:'mine/chongzhi.html?type=mine',
+							id:'mine/chongzhi.html'
+						})
+					},
+					bindStore(){
+						ca.newInterface({
+							url:'mine/tianjiadianpu.html',
+							id:'tianjiadianpu.html'
+						})
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>

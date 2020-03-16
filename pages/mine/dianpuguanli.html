@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>店铺管理</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-bar .mui-title{
+				font-size: 18px;
+				color: #333;
+				right: 80px;
+				left: 80px;
+			}
+			.addDp{
+				color: #666;
+				font-size: 15px;
+				margin-top: 13px;
+			}
+			body,.mui-content{
+				background: #F2F2F2;
+				
+			}
+			.content ul{
+				background: #fff;
+				margin-bottom: 10px;
+			}
+			.content ul li{
+				margin-left: 2.67%;
+				padding: 16px 0;
+				padding-right: 2.67%;
+				border-bottom: 1px solid #E5E5E5;
+				position: relative;
+			}
+			.content ul li p{
+				color: #333;
+				font-size: 15px;
+				margin-bottom: 0px;
+			}
+			.content ul li .name{
+				color: #999;
+			}
+			.dpImg img{
+				width: 100px;
+				height: 100px;
+			}
+			.dpSet{
+				position: absolute;
+				right: 2.67%;
+				bottom: 10px;
+			}
+			.dpSet button{
+				width: 65px;
+				height: 24px;
+				font-size: 12px;
+				color: #666;
+				margin-left: 15px;
+				border-collapse: #979797;
+				border-radius: 24px;
+			}
+			.empty img{
+				width: 113px;
+				height: auto;
+				display: block;
+				margin: 30px auto 10px;
+			}
+			.empty p{
+				text-align: center;
+				padding-bottom: 20px;
+			}
+		</style>
+	</head>
+	<body>
+	<section id="app" v-cloak>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">店铺管理</h1>
+			<span class="mui-pull-right addDp" @tap="editStore(0)" v-if="storeList && storeList.length <= storeLength">添加店铺</span>
+		</header>
+		<div class="mui-content">
+			<div class="content">
+				<ul v-for="(item,index) in storeList">
+					<li class="clearfix">
+						<p class="f_left">淘宝店铺名称</p>
+						<p class="f_right name">{{item.name}}</p>
+					</li>
+					<li class="clearfix">
+						<p class="f_left">所在地区</p>
+						<p class="f_right name">{{item.city}}</p>
+					</li>
+					<li>
+						<div class="dpImg">
+							<img :src="item.image_url ? item.image_url : '../../img/goods5.jpg'" alt="" />
+						</div>
+						<div class="dpSet">
+							<button @tap="editStore(item.id)">编辑</button>
+							<button @tap="delStore(item,index)">删除</button>
+						</div>
+					</li>
+				</ul>
+
+			</div>
+			<ul class="empty"  v-if="storeList.length === 0">
+				<img src="../../img/empty.png" >
+				<p>暂无数据</p>
+			</ul>
+		</div>
+
+	</section>
+
+
+	<script src="../../js/jquery-3.2.1.min.js"></script>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						storeList:[],
+						storeLength:6
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+					var _this = this;
+					_this.getShopList();
+					_this.getConfig();
+					mui.plusReady(function(){
+						ca.receiveNotice('refreshStore',function (event) {
+							_this.getShopList();
+						})
+					});
+				},
+				methods: {
+					// 获取发布任务配置信息
+					getConfig(){
+						let params = {
+							token:storage.get("token") || ""
+						};
+						var _this = this;
+						Axios.get('/api/Index/config_get',params).then(function(res){
+							if(res.code == 1){
+								_this.storeLength = res.data.max_store_numbers;
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 获取已绑定店铺列表
+					getShopList() {
+						var params =  {
+							token: storage.get("token") || ""
+						};
+						var _this = this;
+						Axios.post("/api/Store/my_store_list", params).then(function(res) {
+							if (res.code == 1) {
+								_this.storeList = res.data;
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 编辑店铺
+					editStore(id){
+						if(id){
+							ca.newInterface({
+								url:'tianjiadianpu.html?storeId=' + id,
+								id:'tianjiadianpu.html'
+							})
+						}else{
+							ca.newInterface({
+								url:'tianjiadianpu.html',
+								id:'tianjiadianpu.html'
+							})
+						}
+					},
+					// 删除店铺
+					delStore(item,index){
+						var _this = this;
+						mui.confirm('确认删除该店铺吗','店铺管理',['确认','取消'],function (e) {
+							if(e.index == 0){
+								var params = {
+									store_id:item.id,
+									token: storage.get("token") || ""
+								};
+								Axios.post("/api/Store/delete_store", params).then(function(res) {
+									if (res.code == 1) {
+										ca.prompt(res.msg);
+										_this.storeList.splice(index,1);
+									} else {
+										ca.prompt(res.msg);
+									}
+								})
+							}
+						})
+
+					},
+
+				}
+			});
+		</script>
+	</body>
+</html>

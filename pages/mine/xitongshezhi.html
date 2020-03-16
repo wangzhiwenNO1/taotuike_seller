@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>系统设置</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			.mui-content{
+				background: #F2F2F2;
+			}
+			.cont,.footer{
+				background: #fff;
+			}
+			.cont ul li,.footer ul li{
+				margin: 0px 0px 0px 12px;
+				overflow: hidden;
+				padding: 16px 13px 16px 0px;
+				border-bottom: 1px solid #E5E5E5;
+			}
+			.cont ul li span,.footer ul li span{
+				float: left;
+				color: #333;
+				font-size: 15px;
+			}
+			.cont ul li i{
+				float: right;
+				color: #999;
+				font-size: 12px;
+			}
+			.footer{
+				background: #fff;
+				margin-top: 10px;
+			}
+			.footer ul li i{
+				float: right;
+				color: #999;
+				font-size: 15px;
+			}
+			.tijiao{
+				width: 93.6%;
+				height: 40px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				border: none;
+				border-radius: 40px;
+				position: fixed;
+				bottom: 20px;
+				margin-left: 3.2%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">系统设置</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="cont">
+				<ul>
+					<li class="xiugaimima">
+						<span>修改密码</span>
+						<i class="iconfont icon-youjiantou"></i>
+					</li>
+					<li class="yijianfankui">
+						<span>意见反馈</span>
+						<i class="iconfont icon-youjiantou"></i>
+					</li>
+					<li class="guanyuwomen">
+						<span>关于我们</span>
+						<i class="iconfont icon-youjiantou"></i>
+					</li>
+				</ul>
+			</div>
+			<div class="footer">
+				<ul>
+					<li @tap="cleanCache">
+						<span>清除缓存</span>
+						<i>{{size_m}}M</i>
+					</li>
+					<li>
+						<span>当前版本</span>
+						<i>{{version}}</i>
+					</li>
+				</ul>
+				<button class="tijiao" @tap="loginOut">退出登录</button>
+			</div>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			var sizeCache = 0;
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						size_m:0,
+                        version:"0.00.00",
+					}
+				},
+				created() {
+					mui.init();
+					ca.init();
+                    var _this = this;
+                    mui.plusReady(function(){
+						plus.runtime.getProperty(plus.runtime.appid, function(data) {
+							console.log( JSON.stringify(data) );
+							_this.version = data.version
+						}); 
+                    });
+					this.getCache();
+				},
+				methods:{
+					getCache(){
+						var _this = this;
+						mui.plusReady(function () {
+							plus.cache.calculate(function(size) {
+								sizeCache = size;
+								var size_m = parseFloat(sizeCache / (1024 * 1024)).toFixed(2);
+								_this.size_m = size_m;
+							});
+						})
+					},
+					// 清除缓存
+					cleanCache(){
+						var _this = this;
+						mui.plusReady(function () {
+							plus.cache.calculate(function(size) {
+								sizeCache = size;
+								var size_m = parseFloat(sizeCache / (1024 * 1024)).toFixed(2);
+								mui.confirm("确定清除缓存吗？", "清除缓存", ["确认", "取消"], function(e) {
+									if(e.index == 0) {
+										_this.size_m = 0;
+										ca.prompt("缓存清除完毕");
+										// plus.cache.clear(function() {
+										// 	_this.size_m = 0;
+										// 	ca.prompt("缓存清除完毕");
+										// });
+									}
+								});
+							});
+						})
+					},
+					// 退出登录
+					loginOut(){
+						var btnArray = ['取消', '确定'];
+						mui.confirm('确定退出登录？', '退出登录', btnArray, function(e) {
+							if (e.index == 1) {
+								var params = {
+									token: storage.get('token') || ''
+								};
+
+								Axios.post('/api/user/logout',params).then(function (res) {
+									if(res.code == 1){
+										storage.clear();
+										ca.prompt(res.msg);
+										mui.plusReady(function () {
+											plus.runtime.restart();
+										})
+									}else{
+										ca.prompt(res.msg);
+									}
+								})
+							}
+						})
+
+					}
+				}
+			})
+			$('.cont ul').on('click','li',function(){
+				var h=$(this).attr('class');
+				ca.newInterface({
+					url:h+'.html',
+					id:h+'.html'
+				})
+			});
+		</script>
+	</body>
+</html>

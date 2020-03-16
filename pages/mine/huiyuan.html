@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>会员中心</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			/*.mui-bar {*/
+			/*	background: #232323;*/
+			/*	border-color: #232323 !important;*/
+			/*}*/
+			
+			.mui-bar .mui-action-back {
+				color: #000;
+			}
+			
+			.mui-bar .mui-title {
+				color: #000;
+				font-size: 18px;
+			}
+			
+			body,
+			.mui-content {
+				background: #fff;
+			}
+			
+			.header {
+				background: url(../../img/hybg.png) no-repeat;
+				background-size: 100% 100%;
+				padding-bottom: 32px;
+			}
+			
+			.hyImg {
+				text-align: center;
+			}
+			
+			.hyImg img {
+				width: 104px;
+				height: 104px;
+			}
+			
+			.hyName {
+				color: #fff;
+				font-size: 17px;
+				text-align: center;
+			}
+			
+			.shudan {
+				color: #fff;
+				font-size: 14px;
+				text-align: center;
+				margin-bottom: 40px;
+			}
+			/*进度条*/
+			
+			.mui-progressbar {
+				position: relative;
+				display: block;
+				overflow: hidden;
+				width: 100%;
+				height: 10px;
+				-webkit-transform-origin: center top;
+				transform-origin: center top;
+				vertical-align: middle;
+				border-radius: 0px;
+				background: #000;
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-progressbar span {
+				position: absolute;
+				top: 3.5px;
+				left: 0;
+				width: 100%;
+				height: 30%;
+				-webkit-transition: 150ms;
+				transition: 150ms;
+				-webkit-transform: translate3d(-100%, 0, 0);
+				transform: translate3d(-100%, 0, 0);
+				background: #F7D38D;
+				border-radius: 1.5px;
+			}
+			
+			.jindu{
+				position: relative;
+			}
+			.weizhi{
+				position: absolute;
+				text-align: center;
+				
+				top: 1px;
+			}
+			.dian{
+				display: block;
+				width: 8px;
+				height: 8px;
+				margin: 0 auto;
+				background: #F7D38D;
+				border-radius: 8px;
+				margin-bottom: 3px;
+			}
+			.dian-grey{
+				display: block;
+				width: 8px;
+				height: 8px;
+				margin: 0 auto;
+				border-radius: 8px;
+				margin-bottom: 3px;
+				background: #333;
+			}
+			.weizhi p{
+				margin-bottom: 0px;
+				font-size: 12px;
+				line-height: 14px;
+			}
+			.huangjhy{
+				left: 15%;
+			}
+			.huangcen{
+				left: 45%;
+			}
+			.baijhy{
+				right: 10%;
+			}
+			.weizhi p.color9 {
+				color: #999;
+			}
+			.weizhi p.colorF {
+				color: #fff;
+			}
+			.number{
+				display: inline-block;
+				color: #333;
+				font-size: 12px;
+				padding: 0px 8px 5px 8px;
+				/*text-align: center;*/
+				
+				background: url(../../img/jybg.png) no-repeat;
+				background-size: 100% 100%;
+				position: relative;
+				transform: translate(-50%);
+				top: -37px;
+			}
+			.dengji{
+				margin-top: 30px;
+			}
+			.title{
+				color: #333;
+				font-size: 15px;
+				margin-left: 3.2%;
+				padding-left: 13px;
+				position: relative;
+			}
+			.title:after{
+				content: '';
+				width: 3px;
+				height: 15px;
+				background: #66D1CF;
+				border-radius: 3px;
+				position: absolute;
+				top: 3px;
+				left: 0px;
+			}
+			.dengji ul li{
+				margin-left: 3.2%;
+				padding-left: 13px;
+				position: relative;
+				color: #999;
+				margin-bottom: 10px;
+			}
+			.dengji ul li:after{
+				content: '';
+				width: 3px;
+				height: 3px;
+				background: #999;
+				border-radius: 3px;
+				position: absolute;
+				top: 50%;
+				left: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">会员中心</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="header">
+				<div class="hyImg">
+					<img :src="'../../img/level' + wallet.level + '.png'" alt="" />
+				</div>
+				<p class="hyName">{{wallet.level_name}}</p>
+				<p class="shudan">已刷单：{{wallet.shuadan_number}}</p>
+				<div class="jindu">
+					<div id="demo1" class="mui-progressbar">
+						<span></span>
+					</div>
+<!--					<div class="weizhi huangjhy color9">-->
+<!--						<span class="dian"></span>-->
+<!--						<p>白银会员</p>-->
+<!--						<p>{{wallet.shuadan_number}}</p>-->
+<!--					</div>-->
+					<div class="weizhi colorF" :class="item.level >= 3 ? 'baijhy' : 'huangjhy'" v-for="(item,index) in wallet.level_list" v-if="index > 0">
+						<span :class="level == item.level ? 'dian' : 'dian-grey'"></span>
+						<p :class="level == item.level ? 'colorF' : 'color9'">{{item.level_name}}</p>
+						<p :class="level == item.level ? 'colorF' : 'color9'">{{item.shuadan_number_min}}</p>
+					</div>
+					<span class="number" :style="{'left':((wallet.shuadan_number >= 30 ? wallet.shuadan_number : 30) /allDan)*100 + '%'}">{{wallet.shuadan_number}}</span>
+				</div>
+			</div>
+			<div class="dengji">
+				<p class="title">等级划分</p>
+				<ul>
+					<li v-for="(description,index) in wallet.level_description">{{description}};</li>
+				</ul>
+			</div>
+			<div class="dengji">
+				<p class="title">升级规则</p>
+				<ul>
+					<li v-for="(rule,index) in wallet.rule">{{rule}};</li>
+				</ul>
+			</div>
+		</div>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						wallet: {},
+						allDan:1200,
+						levelList:[],
+						level:0
+					}
+				},
+				mounted() {
+					mui.init();
+					ca.init();
+					this.getAccountInfo();
+				},
+				methods: {
+					// 余额明细详情
+					getAccountInfo() {
+						let params = {
+							token: storage.get("token") || ""
+						};
+						let _this = this;
+						Axios.get("/api/user/rule", params).then( function(res) {
+							if (res.code == 1) {
+								res.data.level_list.forEach(function(item,index){
+									if(res.data.shuadan_number > item.shuadan_number_min){
+										_this.level = item.level;
+									}
+								});
+								_this.levelList = res.data.level_list;
+								_this.wallet = res.data;
+								mui("#demo1").progressbar({
+									progress: ((res.data.shuadan_number >= 30 ? res.data.shuadan_number : 30)/_this.allDan)*100
+								}).show();
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+				}
+			})
+		</script>
+	</body>
+
+</html>

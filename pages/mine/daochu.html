@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>导出订单</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../../css/mui.min.css" rel="stylesheet" />
+	<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+	<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css"/>
+	<style type="text/css">
+		.mui-icon-left-nav {
+			color: #666;
+		}
+
+		.mui-title {
+			font-size: 18px;
+			color: #333;
+		}
+
+		body {
+			background: #F2F2F2;
+		}
+
+		.mui-content {
+			background: #F2F2F2;
+		}
+
+		.jine {
+			background: #fff;
+			padding: 0 3.2%;
+		}
+
+		.jine_t {
+			color: #333;
+			font-size: 14px;
+			padding-top: 20px;
+			margin-bottom: 24px;
+		}
+
+		.inputJine {
+			padding-bottom: 23px;
+		}
+
+		.inputJine label {
+			float: none;
+			padding: 0;
+			font-size: 30px;
+			color: #333;
+		}
+
+		.jine .inputJine input {
+			float: none;
+			font-size: 48px;
+			color: #333;
+			height: auto;
+		}
+
+		.mui-input-row .mui-input-clear~.mui-icon-clear,
+		.mui-input-row .mui-input-password~.mui-icon-eye,
+		.mui-input-row .mui-input-speech~.mui-icon-speech {
+			top: 25px;
+		}
+
+		.zhifu {
+			background: #fff;
+			margin-bottom: 10px;
+			padding-bottom: 10px;
+		}
+
+		.title {
+			margin-left: 5px;
+			margin-right: 5px;
+			color: #333;
+			font-size: 15px;
+			padding: 18px 0px 12px 13px;
+			border-bottom: 1px solid #E5E5E5;
+			position: relative;
+			margin-bottom: 0px;
+		}
+
+		.title:after {
+			content: '';
+			width: 3px;
+			height: 15px;
+			background: #66D1CF;
+			position: absolute;
+			top: 22px;
+			left: 0px;
+		}
+
+		.zhifu ul li {
+			padding-left: 3.2%;
+		}
+
+		.zhifu ul li img {
+			width: 30px;
+			height: 30px;
+			margin-top: 6px;
+		}
+
+		.zhifu .mui-radio label {
+			padding: 16px 0px;
+			margin: 0;
+			color: #333;
+			font-size: 14px;
+		}
+
+		.mui-checkbox,
+		.mui-radio {
+			position: relative;
+			float: right;
+			border-bottom: 1px solid #E5E5E5;
+			width: 85%;
+		}
+
+		.mui-checkbox input[type=checkbox],
+		.mui-radio input[type=radio] {
+			top: 16px;
+			right: 10px;
+			width: 20px;
+			height: 20px;
+		}
+
+		.mui-checkbox input[type=checkbox]:before,
+		.mui-radio input[type=radio]:before {
+			font-size: 20px;
+		}
+
+		.mui-radio input[type=radio]:checked:before {
+			background: url(../../img/choose.png) no-repeat;
+			background-size: 100% 100%;
+			content: '\e442';
+			border: none;
+			color: rgba(255, 255, 255, 0.2);
+		}
+
+		.juti {
+			background: #fff;
+			width: 94.6%;
+			margin: 10px auto;
+			padding: 15px 10px;
+			box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+			border-radius: 4px;
+		}
+
+		.jutiImg img {
+			width: 40px;
+			height: 40px;
+			margin-right: 10px;
+		}
+
+		.jutiMsg {}
+
+		.yinhang {
+			color: #333;
+			font-size: 15px;
+			margin-bottom: 0px;
+		}
+
+		.user {
+			color: #666;
+			font-size: 12px;
+		}
+
+		.number {
+			color: #333;
+			font-size: 14px;
+			margin-bottom: 0px;
+		}
+
+		.copy {
+			padding: 4px 9px;
+			color: #666;
+			font-size: 12px;
+			border-radius: 20px;
+			margin-top: 15px;
+		}
+
+
+		.more ul li{
+			margin-left: 10px;
+			margin-right: 12px;
+			color: #333;
+			font-size: 15px;
+		}
+		.more ul li i{
+			padding-right: 10px;
+		}
+		.more ul li span{
+			margin-right: 13px;
+		}
+		.more ul li span.active{
+			color:#66D1CF;
+		}
+		.mui-table-view-cell{
+			padding: 15px 8px;
+		}
+		.mui-table-view-cell:after{
+			left: 0px;
+			background-color: #EEE;
+		}
+		.mui-navigate-right:after, .mui-push-right:after{
+			right: 4px;
+		}
+
+		.fukuan {
+			background: #fff;
+			padding-bottom: 10px;
+		}
+
+		.fukuan ul li {
+			margin-left: 3.2%;
+			border-bottom: 1px solid #E5E5E5;
+		}
+
+		.fukuan ul li:last-child {
+			border: none;
+		}
+		.fukuan ul li:last-child label{
+			height: 40px;
+			line-height: 40px;
+		}
+
+		.fukuan ul li label {
+			padding: 13px 0px;
+		}
+
+		.mui-input-row label~input,
+		.mui-input-row label~select,
+		.mui-input-row label~textarea {
+			color: #ccc;
+			font-size: 15px;
+		}
+
+		.pingzheng i {
+			display: inline-block;
+			width: 60px;
+			height: 60px;
+			line-height: 60px;
+			text-align: center;
+			border: 1px dashed #ccc;
+			font-size: 22px;
+		}
+		.hasPingZheng{
+			position: relative;
+			top:0;
+			left:0;
+			max-width:150px;
+			min-height: 80px;
+			max-height:200px;
+		}
+		.hasPingZheng img{
+			width:100%;
+			min-height: 80px;
+			border:1px dotted #66D1CF;
+			display: block;
+		}
+		.hasPingZheng span{
+			position:absolute;
+			top:-5px;
+			right:-5px;
+			font-size: 18px;
+			color:#66D1CF;
+			background: #fff;
+			border-radius: 50%;
+		}
+		.chongzhi {
+			width: 93.6%;
+			height: 40px;
+			border-radius: 40px;
+			background: #66D1CF;
+			color: #fff;
+			font-size: 14px;
+			margin-top: 30px;
+			margin-left: 3.2%;
+			border: none;
+		}
+		.newfile{
+			width: 50%;
+			height: 40px;
+			border-radius: 40px;
+			background: #66D1CF;
+			color: #fff;
+			font-size: 14px;
+			display: block;
+			margin: 10px auto 0;
+			border: none;
+		}
+		.downBtn{
+			background: #66D1CF;
+			height:26px;
+			width:70px;
+			text-align: center;
+			color:#fff;
+			font-size:14px;
+			line-height: 26px;
+			border-radius: 13px;
+			margin-right: 0!important;
+		}
+
+		.empty img{
+			width: 113px;
+			height: auto;
+			display: block;
+			margin: 30px auto 10px;
+		}
+		.empty p{
+			text-align: center;
+			padding-bottom: 20px;
+		}
+	</style>
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">导出订单</h1>
+</header>
+<div class="mui-content" id="app" v-cloak>
+	<div class="zhifu">
+		<p class="title">订单日期（最多可选7日内）</p>
+		<div class="more">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" @tap="riLi(0)">
+					<a class="mui-navigate-right">
+						开始时间
+						<span class="f_right">{{order.startTime || '请选择'}}</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" @tap="riLi(1)">
+					<a class="mui-navigate-right">
+						结束时间
+						<span class="f_right">{{order.endTime || '请选择'}}</span>
+					</a>
+				</li>
+			</ul>
+			<button class="newfile" @tap="newFile">生成导出文件</button>
+		</div>
+
+	</div>
+	<div class="zhifu" v-if="fileList && fileList.length">
+		<p class="title">文件列表</p>
+		<div class="more">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" v-for="(item,index) in fileList">
+					<a class="">
+						{{item.name}}
+						<span class="f_right downBtn" @tap="downFile(item.url)">查看</span>
+					</a>
+				</li>
+			</ul>
+			<ul class="empty" v-if="fileList.length === 0">
+				<img src="../../img/empty.png" >
+				<p>暂无数据</p>
+			</ul>
+		</div>
+
+	</div>
+</div>
+<script src="../../js/jquery-3.2.1.min.js"></script>
+<script src="../../js/mui.min.js"></script>
+<script src="../../js/mui.previewimage.js"></script>
+<script src="../../js/mui.zoom.js"></script>
+<script src="../../js/mui.picker.min.js"></script>
+<script src="../../js/mui.poppicker.js"></script>
+<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/babel">
+	mui.init();
+	ca.init();
+	var tjImg=[];
+	let app = new Vue({
+		el: '#app',
+		data() {
+			return {
+				paySet:{},
+				fileList:[],
+				order:{
+					startTime:'',
+					endTime:this.getNowFormatDate(),
+					dateStatus:0
+				},
+				pageIndex:1
+			}
+		},
+		created() {
+			mui.init();
+			ca.init();
+			this.load();
+		},
+		methods: {
+			load() {
+				this.mescroll = new MeScroll("body", {
+					down: {
+						auto:false,
+						callback:this.newFile
+					},
+					up: {
+						auto:false,
+						callback: this.moreOrderList, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+						isBounce: false,
+						noMoreSize: 5,
+						page: {
+							num:this.pageIndex,
+							size: this.pageSize,
+						},
+						htmlNodata: '<p class="upwarp-nodata">-- 没有数据啦 --</p>'
+					}
+				});
+			},
+			// 生成导出文件
+			newFile(){
+				var _this = this;
+				if(!this.order.startTime){
+					ca.prompt("请选择开始时间！");
+					_this.mescroll.endErr()
+					return;
+				}
+				if(!this.order.endTime){
+					ca.prompt("请选择结束时间！");
+					_this.mescroll.endErr()
+					return;
+				}
+
+				let params = this.order;
+				params.page = this.pageIndex;
+				// 当上拉加载到最后一页后，下拉刷新，重置上拉加载状态
+				if(!_this.mescroll.optUp.hasNext){
+					_this.mescroll.resetUpScroll(false);
+				}
+				params.token = storage.get("token") || "";
+				Axios.post('/api/export/index', params).then(function(res) {
+					if (res.code == 1) {
+						_this.fileList = res.data.lists;
+						_this.mescroll.endSuccess()
+					} else {
+						_this.mescroll.endErr()
+						ca.prompt(res.msg);
+					}
+				})
+			},
+			// 上拉加载导出文件
+			moreOrderList(page){
+				var params = this.order;
+				params.token = storage.get("token") || "";
+				params.page = page.num;
+				var _this = this;
+				Axios.post("/api/export/index",params).then(function(res){
+					if(res.code == 1){
+						//更新列表数据
+						var totalPage = res.data.totalPage;
+						var curPageData = res.data.lists;
+						if(page.num > 1){
+							_this.fileList = _this.fileList.concat(curPageData);
+						}else{
+							_this.fileList = curPageData;
+						}
+						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+						//必传参数(当前页的数据个数, 总页数)
+						_this.mescroll.endByPage(curPageData.length, totalPage);
+
+					}else{
+						_this.mescroll.endErr();
+						ca.prompt(res.msg);
+					}
+				})
+			},
+			riLi(type){
+				var _this= this;
+				var dtpicker = new mui.DtPicker({
+					type: "date", //设置日历初始视图模式
+					beginDate: '', //设置开始日期
+					endDate: new Date(), //设置结束日期
+					labels: ['年', '月', '日'], //设置默认标签区域提示语
+				});
+				// 点击取消按钮关闭滚动锁定状态
+				_this.mescroll.lockDownScroll(true);
+				_this.mescroll.lockUpScroll(true);
+				var btn = $("button[data-id='btn-cancel']")[0];
+				btn.addEventListener('tap',function () {
+					_this.mescroll.lockDownScroll(false);
+					_this.mescroll.lockUpScroll(false);
+					dtpicker.dispose();
+				});
+				dtpicker.show(function(selectItems) {
+					if(!type){
+						if(_this.order.endTime && selectItems.text > _this.order.endTime){
+							ca.prompt('开始时间不能大于结束时间！');
+							return;
+						}
+						if(_this.datedifference(selectItems.text,_this.order.endTime) > 7){
+							ca.prompt('最多可选择7天内订单！');
+							return;
+						}
+						_this.order.startTime = selectItems.text;
+					}else{
+						if(_this.order.startTime && selectItems.text < _this.order.startTime){
+							ca.prompt('结束时间不能小于开始时间！');
+							return;
+						}
+						if(_this.datedifference(selectItems.text,_this.order.endTime) > 7){
+							ca.prompt('最多可选择7天内订单！');
+							return;
+						}
+						_this.order.endTime = selectItems.text;
+					}
+					_this.mescroll.lockDownScroll(false);
+					_this.mescroll.lockUpScroll(false);
+					_this.mescroll.resetUpScroll( false );
+					dtpicker.dispose();
+				})
+			},
+			//两个时间相差天数 兼容firefox chrome
+			datedifference(sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
+				var dateSpan, tempDate, iDays;
+				sDate1 = Date.parse(sDate1);
+				sDate2 = Date.parse(sDate2);
+				dateSpan = sDate2 - sDate1;
+				dateSpan = Math.abs(dateSpan);
+				iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+				return iDays
+			},
+			// 获取当前日期
+			getNowFormatDate() {
+				var date = new Date();
+				var seperator1 = "-";
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var strDate = date.getDate();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				}
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				}
+				var currentdate = year + seperator1 + month + seperator1 + strDate;
+				return currentdate;
+			},
+			// 创建下载任务
+			downFile(url) {
+				mui.plusReady(function () {
+					var dtask = plus.downloader.createDownload(url, {}, function(d, status){
+						// 下载完成
+						if(status == 200){
+							plus.runtime.openFile( d.filename, {}, function ( e ) {//调用第三方应用打开文件
+								alert('打开失败');
+							});
+						} else {
+							ca.prompt('下载失败');
+						}
+					});
+					//dtask.addEventListener("statechanged", onStateChanged, false);
+					dtask.start();
+				})
+			}
+		}
+	});
+
+	// //
+	// var choose = $('.mui-radio input');
+	// for(var i = 0; i < choose.length; i++) {
+	// 	if(choose[i].checked) {
+	//
+	// 	}
+	// }
+</script>
+</body>
+
+</html>

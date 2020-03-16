@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>提交订单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/video-js.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css"/>
+		<style type="text/css">
+			.mui-content {
+				background: #F2F2F2;
+				padding-bottom: 50px;
+			}
+			
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				
+				color: #333;
+			}
+			
+			.title {
+				margin-left: 2.8%;
+				/*border-bottom: 1px solid #E5E5E5;*/
+				position: relative;
+				padding: 15px 0 15px 12px;
+				margin-bottom: 0px;
+				color: #333;
+				font-size: 15px;
+				font-weight: bold;
+			}
+			
+			.title:after {
+				content: '';
+				height: 15px;
+				border-right: 3px solid #66D1CF;
+				position: absolute;
+				top: 18px;
+				left: 0px;
+			}
+			
+			.order_wrap ul li {
+				/*background: url(../img/ddbjxq.png) no-repeat;
+				background-size: 100% 100%;*/
+				background: #fff;
+				width: 94.8%;
+				margin-left: 2.6%;
+				box-shadow: 0px 0px 5px 2px #C9D6D6;
+				/*padding-bottom: 10px;*/
+				margin-bottom: 10px;
+				/*overflow: hidden;*/
+			}
+			
+			.top {
+				border-bottom: 1px dashed #E1E1E1;
+				position: relative;
+				height: 46px;
+			}
+			
+			.top:after {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: linear-gradient(to right, #fff, #C9D6D6);
+				/*border-radius: 0px 10px 10px 0px;*/
+				border-radius: 20px;
+				position: absolute;
+				bottom: -10px;
+				left: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top:before {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: #fff;
+				/*border-radius: 10px 0 0 10px;*/
+				background: linear-gradient(to left, #fff, #C9D6D6);
+				border-radius: 10px;
+				position: absolute;
+				bottom: -10px;
+				right: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top p {
+				color: #333;
+				font-size: 14px;
+				margin-top: 14px;
+				margin-bottom: 10px;
+			}
+			
+			.top p:first-child {
+				margin-left: 10px;
+			}
+			
+			.top p:last-child {
+				margin-right: 10px;
+			}
+			
+			.msg {
+				width: 94.8%;
+				margin-left: 2.6%;
+				border-bottom: 1px dashed #E1E1E1;
+				margin-top: 10px;
+			}
+			
+			.msg div {
+				width: 50%;
+			}
+			
+			.msg div p {
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.order_wrap .goods_wrap {
+				background: #FFf;
+				padding-bottom: 10px;
+				width: 94.6%;
+				margin-left: 2.6%;
+			}
+			
+			.mui-table-view-cell {
+				padding: 0px;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+				padding-top: 0px;
+			}
+			
+			.mui-navigate-right:after,
+			.mui-push-right:after {
+				/*right: -0px;*/
+				top: 40%;
+				left: 43px;
+			}
+			
+			.mui-table-view-cell.mui-collapse .mui-collapse-content {
+				margin: auto;
+				border-bottom: 1px dashed #E1E1E1;
+				padding: 5px 0px;
+			}
+			
+			.goods {
+				background: #F2F2F2;
+				border-radius: 10px;
+				padding: 5px;
+				display: flex;
+			}
+
+			.goodsImg {
+				/*width: 41.5%;
+				height: 146px;*/
+				border-radius: 10px;
+				overflow: hidden;
+				margin-right: 10px;
+				flex: 1 0 120px;
+				height: 120px;
+			}
+
+			.goodsImg img {
+				width:100%;
+				height:100%;
+			}
+
+			.mui-table-view-cell>a:not(.mui-btn) {
+				padding-right: 20px;
+				margin: 15px 0px 0px 0px;
+				color: #999;
+				font-size: 14px;
+			}
+			.goodsMsg{
+				flex:1 0 60%
+			}
+			.goodsMsg p {
+				color: #999;
+				width: 100%;
+				max-width:190px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: 12px;
+			}
+			
+			.xiagnxi {
+				color: #999;
+				font-size: 14px;
+			}
+			
+			.xiangxi i {
+				color: #66D1CF;
+				margin-left: 4px;
+				margin-right: 5px;
+			}
+			
+			.mingxi {
+				margin-top: 15px;
+				position: absolute;
+				bottom: 16px;
+				right: 2.6%;
+			}
+			
+			.mingxi p {
+				color: #999;
+				font-size: 12px;
+				margin-bottom: 0;
+			}
+			
+			.xiangqing {
+				position: relative;
+			}
+			
+			.mui-table-view-cell:after {
+				display: none;
+			}
+			.jine{
+				background: #fff;
+			}
+			.jine P:first-child {}
+			
+			.jine p {
+				color: #666666;
+				overflow: hidden;
+				padding:5px 10px;
+				margin-bottom: 0;
+
+			}
+			.jine p .total{
+				color:#FEB258;
+				font-size: 15px;
+			}
+			.jine p:last-child{
+				color:#1A1A1A;
+				font-size: 14px;
+				font-weight: bold;
+			}
+			.zifu{
+				background: #fff;
+				margin-top: 10px;
+			}
+			.zifu  label {
+			
+				font-size: 15px;
+				color: #333;
+			}
+			.zifu label span{
+				display: inline-block;
+				color: #E3211F;
+				font-size: 12px;
+				margin-left: 5px;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 8px;
+				right: 10px;
+				width: 20px;
+				height: 20px;
+			}
+			
+			.mui-checkbox input[type=checkbox]:before,
+			.mui-radio input[type=radio]:before {
+				font-size: 20px;
+			}
+			
+			.mui-checkbox input[type=checkbox]:checked:before {
+				background:url(../../img/choose.png);
+				content: '\e442';
+				border: none;
+				color: rgba(255, 255, 255, 0.2);
+			}
+			.chongzhi{
+				padding:20px 10px 0;
+				margin-bottom:20px;
+			}
+			.chongzhi button{
+				width: 100%;
+				height: 50px;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 16px;
+				border: none;
+			}
+			.pay-know{
+				padding: 0 10px 10px;
+				color: #999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">提交订单</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="order_wrap">
+				<p class="title">支付费用</p>
+				<ul v-for="(orderDetail,index) in orderInfo.order_list">
+					<li class="">
+						<div class="top ">
+							<p class="f_left">订单编号：{{orderDetail.order_no}}</p>
+						</div>
+						<div class="msg clearfix">
+							<div class="f_left">
+								<p>关键词①：{{orderDetail.shuadan_keyword}}</p>
+								<p>单品价格：￥{{orderDetail.danpin_price}}</p>
+								<p>任务数量：{{orderDetail.shuadan_number}}单</p>
+							</div>
+							<div class="f_left">
+								<p>标签：{{orderDetail.tag}}</p>
+								<p>任务日期：{{orderDetail.task_date}}</p>
+								<p>完成时间：{{orderDetail.complete_time}}</p>
+							</div>
+						</div>
+						<div class="xiangqing">
+							<div class="mui-table-view-cell goods_wrap mui-collapse mui-active">
+								<div class="mui-collapse-content ">
+									<div class="clearfix goods">
+										<div class="f_left goodsImg">
+											<img :src="orderDetail.goods_image ? orderDetail.goods_image : '../../img/goods3.jpg'" alt="" />
+										</div>
+										<div class="f_left goodsMsg">
+											<p>店铺名称：{{orderDetail.store_name}}</p>
+											<p>旺旺账号：{{orderDetail.wangwang}}</p>
+											<p>单品规格：{{orderDetail.danpin_spec}}</p>
+											<p>商品销量：{{orderDetail.sales_volume}}</p>
+											<p>商品价格：￥{{orderDetail.goods_price}}</p>
+											<p>所在地区：{{orderDetail.store_city }}</p>
+											<p>
+												{{orderDetail.is_card_address ? '卡地区、' : ''}}
+												{{orderDetail.is_card_sales ? '卡销量、' : ''}}
+												{{orderDetail.is_card_price ? '卡价格' : ''}}
+											</p>
+										</div>
+									</div>
+								</div>
+								<a class="mui-navigate-right xiangxi" href="#">
+									<i class="iconfont icon-biao"></i>详情
+								</a>
+							</div>
+							<div class=" mingxi">
+								<p>发布时间：{{orderDetail.createtime}}</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="jine">
+					<div class="title">应付金额</div>
+					<p><span class="f_left">任务数</span><span class="f_right">{{orderInfo.total_shuadan_number}}单</span></p>
+					<p><span class="f_left">本金</span><span class="f_right">￥{{orderInfo.total_benjin}}</span></p>
+					<p><span class="f_left">佣金</span><span class="f_right">￥{{orderInfo.total_yongjin}}</span></p>
+					<p><span class="f_left">总计</span><span class="total f_right">￥{{orderInfo.should_pay}}</span></p>
+				</div>
+				<div class="zifu">
+					<p class="title">支付方式</p>
+					<div class="mui-input-row mui-checkbox">
+						<label>余额支付<span v-if="parseFloat(orderInfo.should_pay) > parseFloat(orderInfo.last_money)">余额不足</span></label>
+						<input  v-if="parseFloat(orderInfo.should_pay) <= parseFloat(orderInfo.last_money)" name="checkbox3" type="checkbox" checked>
+					</div>
+				</div>
+				<div class="zifu">
+					<p class="title">付款须知</p>
+					<div class="pay-know">
+						{{payRule.description}}
+					</div>
+				</div>
+			</div>
+			<div class="chongzhi">
+				<button v-if="parseFloat(orderInfo.should_pay) > parseFloat(orderInfo.last_money)" @tap="chongzhi">去充值</button>
+			</div>
+			<div class="chongzhi">
+				<button v-if="parseFloat(orderInfo.should_pay) <= parseFloat(orderInfo.last_money)" @tap="submitOrder">付款</button>
+			</div>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			let app = new Vue({
+				el:'#app',
+				data(){
+					return {
+						orderInfo:[],
+						mescroll:{},
+						payRule:{}
+					}
+				},
+
+				mounted(){
+					mui.init();
+					ca.init();
+					var _this = this;
+					_this.load();
+					_this.getInstro();
+					ca.receiveNotice('refreshMoney',function (event) {
+						_this.mescroll.resetUpScroll(false);
+					})
+				},
+				methods:{
+					// 获取订单详情
+					getInstro(){
+						let params = {
+							token:storage.get("token") || "",
+						};
+						var _this = this;
+						Axios.post('/api/article/protocol',params).then(function(res){
+							if(res.code == 1){
+								_this.payRule = res.data.pay_rule;
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					load() {
+						this.mescroll = new MeScroll("body", {
+							down: {
+								auto:true,
+								callback:this.getOrderDetail
+							}
+						});
+					},
+					// 获取订单详情
+					getOrderDetail(){
+						let params = {
+							token:storage.get("token") || "",
+							ids:GetQueryString("ids").split(',') || [],
+						};
+						var _this = this;
+						Axios.post('/api/order/re_details',params).then(function(res){
+							if(res.code == 1){
+								_this.orderInfo = res.data;
+								_this.mescroll.resetUpScroll( false );
+								_this.mescroll.endSuccess()
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 付款
+					submitOrder(){
+						let params = {
+							token:storage.get("token") || "",
+							ids:GetQueryString("ids").split(',') || [],
+						};
+						Axios.post('/api/order/pay_order',params).then(function(res){
+							if(res.code == 1){
+								var parentId = '';
+								mui.plusReady(function () {
+									parentId = plus.webview.currentWebview().opener().id;
+									popToTargetAndRefresh(parentId,true,'orderToRefresh');
+									ca.prompt(res.msg);
+								});
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 去充值
+					chongzhi(){
+						ca.newInterface({
+							url:'../mine/chongzhi.html?type=order',
+							id:'mine/chongzhi.html'
+						})
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>

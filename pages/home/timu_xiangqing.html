@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>题目详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css"/>
+		<link rel="stylesheet" href="" />
+		<style type="text/css">
+
+			body,.mui-content{
+				background: #fff;
+			}
+			.mui-icon-left-nav{
+				color: #666;
+			}
+			.mui-title{
+				font-size: 18px;
+				
+				color: #333;
+			}
+			.cont{
+				width: 94.6%;
+				margin: 0 auto;
+			}
+			.title{
+				color: #333;
+				font-size: 19px;
+				font-weight: bold;
+				line-height: 27px;
+				margin-top: 20px;
+			}
+			.date{
+				color: #9B9B9B;
+				font-size: 14px;
+				margin-bottom: 15px;
+			}
+			.msg{
+				color: #333;
+				font-size: 15px;
+				line-height: 23px;
+				margin-bottom: 15px;
+				/*overflow: hidden;*/
+			}
+			.msg img{
+				width: 100% !important;
+			}
+			.msgImg{
+				width: 100%;
+				height: 192px;
+				margin-bottom: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">详情</h1>
+			</header>
+			<div class="mui-content">
+				<div class="cont">
+					<p class="title">{{articleDetail.title}}</p>
+					<p class="date">{{articleDetail.createtime}}</p>
+					<p class="msg" v-html="articleDetail.content">
+					</p>
+				</div>
+			</div>
+		</section>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+
+			var app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						articleDetail: {},
+					}
+				},
+				created() {
+					this.token = storage.get("token");
+					this.getArticleDetail();
+				},
+				methods: {
+					// 文章详情
+					getArticleDetail(){
+						var _this = this;
+						var params = {
+							article_id:GetQueryString("article_id") || 0
+						};
+						Axios.get("/api/Article/article_info",params).then(function(res){
+							if(res.code == 1){
+								_this.articleDetail = res.data;
+							}else{
+								ca.prompt(res.msg);
+							}
+						})
+					}
+				},
+			});
+		</script>
+
+	</body>
+
+</html>

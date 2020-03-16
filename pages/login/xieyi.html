@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>注册协议</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #fff;
+				width: 100%;
+				height: 100%;
+			}
+			
+			.verify {
+				padding: 10px 15px;
+			}
+
+		</style>
+	</head>
+	<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">注册协议</h1>
+	</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="verify" v-html="xieyi.content"></div>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+		var app = new Vue({
+			el: "#app",
+			data() {
+				return {
+					xieyi:''
+				}
+			},
+			created(){
+				mui.init();
+				ca.init();
+				this.getXieYi();
+			},
+			methods: {
+				// 获取注册协议
+				getXieYi(){
+					let params = {
+						token:storage.get("token") || ""
+					};
+					var _this = this;
+					Axios.get('/api/article/protocol',params,true).then(function(res){
+						if(res.code == 1){
+							_this.xieyi = res.data.protocol;
+						}else{
+							ca.prompt(res.msg);
+						}
+					})
+				},
+			}
+		});
+	</script>
+	</body>
+
+</html>

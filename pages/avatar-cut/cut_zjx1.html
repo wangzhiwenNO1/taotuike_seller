@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<title>选择图片</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<link href="lib_zjx/cropper.min.css" rel="stylesheet">
+<link href="lib_zjx/bootstrap.min.css" rel="stylesheet">
+<link href="../../css/mui.css" rel="stylesheet">
+<style>
+        .row{ 
+            margin-bottom: 5px;
+        }
+        #photo {
+            max-width: 100%;
+        }
+        .img-preview {
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+        }
+        button {
+            margin-top:10px;
+        }
+        #result {
+            width: 150px;
+            height: 150px;
+        }
+		.btn{
+			width: 100%;
+			margin: 10px 0px;
+		}
+		.text-center span{
+			width: 80%;
+		}
+	#photo{
+		max-width: 95%;
+		max-height:80%;
+	}
+</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">图片裁剪</h1>
+	</header>
+	<div class="mui-content">
+		<div class="container">
+		    <div class="row">
+		        <div class="col-sm-12 text-center">
+		            <label for="input" class="btn btn-danger" id="">
+		            <span>选择图片</span>
+		            <input type="file" id="input" class="sr-only">
+		            </label>
+		        </div>
+		    </div>
+		    <div class="row">
+		        <div class="col-sm-6 col-sm-offset-2" style="min-height: 100px;width: 94%;margin-left: 3%;">
+		            <img src="" id="photo">
+		        </div>
+		        <div class="col-sm-2">
+		            <!-- <div>
+		                <p>
+		                    预览(100*100)：
+		                </p>
+		                <div class="img-preview">
+		                </div>
+		            </div> -->
+		            <button class="btn btn-primary" onclick="crop()" style="margin-bottom: 30px;">裁剪图片</button>
+		            <!-- <div>
+		                <br/>
+		                <p>
+		                    结果：
+		                </p>
+		                <img src="" alt="裁剪结果" id="result">
+		            </div> -->
+		        </div>
+		    </div>
+		</div>
+	</div>
+
+<!-- Scripts -->
+<script src="../../js/jquery-3.2.1.min.js"></script>
+<script src="lib_zjx/cropper.min.js"></script>
+<!--<script src="lib_zjx/cropper.min.js"></script>-->
+<script src="../../js/castapp.js"></script>
+<script src="../../js/mui.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/storage.js"></script>
+<!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script>
+	mui.init();
+	ca.init();
+	
+	var token=storage.get('token') || '';
+        // 修改自官方demo的js
+        var initCropper = function (img, input){
+            var $image = img;
+            var options = {
+                // aspectRatio:1, // 纵横比
+				zoomable: false,
+                viewMode: 2,
+                preview: '.img-preview',	// 预览图的class名
+            };
+            $image.cropper(options);
+            var $inputImage = input;
+            var uploadedImageURL;
+            if (URL) {
+                // 给input添加监听
+                $inputImage.change(function () {
+                    var files = this.files;
+                    var file;
+                    if (!$image.data('cropper')) {
+                        return;
+                    }
+                    if (files && files.length) {
+                        file = files[0];
+                        // 判断是否是图像文件
+                        if (/^image\/\w+$/.test(file.type)) {
+                            // 如果URL已存在就先释放
+                            if (uploadedImageURL) {
+                                URL.revokeObjectURL(uploadedImageURL);
+                            }
+                            uploadedImageURL = URL.createObjectURL(file);
+                            // 销毁cropper后更改src属性再重新创建cropper
+                            $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
+                            $inputImage.val('');
+                        } else {
+                          window.alert('请选择一个图像文件！');
+                      }
+                  }
+              });
+            } else {
+                $inputImage.prop('disabled', true).addClass('disabled');
+            }
+        }
+        var crop = function(){
+            var $image = $('#photo');
+			if(!$image.attr("src")){
+				ca.prompt("请先选择图片！");
+				return;
+			}
+            var $target = $('#result');
+//             $image.cropper('getCroppedCanvas',{
+//                 width:300, // 裁剪后的长宽
+//                 height:300
+//             }).toBlob(function(blob){
+// 				alert(URL.createObjectURL(blob))
+//                 // 裁剪后将图片放到指定标签
+//                 $target.attr('src', URL.createObjectURL(blob));
+// 				
+            // });
+			// 得到PNG格式的dataURL
+			var photo = $('#photo').cropper('getCroppedCanvas', {
+				width: 300,
+				height: 300,
+				// minContainerWidth:300,
+				// minContainerHeight:300,
+				// minCanvasWidth:300,
+				// minCanvasHeight:300,
+				minCropBoxWidth:100,
+				minCropBoxHeight:100
+			}).toDataURL('image/png');
+			// alert(photo);
+			var fm = new FormData();
+			fm.append('base64_img', photo);
+			fm.append('token', token);
+			fm.append('type', 1);
+			var type = window.location.search.split("=")[1];
+			mui.plusReady(function(){
+				plus.nativeUI.showWaiting();
+			});
+			$.ajax({
+				type: "POST",
+				url: config.base_url+"/api/Common/base64_img",
+				dataType: "JSON",
+				data: fm,
+				processData : false,         // 告诉jQuery不要去处理发送的数据
+				contentType : false,        // 告诉jQuery不要去设置Content-Type请求头
+				success: function(res) {
+					mui.plusReady(function(){
+						plus.nativeUI.closeWaiting();
+					});
+					console.log(res.data.url)
+					if(res.code==1){
+						console.log(565656)
+
+						var imgUrl = config.base_url + res.data.url;
+						switch (type) {
+							// 添加任务，上传店铺图片
+							case 'task':
+								ca.sendNotice(['pages/task.html'],'task',{"imgUrl":imgUrl});
+								break;
+								// 重新发布任务
+							case 'taskEdit':
+								ca.sendNotice(['taskEdit.html'],'task',{"imgUrl":imgUrl});
+								break;
+							// 售后服务，添加截图
+							case 'shouhou':
+								ca.sendNotice(['mine/shouhou.html'],'sale',{"imgUrl":imgUrl});
+								break;
+							// 添加身份证正面
+							case 'cardFront':
+								ca.sendNotice(['mine/shimingrenzheng.html'],'cardFront',{"imgUrl":imgUrl});
+								break;
+							// 添加身份证背面
+							case 'cardBack':
+								ca.sendNotice(['mine/shimingrenzheng.html'],'cardBack',{"imgUrl":imgUrl});
+								break;
+							// 添加银行卡图片
+							case 'bankImg':
+								ca.sendNotice(['mine/yinhangka2.html'],'bankImg',{"imgUrl":imgUrl});
+								break;
+							// 意见反馈
+							case 'idea':
+								ca.sendNotice(['yijianfankui.html'],'idea',{"imgUrl":imgUrl});
+								break;
+							// 添加店铺
+							case 'store':
+								ca.sendNotice(['tianjiadianpu.html','wanshanziliao.html'],'store',{"imgUrl":imgUrl});
+								break;
+								// 充值
+							case 'chongzhi':
+								ca.sendNotice(['mine/chongzhi.html'],'chongzhi',{"imgUrl":imgUrl});
+								break;
+								// 个人头像
+							case 'avatar':
+								ca.sendNotice(['mine/gerenzhongxin.html'],'updateAvatar',{"imgUrl":imgUrl});
+								break;
+							default :
+								break;
+						}
+						ca.closeCurrentInterface();
+					}
+				},
+				error:function(error){
+					console.log(error)
+					mui.plusReady(function(){
+						plus.nativeUI.closeWaiting();
+					});
+					ca.prompt("操作失败！请稍后再试！");
+				}
+			});
+        }
+
+	$(function(){
+            initCropper($('#photo'),$('#input'));
+        });
+    </script>
+</body>
+</html>
+<style>
+	/*.cropper-canvas img{*/
+	/*	width:100%;*/
+	/*	height:100%;*/
+	/*}*/
+	/*.cropper-container{*/
+	/*	max-height: 400px;*/
+	/*}*/
+
+</style>

@@ -1,0 +1,554 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>搜索结果</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css"/>
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #F2F2F2;
+			}
+			body{
+				overflow: initial;
+			}
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-bar {
+				font-size: 14px;
+				color: #333;
+			}
+			
+			.mui-bar .search {
+				color: #9C9C9D;
+				width: 68%;
+				height: 35px;
+				float: left;
+				border: 1px solid #e1e1e1;
+				border-radius: 35px;
+				background: #F2F2F2;
+				line-height: 35px;
+				text-align: center;
+				margin-top: 5px;
+				margin-left: 15px;
+			}
+			
+			.search input {
+				width: 84.17%;
+				font-size: 15px;
+				color: #333;
+				border: none;
+				height: 20px;
+				margin: 0;
+				padding: 0;
+				background: #F2F2F2;
+			}
+			
+			.search .mui-icon {
+				font-size: 14px;
+				padding: 0;
+				margin: 0;
+			}
+			
+			.searchText {
+				margin-top: 12px;
+				font-size: 15px;
+				color: #999;
+			}
+			
+			.order_wrap {
+				margin-top: 15px;
+			}
+			
+			.order_wrap ul li {
+				/*background: url(../img/ddbjxq.png) no-repeat;
+				background-size: 100% 100%;*/
+				background: #fff;
+				width: 94.8%;
+				margin-left: 2.6%;
+				box-shadow: 0px 0px 5px 2px #C9D6D6;
+				/*padding-bottom: 10px;*/
+				margin-bottom: 10px;
+				/*overflow: hidden;*/
+			}
+			
+			.top {
+				border-bottom: 1px dashed #E1E1E1;
+				position: relative;
+				height: 46px;
+			}
+			
+			.top:after {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: linear-gradient(to right, #fff, #C9D6D6);
+				/*border-radius: 0px 10px 10px 0px;*/
+				border-radius: 20px;
+				position: absolute;
+				bottom: -10px;
+				left: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top:before {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background: #fff;
+				/*border-radius: 10px 0 0 10px;*/
+				background: linear-gradient(to left, #fff, #C9D6D6);
+				border-radius: 10px;
+				position: absolute;
+				bottom: -10px;
+				right: -10px;
+				/*z-index: 10;*/
+			}
+			
+			.top p {
+				color: #333;
+				font-size: 14px;
+				margin-top: 14px;
+				margin-bottom: 10px;
+			}
+			
+			.top p:first-child {
+				margin-left: 10px;
+			}
+			
+			.top p:last-child {
+				margin-right: 10px;
+			}
+			
+			.pie {
+				width: 16px;
+				height: 16px;
+				float: left;
+				margin-top: 3px;
+				margin-right: 5px;
+			}
+			
+			.pie div {
+				display: inline-block;
+			}
+			
+			.top p span {
+				color: #FFA940;
+			}
+			
+			.top p button {
+				width: 50px;
+				font-size: 10px;
+				height: 20px;
+				border-radius: 40px;
+				border: none;
+			}
+			
+			.jinxing {
+				background: #FDF4E8;
+				color: #FFA940;
+			}
+			
+			.guoqi {
+				background: #F2F2F2;
+				color: #666;
+			}
+			
+			.wancheng {
+				background: #E4F6F6;
+				color: #54D4D4;
+			}
+			
+			.top .sucColor span:nth-child(2) {
+				color: #54D4D4;
+			}
+			
+			.msg {
+				width: 94.8%;
+				margin-left: 2.6%;
+				border-bottom: 1px dashed #E1E1E1;
+				margin-top: 10px;
+			}
+			
+			.msg div {
+				width: 50%;
+			}
+			
+			.msg div p {
+				color: #333;
+				font-size: 14px;
+			}
+			
+			.order_wrap .goods_wrap {
+				background: #FFf;
+				padding-bottom: 10px;
+				width: 94.6%;
+				margin-left: 2.6%;
+			}
+			
+			.mui-table-view- {
+				padding: 0px;
+			}
+			
+			.mui-table-view-.mui-collapse.mui-active {
+				margin-top: 0px;
+				padding-top: 0px;
+			}
+			
+			.mui-navigate-right:after,
+			.mui-push-right:after {
+				/*right: -0px;*/
+				top: 40%;
+				left: 67px;
+			}
+			
+			.mui-table-view-.mui-collapse .mui-collapse-content {
+				margin: auto;
+				border-bottom: 1px dashed #E1E1E1;
+				padding: 5px 0px;
+			}
+			
+			.goods {
+				background: #F2F2F2;
+				border-radius: 10px;
+				padding: 5px;
+				display: flex;
+			}
+
+			.goodsImg {
+				/*width: 41.5%;
+				height: 146px;*/
+				border-radius: 10px;
+				overflow: hidden;
+				margin-right: 10px;
+				flex: 1 0 120px;
+				height: 120px;
+			}
+
+			.goodsImg img {
+				width:100%;
+				height:100%;
+			}
+
+			.mui-table-view->a:not(.mui-btn) {
+				padding-right: 20px;
+				margin: 15px 0px 0px 0px;
+				color: #999;
+				font-size: 14px;
+			}
+			.goodsMsg{
+				flex:1 0 60%
+			}
+			.goodsMsg p {
+				color: #999;
+				width: 100%;
+				max-width:190px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: 12px;
+			}
+
+			.xiagnxi {
+				color: #999;
+				font-size: 14px;
+			}
+
+			.xiangxi i {
+				color: #66D1CF;
+				margin-left: 4px;
+				margin-right: 5px;
+			}
+
+			.mingxi {
+				margin-top: 15px;
+				position: absolute;
+				bottom: 10px;
+				right: 2.6%;
+			}
+
+			.mingxi button {
+				padding:2px 4px;
+				border-radius: 10px;
+				border:1px solid #979797;
+				color: #666;
+				font-size: 12px;
+			}
+			.mingxi button.payOrder {
+				border:1px solid #66D1CF;
+				color: #66D1CF;
+			}
+
+			.mingxi p {
+				display: inline-block;
+				color: #999;
+				font-size: 13px;
+				margin-left: 5px;
+			}
+
+			.mingxi p span {
+				color: #FFA940;
+				font-size: 15px;
+				font-weight: bold;
+			}
+			
+			.xiangqing {
+				position: relative;
+			}
+			
+			.mui-table-view-:after {
+				display: none;
+			}
+			.empty img{
+				width: 113px;
+				height: auto;
+				display: block;
+				margin: 30px auto 10px;
+			}
+			.empty p{
+				text-align: center;
+				padding-bottom: 20px;
+			}
+			.mui-table-view-cell.mui-collapse .mui-collapse-content{
+				padding: 0 0 10px 0!important;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active{
+				margin-top: 0!important;
+			}
+			.mui-table-view-cell>a:not(.mui-btn){
+				margin:0;
+			}
+			.mui-navigate-right:after, .mui-push-right:after{
+				left:80px;
+				top:54%;
+			}
+		</style>
+	</head>
+
+	<body>
+	    <section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<div class="search">
+					<label class="mui-icon mui-icon-search" ></label>
+					<input type="text" v-model="search" class="searchKey" ref="searchKey" placeholder="订单编号/推手手机号/刷手手机号"/>
+				</div>
+				<span class="mui-pull-right searchText" @tap="refreshOrderData()">搜索</span>
+			</header>
+			<div class="mui-content">
+				<div class="order_wrap">
+					<ul>
+						<li class="" v-for="(item,index) in orderData" @tap="toDetail(item.order_status,item.id)">
+							<div class="top ">
+								<p class="f_left">订单号：{{item.order_no}}</p>
+								<p class="f_right"><span class="pie" :id="'pie' + index"></span> <span>{{item.finished_number}}</span>/{{item.shuadan_number}} <button :class="item.order_status == 10 ? 'jinxing' : item.order_status == 20 || item.order_status == 5 ? 'wancheng' : 'guoqi'">{{item.order_status == 10 ? '进行中' : item.order_status == 20 ? '已完成' : item.order_status == 30 ? '已过期' : item.order_status == 5 ? '待付款' : ''}}</button></p>
+							</div>
+							<div class="msg clearfix">
+								<div class="f_left">
+									<p>关键词①：{{item.shuadan_keyword}}</p>
+									<p>单品价格：￥{{item.danpin_price}}</p>
+									<p>任务数量：{{item.shuadan_number}}单</p>
+								</div>
+								<div class="f_left">
+									<p>标签：{{item.tag}}</p>
+									<p>任务日期：{{item.task_date}}</p>
+									<p v-if="item.order_status == 20">完成时间：{{item.complete_time}}</p>
+								</div>
+							</div>
+							<div class="xiangqing">
+								<div class="mui-table-view-cell mui-collapse  goods_wrap " :class="{'mui-active':index === 0}">
+									<div class="mui-collapse-content ">
+										<div class="clearfix goods">
+											<div class="f_left goodsImg">
+												<img :src="item.goods_image ? item.goods_image : '../../img/TB2I00qoH1YBuNjSszeXXablFXa_!!406390357.jpg'" alt="" />
+											</div>
+											<div class="f_left goodsMsg">
+												<p>店铺名称：{{item.store_name}}</p>
+												<p>旺旺账号：{{item.wangwang}}</p>
+												<p>单品规格：{{item.danpin_spec}}</p>
+												<p>商品销量：{{item.sales_volume}}</p>
+												<p>商品价格：￥{{item.goods_price}}</p>
+												<p>所在地区：{{item.store_city}}</p>
+												<p>
+													{{item.is_card_address ? '卡地区、' : ''}}
+													{{item.is_card_sales ? '卡销量、' : ''}}
+													{{item.is_card_price ? '卡价格' : ''}}
+												</p>
+											</div>
+										</div>
+									</div>
+									<a class="mui-navigate-right xiangxi" href="#">
+										<i class="iconfont icon-biao"></i>详情
+									</a>
+								</div>
+								<div class=" mingxi">
+									<button class="wancheng_mingxi" v-if="item.order_status == 20">完成明细</button>
+									<p class="">费用：<span>￥{{item.total_price}}</span><span v-if="item.express_price">+{{item.express_price}}</span></p>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ul class="empty"  v-if="orderData.length === 0">
+						<img src="../../img/empty.png" >
+						<p>暂无数据</p>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			let app = new Vue({
+				el:'#app',
+				data(){
+					return {
+						orderData:[],
+						search:'',
+						pageIndex:1,
+						pageSize:5
+					}
+				},
+				mounted(){
+					mui.init();
+					ca.init();
+					this.token = storage.get("token");
+					this.load();
+					var _this = this;
+					// native.js input框自动获取焦点
+					autoFocus();
+					mui.plusReady(function () {
+						ca.receiveNotice('orderToRefresh',function (e) {
+							_this.mescroll.resetUpScroll(false);
+						})
+					})
+				},
+				methods:{
+					load() {
+						this.mescroll = new MeScroll("body", {
+							down: {
+								auto:false,
+								callback:this.refreshOrderData
+							},
+							up: {
+								callback: this.moreOrderList, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+								isBounce: false,
+								noMoreSize: 5,
+								auto:false,
+								page: {
+									num:0,
+									size: this.pageSize
+								},
+								htmlNodata: '<p class="upwarp-nodata">-- 没有数据啦 --</p>'
+							}
+						});
+					},
+					// 跳转至订单付款、完成明细
+					toDetail(status,id){
+						switch (status) {
+							case '10':  // 进行中
+								ca.newInterface({
+									url:'../mine/orderDetail.html?id=' + id,
+									id:'orderDetail.html'
+								});
+								break;
+							case '20':  // 已完成
+								ca.newInterface({
+									url:'../mine/orderDetail.html?id=' + id,
+									id:'orderDetail.html'
+								});
+								break;
+							case '30':  // 已过期
+								break;
+							case '5':  // 待付款
+								ca.newInterface({
+									url:'../task/tijiaodingdan.html?ids=' + id,
+									id:'task/tijiaodingdan.html'
+								});
+								break;
+							default:
+								break;
+						}
+
+					},
+					// 获取首页订单数据
+					refreshOrderData(){
+						var params = {
+							token:storage.get("token") || "",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							status:0,
+							date:'',
+							search:this.search,
+							limit_begin:this.pageIndex,
+							limit_num:this.pageSize
+						};
+						var _this = this;
+						// 当上拉加载到最后一页后，下拉刷新，重置上拉加载状态
+						if(!_this.mescroll.optUp.hasNext){
+							_this.mescroll.resetUpScroll(false);
+						}
+						Axios.post('/api/order/index',params).then(function(res){
+							mui.hideLoading();
+							if(res.code == 1){
+								_this.orderData = res.data.list;
+								_this.mescroll.endSuccess()
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上拉加载更多订单
+					moreOrderList(page){
+						console.log("上拉了");
+						var params = {
+							token:storage.get("token") || "",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							status:0,
+							date:'',
+							search:this.search,
+							limit_begin:page.num,
+							limit_num:page.size
+						};
+						var _this = this;
+						Axios.post("/api/order/index",params).then(function(res){
+							if(res.code == 1){
+								//更新列表数据
+								var totalPage = res.data.count;
+								var curPageData = res.data.list;
+								if(page.num == 1) _this.orderData = [];
+								_this.orderData = _this.orderData.concat(curPageData);
+								//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+								//必传参数(当前页的数据个数, 总页数)
+								_this.mescroll.endByPage(curPageData.length, totalPage);
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>

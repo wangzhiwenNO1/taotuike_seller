@@ -1,0 +1,294 @@
+ /*
+ **
+ * *
+ * * **										  ┏━━━━━━━━━━┓
+ * * * * * * * * * WEB重置样式表正在加载中... 	┃▉▉▉▉▉▉ 99.9% ┃ 
+ * * **										  ┗━━━━━━━━━━┛
+ * *
+ ** 
+ */
+
+ 
+ 
+    /*公共样式*/
+
+    /*1.样式重置*/
+    /* list elements 列表元素 */
+    *, dl, dt, dd, ul, ol, li, a, address, img,
+   
+    /* text formatting elements 文本格式元素 */
+    pre, small, b, i,em, 
+
+    /* form elements 表单元素 */
+    fieldset, lengend, button, input, textarea, form, label,
+
+    /* table elements 表格元素 */
+    table, caption, tbody, tfoot, thead, tr, th, td,  
+   
+    article,  footer, header,nav, section, audio, video
+    
+    html,body,div{
+        padding: 0;
+        margin: 0;
+        /*设置盒模型*/
+        box-sizing: border-box;
+        /*去除移动端特有的点击高亮效果*/
+        -webkit-tap-highlight-color: transparent;
+    }
+    body, html{
+	    font-family: "微软雅黑",sans-serif;
+	    font-size: 14px;
+	    height:100%;/*移动端开发，去掉手机右侧滚动条*/
+		overflow:hidden;
+		overflow-y: scroll;
+		max-width: 640px;
+		margin: 0 auto;
+		overflow: initial;
+    }
+
+    a, a:hover{
+        color: #666;
+        text-decoration: none;
+    }
+    i, em{
+    	font-style: normal;
+    }
+    li, ul{
+        list-style: none;
+    }
+    input{
+        // 1.清除文本框获取焦点时默认的边框阴影
+        outline: none;
+        /*2.去除边框*/
+        border: none;
+        /*3.添加边框*/
+        border: 1px solid #ccc;
+    }
+    /*解决在苹果手机上input颜色显示与border-radius显示不正常问题*/
+    input[type=button],input[type=reset], input[type=submit], input[type=file], button{
+        cursor: pointer;
+        -webkit-appearance: none;
+    }
+	/*以下两种都可以用于清除浮动*/
+	/*这一种可以在需要清除浮动的下面用空标签*/
+	.clearfloat{
+		clear: both;
+	}
+	/*这一种需要在浮动元素的父元素上使用，当然这一种也可以用于溢出部分隐藏等*/
+	.clearfix{
+		overflow: hidden;
+	}
+    /*给表头表体重设边框*/
+    table th,table td{
+        border: solid 1px #ccc;
+    }
+    /*解决以下三种在点击的瞬间出现虚线边框的问题*/
+    a:focus{
+       outline:none;
+    }
+    button:focus,button{
+       outline:none;
+	   border:none;
+    }
+    input:focus{
+    	outline:none;
+    }
+	img{
+		vertical-align: middle;
+	}
+	/*去掉表格默认边框,内塌陷等*/
+	table{
+		border:none;
+		spacing:0;
+		padding:0;
+	}
+	/*给表头表体重设边框*/
+	table th,table td{
+		border: solid 1px #ccc;
+	}
+	/*图片定高、不定高如何水平垂直居中*/
+	/*下面的类给图片的父元素加上即可*/
+	.parent_pic{
+		display: table-;
+	    text-align: center;
+	    vertical-align: middle;
+	}
+	/*解决多行定高|不定高|定宽|不定宽水平垂直居中|一行多列水平垂直居中*/
+	/*父元素加这个类*/
+	.parent_box{
+		/*也可设置固定宽高*/
+		display: table-;
+	    text-align: center;
+	    vertical-align: middle;
+	}
+	/*子元素加这个类*/
+	.parent_box_child{
+		display: inline-block;
+	}
+	/*不知道自身与父元素宽高且也不知道父元素下到底多少个子元素时,实现水平垂直居中*/
+	/*父元素需要加的类*/
+	.parent_total{
+		position: relative;
+	}
+	/*子元素需要加的类*/
+	.child_con{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+	}
+	/*单行元素 溢出省略并显示省略号 但必须是块级元素才有效*/
+	.text_overflow{
+		white-space:nowrap; 
+		overflow:hidden; 
+		text-overflow:ellipsis;
+	}
+	/*多行文本需要强制换行*/
+	.txet_wrap{
+		white-space:wrap;/*中文需要强制换行*/
+		word-wrap:break-word;/*以英文单词作为换行依据*/
+		word-break:break-all;/*以英文字母作为换行依据*/
+	}
+	/*给元素添加模糊效果*/
+	.blur_effet{
+		-webkit-filter: blur(3px);
+		-moz-filter: blur(3px);
+		-o-filter: blur(3px);
+		-ms-filter: blur(3px);
+		filter: blur(3px);
+	}
+	.text-center{
+		text-align: center;
+	}
+    /*2.添加新的样式*/
+    .f_left{
+        float: left;
+    }
+    .f_right{
+        float: right;
+    }
+    .m_left10{
+        margin-left: 10px;
+    }
+    .m_right10{
+        margin-right: 10px;
+    }
+    .m_top10{
+        margin-top: 10px;
+    }
+
+
+	/*公共样式*/
+	.mui-bar{
+		-webkit-box-shadow: inherit; 
+	     box-shadow: inherit;
+	     border-bottom: 1px solid #ddd!important;
+	     background-color: #fff;
+	}
+	a{
+		color: #333333;
+	}
+	a.back{
+		font-size: 14px;
+		text-align: left;
+		line-height: 44px;
+	}
+	/*.mui-bar-nav {
+		top: 0;
+		-webkit-box-shadow: 0 1px 6px #ccc;
+		box-shadow: 0 1px 6px #ccc;
+		height: 64px !important;
+		padding-top: 20px;
+		border-bottom: solid 1px #eee;
+		background-color: #ff0000;
+	}*/ 
+	.mui-content{
+		background-color: #f4f4f4;
+		/*增加弹性滚动,解决滚动不流畅的问题*/
+		-webkit-overflow-scrolling:touch;
+	}
+	/*.mui-bar .mui-icon{
+		color: #888!important;
+	}*/
+	 .mui-btn-blue, .mui-btn-primary, input[type=submit]{
+	   		background-color: #66D1CF;
+	   		border: 1px solid #66D1CF;
+	   }
+	   
+	.mui-switch.mui-active{
+	    border-color: #66D1CF;
+    	background-color: #66D1CF;
+	}
+ /*----------------mui.showLoading---------------*/
+ .mui-show-loading {
+	 position: fixed;
+	 padding: 5px;
+	 width: 120px;
+	 min-height: 120px;
+	 top: 45%;
+	 left: 50%;
+	 margin-left: -60px;
+	 background: rgba(0, 0, 0, 0.6);
+	 text-align: center;
+	 border-radius: 5px;
+	 color: #FFFFFF;
+	 visibility: hidden;
+	 margin: 0;
+	 z-index: 2000;
+
+	 -webkit-transition-duration: .2s;
+	 transition-duration: .2s;
+	 opacity: 0;
+	 -webkit-transform: scale(0.9) translate(-50%, -50%);
+	 transform: scale(0.9) translate(-50%, -50%);
+	 -webkit-transform-origin: 0 0;
+	 transform-origin: 0 0;
+ }
+ .mui-show-loading.loading-visible {
+	 opacity: 1;
+	 visibility: visible;
+	 -webkit-transform: scale(1) translate(-50%, -50%);
+	 transform: scale(1) translate(-50%, -50%);
+ }
+ .mui-show-loading .mui-spinner{
+	 margin-top: 24px;
+	 width: 36px;
+	 height: 36px;
+ }
+ .mui-show-loading .text {
+	 line-height: 1.6;
+	 font-family: -apple-system-font,"Helvetica Neue",sans-serif;
+	 font-size: 14px;
+	 margin: 10px 0 0;
+	 color: #fff;
+ }
+
+ .mui-show-loading-mask {
+	 position: fixed;
+	 z-index: 1000;
+	 top: 0;
+	 right: 0;
+	 left: 0;
+	 bottom: 0;
+ }
+ .mui-show-loading-mask-hidden{
+	 display: none !important;
+ }
+ [v-cloak] {
+	 display: none;
+ }
+ .empty img{
+	 width: 113px;
+	 height: auto;
+	 display: block;
+	 margin: 30px auto 10px;
+ }
+ .empty p{
+	 text-align: center;
+	 padding-bottom: 20px;
+ }
+.hide-input{
+	display: none;
+}
+ * { touch-action: pan-y; }
+ 

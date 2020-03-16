@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>联系客服</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<style type="text/css">
+			.mui-icon-left-nav {
+				color: #666;
+			}
+			
+			.mui-title {
+				font-size: 18px;
+				color: #333;
+			}
+			body,.mui-content {
+				background: #FFF;
+				height: 100%;
+			}
+			.ewm{
+				width: 100%;
+				background: #66D1CF;
+				position: relative;
+				top:0;
+				left:0;
+				height:60%;
+			}
+			.ewm-cont{
+				width: 300px;
+				height: 300px;
+				position:absolute;
+				left:0;
+				right:0;
+				top:0;
+				bottom:0;
+				margin: auto;
+			}
+			.ewm img{
+				width:200px;
+				height:200px;
+				display: block;
+				margin: auto;
+				margin-bottom: 0;
+			}
+			.ewm p{
+				text-align: center;
+				color: #fff;
+				font-size: 15px;
+				margin-top: 20px;
+				padding-bottom: 10%;
+			}
+			.phone{
+				width: 93.6%;
+				height: 40px;
+				margin-left: 3.2%;
+				background: #66D1CF;
+				color: #fff;
+				font-size: 14px;
+				border-radius: 40px;
+				position: fixed;
+				bottom: 10px;
+				border: none;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">联系客服</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<div class="ewm">
+				<div class="ewm-cont">
+					<img :src="keFu.code_image" alt="" />
+					<p>扫一扫，添加客服微信</p>
+				</div>
+
+			</div>
+			<button class="phone" @tap="connect(keFu.mobile)"><i class="iconfont icon-phone"></i> 联系客服</button>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			let app = new Vue({
+				el: '#app',
+				data() {
+					return {
+						keFu: {},
+					}
+				},
+				mounted() {
+					mui.init();
+					ca.init();
+					this.getKeFu();
+				},
+				methods:{
+					// 获取客服信息
+					getKeFu(){
+						var _this = this;
+					 	Axios.get("/api/service/index",{}).then(function (res) {
+							_this.keFu = res.data;
+						});
+					},
+					// 联系客服
+					connect(number){
+						var btnArray=['拨打','取消'];
+						mui.confirm('是否拨打'+number+'?','提示',btnArray,function(e){
+							if(e.index == 0){
+								plus.device.dial(number,false);
+							}
+						});
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
