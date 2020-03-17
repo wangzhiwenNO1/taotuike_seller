@@ -10,125 +10,7 @@
 		<link href="../css/mui.imageViewers.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
 		<link rel="stylesheet" type="text/css" href="../icont/iconfont.css" />
-		<style type="text/css">
-			.mui-bar .mui-title {
-				font-size: 18px;
-				color: #333;
-				left: 100px;
-				right: 100px;
-
-			}
-
-			.lishi {
-				margin-top: 12px;
-				color: #999;
-				font-size: 15px;
-			}
-
-			body,
-			.mui-content {
-				background: #F2F2F2;
-			}
-
-			.header {
-				background: #66D1CF;
-			}
-
-			.header_l {
-				margin: 15px 10px;
-			}
-
-			.header_l p {
-				color: #fff;
-				font-size: 15px;
-			}
-
-			.header_l .date {
-				margin-bottom: 0px;
-			}
-
-			.tabsBox {
-				display: flex;
-				justify-content: space-between;
-				align-self: center;
-				padding: 0.7rem 1.25rem;
-				background-color: rgba(102, 209, 207, 0.1);
-			}
-
-			.tabsBox>div {
-				height: 2rem;
-
-				color: #666666;
-				line-height: 2rem;
-				width: 5rem;
-				text-align: center;
-				border-radius: 1rem;
-			}
-
-			.tabsBox>div.active {
-				background-color: #F56B1A;
-				color: #FFFFFF;
-			}
-			
-			.mainTop{
-				background-color: #FFFFFF;
-				padding:0.6rem;
-			}
-			.title{
-				display: flex;
-				align-items: center;
-				padding:0.7rem 0;
-				border-bottom: 1px solid #EEEEEE;
-				margin-bottom: 0.3rem;
-			}
-			.title .icon{
-				display: inline-block;
-				width:1.25rem;
-				height: 1.25rem;
-				background-color: pink;
-				margin-right: 0.66rem;
-			}
-			
-			.typesBox{
-				display: flex;
-				align-items: center;
-				padding:0.5rem 0;
-			}
-			
-			.typesBox>div{
-				width:5.25rem;
-				height:2rem;
-				line-height: 2rem;
-				text-align: center;
-				border-radius:0.25rem;
-				margin-right: 0.4rem;
-				background:rgba(242,242,242,1);
-				color:rgba(51, 51, 51, 0.9);
-			}
-			.typesBox>div.active{
-				background:rgba(102,209,207,1);
-				color:#FFF;
-			}
-			
-			/* 任务日期 */
-			.timeBox{
-				display: flex;
-				align-items: center;
-			}
-			
-			
-			.flowBox ul{
-				display: flex;
-				align-items: center;
-			}
-			.flowBox ul li{
-				margin-right: 0.78rem;
-				color:rgba(102, 102, 102, 1);
-			}
-			.flowBox ul li:first-child{
-				color:rgba(51, 51, 51, 1);
-			}
-		</style>
+		<link rel="stylesheet" href="../css/flow.css">
 
 	</head>
 
@@ -142,10 +24,10 @@
 
 				<!-- tabs切换 -->
 				<div class="tabsBox">
-					<div class="active">流量任务</div>
-					<div>收藏任务</div>
-					<div>加购任务</div>
-					<div>淘宝直播</div>
+					<div class="bgOrange">流量任务</div>
+					<div class="bgYellow">收藏任务</div>
+					<div class="bgAzure">加购任务</div>
+					<div class="bgBlue">淘宝直播</div>
 				</div>
 				<div class="mainTop">
 					<!-- 流量任务类型 -->
@@ -169,30 +51,125 @@
 							<div>任务日期</div>
 						</div>
 						<div class="timeBox">
-							<div>
-								<div>2020-02-27</div>
+							<div class="dateBox">
+								<span>2020-02-27</span>
 								<i class="icon"></i>
 							</div>
-							<div>—</div>
-							<div>
-								<div>2020-02-27</div>
+							<div class="until">—</div>
+							<div class="dateBox">
+								<span>2020-02-27</span>
 								<i class="icon"></i>
 							</div>
 						</div>
 						<ul>
 							<li>快速选择：</li>
-							<li>1天</li>
+							<li class="active">1天</li>
 							<li>3天</li>
 							<li>7天</li>
 							<li>10天</li>
 							<li>15天</li>
 							<li>30天</li>
 						</ul>
-						<div>任务时长 <span>1</span> 天，每天发布 <span>100</span> 个任务量，此次合计发布<span>100</span>个任务</div>
+						<div class="totalTime">任务时长 <span>1</span> 天，每天发布 <span>100</span> 个任务量，此次合计发布<span>100</span>个任务</div>
 					</div>
 				</div>
 
+				<div class="calendarBox">
+					<div class="calendarItem">
+						<div class="title">
+							<i class="icon"></i>
+							<div>任务类型</div>
+						</div>
+						<ul>
+							<li>
+								<label for="">商品链接</label>
+								<div class="inputBox">
+									<input class="inputItem" type="number" placeholder="请输入链接或淘口令" />
+								</div>
+							</li>
+							<li>
+								<label for="">关键词</label>
+								<div class="inputBox">
+									<input class="inputItem" type="number" placeholder="请输入关键词" />
+								</div>
+								<button class="" type="button">查排名</button>
+							</li>
+							<li>
+								<label for="">访客数量</label>
+								<div class="inputBox">
+									<div class="num-count">
+										<button class="count-desc" type="button">-</button>
+										<input class="count-input" type="number" pattern="[0-9]*" />
+										<button class="count-add" type="button">+</button>
+									</div>
 
+								</div>
+								<button class="" type="button">时段</button>
+							</li>
+						</ul>
+						<!-- 24h -->
+						<div class="periodBox">
+							<ul>
+								<li v-for="(item,index) in 24">
+									<div class="hours">00:00</div>
+									<div class="percentage">2.0%</div>
+									<div class="hoursInput">
+										<input type="text" value="1">
+									</div>
+								</li>
+							</ul>
+						</div>
+
+						<div class="totalTime">共 <span>100</span> 个任务，已分配 <span>100</span> 个，剩余未分配<span class="renText">0</span>个任务</div>
+						<div class="fillBox">
+							<i></i>
+							<div class="active">随机填充</div>
+							<div>历史发布</div>
+						</div>
+						<div class="delBox">
+							<div>删除</div>
+						</div>
+					</div>
+					<div class="addBox">添加</div>
+				</div>
+
+				<div class="ulBox">
+					<ul>
+						<li>
+							<label>浏览时间</label>
+							<div>
+								<span>100-180秒(免费)</span>
+								<i></i>
+							</div>
+						</li>
+						<li>
+							<label>浏览深度</label>
+							<div>
+								<span>不浏览</span>
+								<i></i>
+							</div>
+						</li>
+						<li>
+							<label>任务备注</label>
+							<div class="inputBox">
+								<input type="text" placeholder="请输入备注（可不填）">
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="priceInfo">
+					<div class="title">
+						<i class="icon"></i>
+						<div>任务类型</div>
+					</div>
+					<div>任务耗时: <span>100-180</span> 秒,单次消费<span>¥30</span></div>
+					<div>合计消费: <span>￥3000</span></div>
+					<div class="referBox">
+						<div>应付金额：<span>￥378</span></div>
+						<div class="referBtn">提交订单</div>
+					</div>
+				</div>
 			</div>
 		</section>
 

@@ -1,0 +1,464 @@
+.mui-bar .mui-title {
+	font-size: 18px;
+	color: #333;
+	left: 100px;
+	right: 100px;
+
+}
+
+.lishi {
+	margin-top: 12px;
+	color: #999;
+	font-size: 15px;
+}
+
+body,
+.mui-content {
+	background: #F2F2F2;
+}
+
+.header {
+	background: #66D1CF;
+}
+
+.header_l {
+	margin: 15px 10px;
+}
+
+.header_l p {
+	color: #fff;
+	font-size: 15px;
+}
+
+.header_l .date {
+	margin-bottom: 0px;
+}
+
+.tabsBox {
+	display: flex;
+	justify-content: space-between;
+	align-self: center;
+	padding: 0.7rem 1.25rem;
+	background-color: rgba(102, 209, 207, 0.1);
+}
+
+.tabsBox>div {
+	height: 2rem;
+
+	color: #666666;
+	line-height: 2rem;
+	width: 5rem;
+	text-align: center;
+	border-radius: 1rem;
+}
+
+.tabsBox>div.bgOrange {
+	background-color: rgba(245, 107, 26, 1);
+	color: #FFFFFF;
+}
+.tabsBox>div.bgYellow {
+	background-color: rgba(255, 169, 64, 1);
+	color: #FFFFFF;
+}
+.tabsBox>div.bgAzure {
+	background-color: rgba(0, 180, 250, 1);
+	color: #FFFFFF;
+}
+.tabsBox>div.bgBlue {
+	background-color: rgba(0, 145, 255, 1);
+	color: #FFFFFF;
+}
+
+.mainTop {
+	background-color: #FFFFFF;
+	padding: 0.6rem;
+	margin-bottom: 1rem;
+}
+
+.title {
+	display: flex;
+	align-items: center;
+	padding: 0.7rem 0;
+	border-bottom: 1px solid rgba(229, 229, 229, 1);
+	margin-bottom: 0.3rem;
+}
+
+.title .icon {
+	display: inline-block;
+	width: 1.25rem;
+	height: 1.25rem;
+	background-color: pink;
+	margin-right: 0.66rem;
+}
+
+.typesBox {
+	display: flex;
+	align-items: center;
+	padding: 0.5rem 0;
+}
+
+.typesBox>div {
+	width: 5.25rem;
+	height: 2rem;
+	line-height: 2rem;
+	text-align: center;
+	border-radius: 0.25rem;
+	margin-right: 0.4rem;
+	background: rgba(242, 242, 242, 1);
+	color: rgba(51, 51, 51, 0.9);
+}
+
+.typesBox>div.active {
+	background: rgba(102, 209, 207, 1);
+	color: #FFF;
+}
+
+/* 任务日期 */
+.timeBox {
+	display: flex;
+	align-items: center;
+	margin: 1rem 0;
+	border: 1px solid #EEEEEE;
+	border-radius: 0.3rem;
+}
+
+
+.dateBox {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0;
+
+}
+
+.dateBox span {
+	line-height: 1rem;
+}
+
+.until {
+	width: 2.75rem;
+	padding: 0.5rem 0;
+	border-left: 1px solid #EEEEEE;
+	border-right: 1px solid #EEEEEE;
+	text-align: center;
+	color: rgba(153, 153, 153, 1);
+	line-height: 1.4rem;
+}
+
+.dateBox i {
+	display: inline-block;
+	width: 0.9rem;
+	height: 0.9rem;
+	background: pink;
+	margin-left: 1rem;
+}
+
+
+.flowBox ul {
+	display: flex;
+	align-items: center;
+	padding: 1rem 0;
+}
+
+.flowBox ul li {
+	margin-right: 0.78rem;
+	color: rgba(102, 102, 102, 1);
+}
+
+.flowBox ul li.active {
+	color: rgba(102, 209, 207, 1);
+}
+
+.flowBox ul li:first-child {
+	color: rgba(51, 51, 51, 1);
+}
+
+.totalTime {
+	color: rgba(51, 51, 51, 0.9);
+}
+
+.totalTime span {
+	color: rgba(102, 209, 207, 1);
+	font-size: 1.5rem;
+	margin: 0 0.2rem;
+}
+
+.totalTime .renText {
+	color: rgba(244, 88, 78, 1);
+}
+
+/* 任务类型 */
+.calendarBox {
+	padding: 1rem;
+	background-color: #FFFFFF;
+	margin-bottom: 1rem;
+}
+
+.calendarItem {
+	border-bottom: 1px solid #EEEEEE;
+	padding-bottom: 0.75rem;
+}
+
+.calendarBox ul li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #EEEEEE;
+	padding: 0.3rem 0;
+	color: rgba(51, 51, 51, 0.8);
+}
+
+.inputBox input {
+	margin: 0 !important;
+	border: none !important;
+	height: 2rem !important;
+	padding: 0 0.3rem;
+}
+
+.calendarBox ul li label {
+	width: 6rem;
+}
+
+.calendarBox ul li>button {
+	width: 4.03rem;
+	height: 2.13rem;
+	background: rgba(255, 255, 255, 1);
+	border-radius: 0.25rem;
+	border: 0.04rem solid rgba(238, 238, 238, 1);
+	color: rgba(51, 51, 51, 0.8);
+	font-size: 0.94rem;
+}
+
+.inputBox {
+	flex: 1;
+}
+
+input:-ms-input-placeholder {
+	font-size: 0.75rem;
+}
+
+/* Internet Explorer 10+ */
+
+input::-webkit-input-placeholder {
+	font-size: 0.75rem;
+}
+
+/* WebKit browsers */
+
+input::-moz-placeholder {
+	font-size: 0.75rem;
+}
+
+/* Mozilla Firefox 4 to 18 */
+
+input:-moz-placeholder {
+	font-size: 0.75rem;
+}
+
+/*数字计数器*/
+.num-count {
+	display: flex;
+	border: 1px solid rgba(204, 204, 204, 1);
+	border-radius: 0.3rem;
+	overflow: hidden;
+	width: 9.8rem;
+}
+
+.num-count .count-input {
+	width: 4.38rem;
+	height: 2rem !important;
+	background: rgba(255, 255, 255, 1);
+	border: 0.03rem solid rgba(204, 204, 204, 1);
+	padding: 0;
+	text-align: center;
+}
+
+.num-count button {
+	padding: 0.3rem 1rem;
+}
+
+.count-desc {
+	border-right: 1px solid rgba(204, 204, 204, 1);
+}
+
+.count-add {
+	border-left: 1px solid rgba(204, 204, 204, 1);
+}
+
+.fillBox {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin: 0.3rem 0 1rem;
+}
+
+.fillBox i {
+	display: inline-block;
+	width: 1.2rem;
+	height: 1.2rem;
+	background-color: pink;
+}
+
+.fillBox>div {
+	width: 5rem;
+	height: 2rem;
+	background: rgba(242, 242, 242, 1);
+	border-radius: 0.25rem;
+	margin: 0 0.3rem;
+	text-align: center;
+	line-height: 2rem;
+	color: rgba(51, 51, 51, 1);
+}
+
+.fillBox>div.active {
+	background: rgba(102, 209, 207, 1);
+	color: #FFFFFF;
+}
+
+.delBox {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.delBox>div {
+	width: 4.06rem;
+	height: 1.5rem;
+	background: rgba(227, 33, 31, 1);
+	border-radius: 0.75rem;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 0.65rem;
+}
+
+.addBox {
+	width: 4.06rem;
+	height: 1.5rem;
+	background: rgba(102, 209, 207, 1);
+	border-radius: 0.75rem;
+	margin-top: 0.5rem;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 0.65rem;
+}
+
+.ulBox {
+	padding: 0 1rem;
+	background-color: #FFFFFF;
+	margin-bottom: 1rem;
+}
+
+.ulBox ul li {
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #EEEEEE;
+	padding: 1rem 0;
+}
+
+.ulBox ul li>div {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.ulBox ul li i {
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	background-color: pink;
+}
+
+.ulBox ul li label {
+	width: 6rem;
+}
+
+.priceInfo {
+	padding: 0 1rem;
+	background-color: #FFFFFF;
+	color: rgba(102, 102, 102, 0.8);
+}
+
+.priceInfo .title {
+	color: rgba(51, 51, 51, 1);
+}
+
+.priceInfo>div {
+	height: 3.13rem;
+	line-height: 3.13rem;
+}
+
+.priceInfo span {
+	line-height: 0.88rem;
+	font-weight: 600;
+	color: rgba(255, 169, 64, 1);
+	font-size: 1.2rem;
+	margin: 0 0.3rem
+}
+
+.referBox {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-top: 1px solid #EEEEEE;
+}
+
+.referBox .referBtn {
+	width: 9.38rem;
+	height: 3.13rem;
+	background: rgba(102, 209, 207, 1);
+	color: rgba(255, 255, 255, 0.8);
+	text-align: center;
+	position: relative;
+	left: 1rem;
+}
+
+.periodBox {
+	margin: 0.5rem 0;
+}
+
+.periodBox ul {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.periodBox ul li {
+	width: 16%;
+	text-align: center;
+	flex-direction: column;
+	padding: 0;
+}
+
+.periodBox ul li>div {
+	width: 100%;
+}
+
+.periodBox ul li .hours {
+	background-color: rgba(102, 209, 207, 1);
+	color: rgba(255, 255, 255, 0.8);
+	padding: 0.3rem 0;
+}
+
+.periodBox ul li .percentage {
+	background-color: rgba(246, 246, 246, 1);
+	padding: 0.3rem 0;
+	border-right: 1px solid rgba(225, 225, 225, 1);
+}
+
+.hoursInput {
+	border-right: 1px solid rgba(225, 225, 225, 1);
+}
+
+.periodBox ul li:nth-child(6n) .hoursInput,
+.periodBox ul li:nth-child(6n) .percentage {
+	border-right: none;
+}
+
+.hoursInput input {
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	height: 2.5rem;
+	border: none;
+
+}
