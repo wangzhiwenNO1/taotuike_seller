@@ -24,10 +24,10 @@
 
 				<!-- tabs切换 -->
 				<div class="tabsBox">
-					<div class="bgOrange">流量任务</div>
-					<div class="bgYellow">收藏任务</div>
-					<div class="bgAzure">加购任务</div>
-					<div class="bgBlue">淘宝直播</div>
+					<div :class="{ bgOrange: taskType==1}" @tap="changeTaskType(1)">流量任务</div>
+					<div :class="{ bgYellow: taskType==2}" @tap="changeTaskType(2)">收藏任务</div>
+					<div :class="{ bgAzure: taskType==3}" @tap="changeTaskType(3)">加购任务</div>
+					<div :class="{ bgBlue: taskType==4}" @tap="changeTaskType(4)">淘宝直播</div>
 				</div>
 				<div class="mainTop">
 					<!-- 流量任务类型 -->
@@ -36,10 +36,29 @@
 							<i class="icon"></i>
 							<div>任务类型</div>
 						</div>
-						<div class="typesBox">
+						<!-- 流量任务 -->
+						<div class="typesBox" v-if="taskType==1">
 							<div class="active">APP 流量</div>
 							<div>PC 流量</div>
 							<div>直访流量</div>
+						</div>
+						<!-- 收藏任务 -->
+						<div class="typesBox" v-else-if="taskType==2">
+							<div class="active">搜索收藏</div>
+							<div>商品收藏</div>
+							<div>店铺收藏</div>
+							<div>商品点赞</div>
+						</div>
+						<!-- 加购任务 -->
+						<div class="typesBox" v-else-if="taskType==3">
+							<div class="active">搜索加购</div>
+							<div>直接加购</div>
+						</div>
+						<!-- 淘宝直播 -->
+						<div class="typesBox" v-else>
+							<div class="active">达人关注</div>
+							<div>微淘点赞</div>
+							<div>观看人数</div>
 						</div>
 					</div>
 
@@ -51,12 +70,12 @@
 							<div>任务日期</div>
 						</div>
 						<div class="timeBox">
-							<div class="dateBox">
+							<div class="dateBox" @tap="setOrderTime(23,1)">
 								<span>2020-02-27</span>
 								<i class="icon"></i>
 							</div>
 							<div class="until">—</div>
-							<div class="dateBox">
+							<div class="dateBox" @tap="setOrderTime(23,2)">
 								<span>2020-02-27</span>
 								<i class="icon"></i>
 							</div>
@@ -80,7 +99,14 @@
 							<i class="icon"></i>
 							<div>任务类型</div>
 						</div>
-						<ul>
+						<div class="bgOrange"></div>
+						<div class="bgYellow"></div>
+						<div class="bgAzure"></div>
+						<div class="bgBlue"></div>
+						<!-- 流量任务 -->
+						<!-- 收藏任务 -->
+						<!-- 加购任务 -->
+						<ul v-if="taskType!==4">
 							<li>
 								<label for="">商品链接</label>
 								<div class="inputBox">
@@ -107,6 +133,30 @@
 								<button class="" type="button">时段</button>
 							</li>
 						</ul>
+
+						<!-- 淘宝直播 -->
+						<ul v-else>
+							<li>
+								<label for="">店铺链接</label>
+								<div class="inputBox">
+									<input class="inputItem" type="number" placeholder="请输入链接或淘口令" />
+								</div>
+							</li>
+
+							<li>
+								<label for="">粉丝数量</label>
+								<div class="inputBox">
+									<div class="num-count">
+										<button class="count-desc" type="button">-</button>
+										<input class="count-input" type="number" pattern="[0-9]*" />
+										<button class="count-add" type="button">+</button>
+									</div>
+
+								</div>
+								<button class="" type="button">时段</button>
+							</li>
+						</ul>
+
 						<!-- 24h -->
 						<div class="periodBox">
 							<ul>
@@ -195,6 +245,7 @@
 				el:'#app',
 				data(){
 					return {
+						taskType:1,
 					}
 				},
 				computed:{
@@ -202,6 +253,57 @@
 					
 				},
 				methods:{
+					changeTaskType(type){
+						this.taskType=type;
+					},
+					// 设置时间
+					setOrderTime(item,type){
+						var time = new Date();
+						var startHour = time.getHours();
+						var startMinutes = time.getMinutes();
+						
+						this.timePicker = new mui.DtPicker({
+							type: "time", //设置日历初始视图模式
+							customData: {
+								h: getTime(startHour,24),
+								i: getTime(startMinutes,59)
+							}//时间/日期别名
+						});
+						this.timePicker.show((selectItems) => {
+							// if(type){
+							// 	if(item.shuadan_end_time && selectItems > item.shuadan_end_time){
+							// 		ca.prompt('开始时间不能大于结束时间！');
+							// 		return;
+							// 	}
+							// 	item.shuadan_start_time = selectItems.text;
+							// }else{
+							// 	if(item.shuadan_start_time && selectItems < item.shuadan_start_time){
+							// 		ca.prompt('结束时间不能小于开始时间！');
+							// 		return;
+							// 	}
+							// 	item.shuadan_end_time = selectItems.text;
+							// }
+							this.timePicker.dispose();
+						});
+					},
+					// 随机分配任务数量
+					getRandomMoney(remainMoney, remainSize) {
+						let moneyList = [];
+						const min = 1;
+						let max, money;
+						while (remainSize > 1) {
+							max = remainMoney / remainSize * 2;
+							money = parseInt(Math.random() * max);
+							money = money < 1 ? 1 : money;
+							money = Math.round(money * 100) / 100;
+							moneyList.push(money);
+							remainSize--;
+							remainMoney -= money;
+						}
+				
+						moneyList.push(Math.round(remainMoney * 100) / 100);
+						return moneyList;
+					}
 					
 					
 				},
