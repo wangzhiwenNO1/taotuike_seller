@@ -33,7 +33,7 @@
 					<!-- 流量任务类型 -->
 					<div class="flowBox">
 						<div class="title">
-							<i class="icon"></i>
+							<i class="icon iconType"></i>
 							<div>任务类型</div>
 						</div>
 						<!-- 流量任务 -->
@@ -66,85 +66,78 @@
 					<!-- 任务日期 -->
 					<div class="flowBox">
 						<div class="title">
-							<i class="icon"></i>
+							<i class="icon iconDate"></i>
 							<div>任务日期</div>
 						</div>
 						<div class="timeBox">
 							<div class="dateBox" @tap="setOrderTime(23,1)">
-								<span>2020-02-27</span>
+								<span>{{taskDateStart}}</span>
 								<i class="icon"></i>
 							</div>
 							<div class="until">—</div>
 							<div class="dateBox" @tap="setOrderTime(23,2)">
-								<span>2020-02-27</span>
+								<span>{{taskDateEnd}}</span>
 								<i class="icon"></i>
 							</div>
 						</div>
 						<ul>
 							<li>快速选择：</li>
-							<li class="active">1天</li>
-							<li>3天</li>
-							<li>7天</li>
-							<li>10天</li>
-							<li>15天</li>
-							<li>30天</li>
+							<li v-for="(item,index) in dateList" :class="{active:fastDay==item}" @tap="changeFastDay(item)">{{item}}天</li>
+							
 						</ul>
 						<div class="totalTime">任务时长 <span>1</span> 天，每天发布 <span>100</span> 个任务量，此次合计发布<span>100</span>个任务</div>
 					</div>
 				</div>
 
 				<div class="calendarBox">
-					<div class="calendarItem">
-						<div class="title">
-							<i class="icon"></i>
-							<div>任务类型</div>
-						</div>
-						<div class="bgOrange"></div>
-						<div class="bgYellow"></div>
-						<div class="bgAzure"></div>
-						<div class="bgBlue"></div>
-						<!-- 流量任务 -->
-						<!-- 收藏任务 -->
-						<!-- 加购任务 -->
-						<ul v-if="taskType!==4">
-							<li>
+					<div class="title">
+						<i class="icon iconType"></i>
+						<div>任务信息</div>
+					</div>
+					<div class="calendarItem" v-for="(item,index) in periodList">
+						<ul >
+							<!-- 流量任务 收藏任务  加购任务 -->
+							<li v-if="taskType!==4">
 								<label for="">商品链接</label>
 								<div class="inputBox">
-									<input class="inputItem" type="number" placeholder="请输入链接或淘口令" />
+									<input class="inputItem" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
-							<li>
+							<li v-if="taskType!==4">
 								<label for="">关键词</label>
 								<div class="inputBox">
-									<input class="inputItem" type="number" placeholder="请输入关键词" />
+									<input class="inputItem" type="text" placeholder="请输入关键词" />
 								</div>
 								<button class="" type="button">查排名</button>
 							</li>
-							<li>
-								<label for="">访客数量</label>
-								<div class="inputBox">
-									<div class="num-count">
-										<button class="count-desc" type="button">-</button>
-										<input class="count-input" type="number" pattern="[0-9]*" />
-										<button class="count-add" type="button">+</button>
-									</div>
-
-								</div>
-								<button class="" type="button">时段</button>
-							</li>
-						</ul>
-
-						<!-- 淘宝直播 -->
-						<ul v-else>
-							<li>
+							<!-- 淘宝直播 -->
+							<li v-if="taskType==4">
 								<label for="">店铺链接</label>
 								<div class="inputBox">
-									<input class="inputItem" type="number" placeholder="请输入链接或淘口令" />
+									<input class="inputItem" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
-
+							
 							<li>
-								<label for="">粉丝数量</label>
+								<label v-if="taskType==1">访客数量</label>
+								<label v-else-if="taskType==2">收藏数量</label>
+								<label v-else-if="taskType==3">加购数量</label>
+								<label v-else>粉丝数量</label>
+								<div class="inputBox">
+									<div class="num-count">
+										<div class="count-desc" type="button">-</div>
+										<input class="count-input" type="number" :value="item.infoNum" pattern="[0-9]*" />
+										<div class="count-add" type="button">+</div>
+									</div>
+								</div>
+								<button class="" type="button">时段</button>
+							</li>
+						</ul>
+
+						
+						<!-- <ul v-else>
+							<li>
+								<label >粉丝数量</label>
 								<div class="inputBox">
 									<div class="num-count">
 										<button class="count-desc" type="button">-</button>
@@ -155,22 +148,23 @@
 								</div>
 								<button class="" type="button">时段</button>
 							</li>
-						</ul>
+						</ul> -->
 
 						<!-- 24h -->
 						<div class="periodBox">
 							<ul>
 								<li v-for="(item,index) in 24">
-									<div class="hours">00:00</div>
-									<div class="percentage">2.0%</div>
+									<div class="hours">{{index>=10?index:"0"+index}}:00</div>
+									<div class="percentage">2.0%{{item.numItem}}</div>
 									<div class="hoursInput">
-										<input type="text" value="1">
+										<!-- <input type="text" v-if="item.numItem[index]" value="0"> -->
+										<!-- <input type="text" v-else :value="item.numItem[index].size"> -->
 									</div>
 								</li>
 							</ul>
 						</div>
 
-						<div class="totalTime">共 <span>100</span> 个任务，已分配 <span>100</span> 个，剩余未分配<span class="renText">0</span>个任务</div>
+						<div class="totalTime">共 <span>{{item.infoNum}}</span> 个任务，已分配 <span>{{item.infoNum}}</span> 个，剩余未分配<span class="renText">0</span>个任务</div>
 						<div class="fillBox">
 							<i></i>
 							<div class="active">随机填充</div>
@@ -210,8 +204,8 @@
 
 				<div class="priceInfo">
 					<div class="title">
-						<i class="icon"></i>
-						<div>任务类型</div>
+						<i class="icon iconPrice"></i>
+						<div>计费方式</div>
 					</div>
 					<div>任务耗时: <span>100-180</span> 秒,单次消费<span>¥30</span></div>
 					<div>合计消费: <span>￥3000</span></div>
@@ -246,6 +240,19 @@
 				data(){
 					return {
 						taskType:1,
+						startHour:24,//当前小时
+						taskDateStart:this.changeTomorrow(0),//任务开始日期
+						taskDateEnd:this.changeTomorrow(1),//任务结束日期
+						dateList:[1,3,7,10,15,30],//快速选择时间列表
+						fastDay:1,//快速选择时间
+						periodList:[this.periodItem()],
+						numList:[],
+						// periodItem:{
+						// 	links:"",//链接
+						// 	keyword:"",//关键词
+						// 	infoNum:"",//数量
+						// 	numItem:[],
+						// },//任务信息数据
 					}
 				},
 				computed:{
@@ -253,6 +260,14 @@
 					
 				},
 				methods:{
+					periodItem(){
+						return {
+							links:"",//链接
+							keyword:"",//关键词
+							infoNum:100,//数量
+						};
+					},
+					
 					changeTaskType(type){
 						this.taskType=type;
 					},
@@ -286,8 +301,13 @@
 							this.timePicker.dispose();
 						});
 					},
+					changeFastDay(type){
+						this.fastDay=type;
+						this.taskDateEnd=this.changeTomorrow(type);
+					},
 					// 随机分配任务数量
 					getRandomMoney(remainMoney, remainSize) {
+						let that=this;
 						let moneyList = [];
 						const min = 1;
 						let max, money;
@@ -296,30 +316,46 @@
 							money = parseInt(Math.random() * max);
 							money = money < 1 ? 1 : money;
 							money = Math.round(money * 100) / 100;
-							moneyList.push(money);
+							// moneyList.push(money);
+							moneyList.push({time:that.startHour++,size:money});
+							
 							remainSize--;
 							remainMoney -= money;
 						}
 				
-						moneyList.push(Math.round(remainMoney * 100) / 100);
+						moneyList.push({time:that.startHour++,size:Math.round(remainMoney * 100) / 100});
 						return moneyList;
+					},
+					
+					
+					// 修改天数
+					changeTomorrow(days){
+						var time = new Date().getTime() + 24 * 60 * 60 * 1000 * days;
+						var yesterday = new Date(time);
+						var month = yesterday.getMonth();
+						var day = yesterday.getDate();
+						yesterday =
+							yesterday.getFullYear() +
+							'-' +
+							(yesterday.getMonth() > 9 ? yesterday.getMonth() + 1 : '0' + (yesterday.getMonth() + 1)) +
+							'-' +
+							(yesterday.getDate() > 9 ? yesterday.getDate() : '0' + yesterday.getDate());
+						
+						return yesterday;
 					}
 					
 					
 				},
+				created(){
+					var that=this;					
+					var time = new Date();
+					that.startHour =parseInt(time.getHours()) ;
+					var arr=that.getRandomMoney(100,24 - that.startHour);
+					this.numList.push(arr)
+					console.log(this.numList);
+				},
 				mounted(){
-					mui.init({
-					    subpages:[{
-					      url:"./flow/traffic_task.html",//子页面HTML地址，支持本地地址和网络地址
-					      id:"traffic_task",//子页面标志
-					      styles:{
-					        top:0,//子页面顶部位置
-					        bottom:0,//子页面底部位置
-					       
-					      },
-					      extras:{}//额外扩展参数
-					    }]
-					  });
+					mui.init();
 					
 					mui.plusReady(function(){
 						
