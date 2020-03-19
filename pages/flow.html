@@ -153,11 +153,11 @@
 						<!-- 24h -->
 						<div class="periodBox">
 							<ul>
-								<li v-for="(item,index) in 24">
+								<li v-for="(ite,index) in item.numItem">
 									<div class="hours">{{index>=10?index:"0"+index}}:00</div>
-									<div class="percentage">2.0%{{item.numItem}}</div>
+									<div class="percentage">2.0%{{ite}}</div>
 									<div class="hoursInput">
-										<!-- <input type="text" v-if="item.numItem[index]" value="0"> -->
+										<input type="text" v-if="!ite.isShow"  value="0">
 										<!-- <input type="text" v-else :value="item.numItem[index].size"> -->
 									</div>
 								</li>
@@ -265,6 +265,32 @@
 							links:"",//链接
 							keyword:"",//关键词
 							infoNum:100,//数量
+							numItem:[
+								{time:0,size:0,isShow:false},
+								{time:1,size:0,isShow:false},
+								{time:2,size:0,isShow:false},
+								{time:3,size:0,isShow:false},
+								{time:4,size:0,isShow:false},
+								{time:5,size:0,isShow:false},
+								{time:6,size:0,isShow:false},
+								{time:7,size:0,isShow:false},
+								{time:8,size:0,isShow:false},
+								{time:9,size:0,isShow:false},
+								{time:10,size:0,isShow:false},
+								{time:11,size:0,isShow:false},
+								{time:12,size:0,isShow:false},
+								{time:13,size:0,isShow:false},
+								{time:14,size:0,isShow:false},
+								{time:15,size:0,isShow:false},
+								{time:16,size:0,isShow:false},
+								{time:17,size:0,isShow:false},
+								{time:18,size:0,isShow:false},
+								{time:19,size:0,isShow:false},
+								{time:20,size:0,isShow:false},
+								{time:21,size:0,isShow:false},
+								{time:22,size:0,isShow:false},
+								{time:23,size:0,isShow:false}
+							]
 						};
 					},
 					
@@ -347,12 +373,8 @@
 					
 				},
 				created(){
-					var that=this;					
-					var time = new Date();
-					that.startHour =parseInt(time.getHours()) ;
-					var arr=that.getRandomMoney(100,24 - that.startHour);
-					this.numList.push(arr)
-					console.log(this.numList);
+					
+					
 				},
 				mounted(){
 					mui.init();
@@ -360,7 +382,21 @@
 					mui.plusReady(function(){
 						
 					});
-					
+					var that=this;
+					var time = new Date();
+					that.startHour =parseInt(time.getHours()) ;
+					var arr=that.getRandomMoney(100,24 - that.startHour);
+					arr.map((item)=>{
+						
+						that.periodList[0].numItem.map((ite,index)=>{
+							if(ite.time==item.time){
+								that.periodList[0].numItem.isShow=true;
+								that.periodList[0].numItem.size=item.size;
+								console.log(that.periodList[0].numItem.isShow);
+							}
+						});
+						
+					})
 					
 				},
 				watch:{
