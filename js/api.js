@@ -117,6 +117,25 @@ var Axios = {
                 });
         });
     },
+	// 流量请求
+	flowPost:function(api,data, showLoading){
+        if(!showLoading){
+            mui.showLoading("加载中...","div");
+        }
+
+        return new Promise(function(resolve, reject) {
+            var url = api;
+            axios.post(url, Qs.stringify(data))
+                .then(function(response) {
+                    mui.hideLoading();
+                    resolve(response);
+                }, function(err) {
+                    mui.hideLoading();
+                    ca.prompt(err);
+                    reject(err);
+                });
+        });
+    },
     // 文件上传 （发送blob文件流对象）
     uploadFile:function(fileUrl,fileName,type, showLoading){
         if(!showLoading){

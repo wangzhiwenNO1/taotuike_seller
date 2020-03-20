@@ -38,27 +38,27 @@
 						</div>
 						<!-- 流量任务 -->
 						<div class="typesBox" v-if="taskType==1">
-							<div class="active">APP 流量</div>
-							<div>PC 流量</div>
-							<div>直访流量</div>
+							<div :class="{active:priceType==0}">APP 流量</div>
+							<div :class="{active:priceType==1}">PC 流量</div>
+							<div :class="{active:priceType==2}">直访流量</div>
 						</div>
 						<!-- 收藏任务 -->
 						<div class="typesBox" v-else-if="taskType==2">
-							<div class="active">搜索收藏</div>
-							<div>商品收藏</div>
-							<div>店铺收藏</div>
-							<div>商品点赞</div>
+							<div :class="{active:priceType==3}">搜索收藏</div>
+							<div :class="{active:priceType==6}">商品收藏</div>
+							<div :class="{active:priceType==7}">店铺收藏</div>
+							<div :class="{active:priceType==9}">商品点赞</div>
 						</div>
 						<!-- 加购任务 -->
 						<div class="typesBox" v-else-if="taskType==3">
-							<div class="active">搜索加购</div>
-							<div>直接加购</div>
+							<div :class="{active:priceType==10}">搜索加购</div>
+							<div :class="{active:priceType==11}">直接加购</div>
 						</div>
 						<!-- 淘宝直播 -->
 						<div class="typesBox" v-else>
-							<div class="active">达人关注</div>
-							<div>微淘点赞</div>
-							<div>观看人数</div>
+							<div :class="{active:priceType==12}">达人关注</div>
+							<div :class="{active:priceType==14}">微淘点赞</div>
+							<div :class="{active:priceType==17}">观看人数</div>
 						</div>
 					</div>
 
@@ -83,9 +83,8 @@
 						<ul>
 							<li>快速选择：</li>
 							<li v-for="(item,index) in dateList" :class="{active:fastDay==item}" @tap="changeFastDay(item)">{{item}}天</li>
-							
 						</ul>
-						<div class="totalTime">任务时长 <span>1</span> 天，每天发布 <span>100</span> 个任务量，此次合计发布<span>100</span>个任务</div>
+						<div class="totalTime">任务时长 <span>{{duration}}</span> 天，每天发布 <span>{{dayNum}}</span> 个任务量，此次合计发布<span>{{duration*dayNum}}</span>个任务</div>
 					</div>
 				</div>
 
@@ -95,29 +94,29 @@
 						<div>任务信息</div>
 					</div>
 					<div class="calendarItem" v-for="(item,index) in periodList">
-						<ul >
+						<ul>
 							<!-- 流量任务 收藏任务  加购任务 -->
 							<li v-if="taskType!==4">
-								<label for="">商品链接</label>
+								<label >商品链接</label>
 								<div class="inputBox">
-									<input class="inputItem" type="text" placeholder="请输入链接或淘口令" />
+									<input class="inputItem" v-model="target" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
 							<li v-if="taskType!==4">
-								<label for="">关键词</label>
+								<label >关键词{{index+1}}</label>
 								<div class="inputBox">
-									<input class="inputItem" type="text" placeholder="请输入关键词" />
+									<input class="inputItem" v-model="keyword" type="text" placeholder="请输入关键词" />
 								</div>
 								<button class="" type="button">查排名</button>
 							</li>
 							<!-- 淘宝直播 -->
 							<li v-if="taskType==4">
-								<label for="">店铺链接</label>
+								<label >店铺链接</label>
 								<div class="inputBox">
-									<input class="inputItem" type="text" placeholder="请输入链接或淘口令" />
+									<input class="inputItem" v-model="target" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
-							
+
 							<li>
 								<label v-if="taskType==1">访客数量</label>
 								<label v-else-if="taskType==2">收藏数量</label>
@@ -125,46 +124,30 @@
 								<label v-else>粉丝数量</label>
 								<div class="inputBox">
 									<div class="num-count">
-										<div class="count-desc" type="button">-</div>
-										<input class="count-input" type="number" :value="item.infoNum" pattern="[0-9]*" />
-										<div class="count-add" type="button">+</div>
+										<div class="count-desc" @tap="setOrderNum(1,index)">-</div>
+										<input class="count-input" type="number" @change="(e)=>{changeTotal(e,index)}" v-model="item.infoNum"  pattern="[0-9]*" />
+										<div class="count-add"  @tap="setOrderNum(2,index)">+</div>
 									</div>
 								</div>
 								<button class="" type="button">时段</button>
 							</li>
 						</ul>
 
-						
-						<!-- <ul v-else>
-							<li>
-								<label >粉丝数量</label>
-								<div class="inputBox">
-									<div class="num-count">
-										<button class="count-desc" type="button">-</button>
-										<input class="count-input" type="number" pattern="[0-9]*" />
-										<button class="count-add" type="button">+</button>
-									</div>
-
-								</div>
-								<button class="" type="button">时段</button>
-							</li>
-						</ul> -->
-
 						<!-- 24h -->
 						<div class="periodBox">
 							<ul>
-								<li v-for="(ite,index) in item.numItem">
-									<div class="hours">{{index>=10?index:"0"+index}}:00</div>
-									<div class="percentage">2.0%{{ite}}</div>
+								<li v-for="(ite,idex) in numList[index]">
+									<div class="hours">{{idex>=10?idex:"0"+idex}}:00</div>
+									<div class="percentage">{{(ite.size/item.infoNum*100).toFixed(2)}}%</div>
 									<div class="hoursInput">
-										<input type="text" v-if="!ite.isShow"  value="0">
-										<!-- <input type="text" v-else :value="item.numItem[index].size"> -->
+										<input type="text" v-if="!ite.isShow" disabled value="0">
+										<input type="number" v-else @change="(e)=>{changeNumItem(e,index,idex)}" v-model="ite.size" />
 									</div>
 								</li>
 							</ul>
 						</div>
 
-						<div class="totalTime">共 <span>{{item.infoNum}}</span> 个任务，已分配 <span>{{item.infoNum}}</span> 个，剩余未分配<span class="renText">0</span>个任务</div>
+						<div class="totalTime">共 <span>{{item.infoNum}}</span> 个任务，已分配 <span>{{item.allocationNum}}</span> 个，剩余未分配<span class="renText">{{item.infoNum-item.allocationNum}}</span>个任务</div>
 						<div class="fillBox">
 							<i></i>
 							<div class="active">随机填充</div>
@@ -174,14 +157,14 @@
 							<div>删除</div>
 						</div>
 					</div>
-					<div class="addBox">添加</div>
+					<div class="addBox" @tap="addPeriod">添加</div>
 				</div>
 
 				<div class="ulBox">
 					<ul>
 						<li>
 							<label>浏览时间</label>
-							<div>
+							<div @tap="choseDepth">
 								<span>100-180秒(免费)</span>
 								<i></i>
 							</div>
@@ -207,11 +190,11 @@
 						<i class="icon iconPrice"></i>
 						<div>计费方式</div>
 					</div>
-					<div>任务耗时: <span>100-180</span> 秒,单次消费<span>¥30</span></div>
+					<div>任务耗时: <span>100-180</span> 秒,单次消费<span>¥{{priceList[priceType]}}</span></div>
 					<div>合计消费: <span>￥3000</span></div>
 					<div class="referBox">
 						<div>应付金额：<span>￥378</span></div>
-						<div class="referBtn">提交订单</div>
+						<div class="referBtn" @tap="addFlow">提交订单</div>
 					</div>
 				</div>
 			</div>
@@ -244,20 +227,57 @@
 						taskDateStart:this.changeTomorrow(0),//任务开始日期
 						taskDateEnd:this.changeTomorrow(1),//任务结束日期
 						dateList:[1,3,7,10,15,30],//快速选择时间列表
-						fastDay:1,//快速选择时间
+						fastDay:1,//天数
 						periodList:[this.periodItem()],
-						numList:[],
-						// periodItem:{
-						// 	links:"",//链接
-						// 	keyword:"",//关键词
-						// 	infoNum:"",//数量
-						// 	numItem:[],
-						// },//任务信息数据
+						numList:[this.numItem()],
+						duration:1,//任务时长
+						// 0-app流量，1-pc流量，2-直访流量
+						priceType:0,//价格类型
+						priceList:{},//单次消费价格列表
+						target:"",//淘宝链接
+						keyword:"",//关键词
+						browse_time:"",//浏览时间
+						depth:"",//浏览深度
+						depthList:[{
+							value:0,
+							text:'100-180'
+						},{
+							value:1,
+							text:'180-280'
+						},{
+							value:2,
+							text:'280-380'
+						},{
+							value:3,
+							text:'380-480'
+						}],
 					}
 				},
 				computed:{
-					// 计算应付金额
 					
+					dayNum(){//每天发布任务数
+						let num=0;
+						this.periodList.map(item=>{
+							num+=parseInt(item.infoNum);
+						});
+						return num;
+					},
+					
+				},
+				
+				created(){
+					mui.init();
+					
+					mui.plusReady(function(){
+						
+					});
+					var that=this;
+					that.changeDistribution(0);
+					this.getPrice();
+					
+				},
+				watch:{
+				
 				},
 				methods:{
 					periodItem(){
@@ -265,38 +285,147 @@
 							links:"",//链接
 							keyword:"",//关键词
 							infoNum:100,//数量
-							numItem:[
-								{time:0,size:0,isShow:false},
-								{time:1,size:0,isShow:false},
-								{time:2,size:0,isShow:false},
-								{time:3,size:0,isShow:false},
-								{time:4,size:0,isShow:false},
-								{time:5,size:0,isShow:false},
-								{time:6,size:0,isShow:false},
-								{time:7,size:0,isShow:false},
-								{time:8,size:0,isShow:false},
-								{time:9,size:0,isShow:false},
-								{time:10,size:0,isShow:false},
-								{time:11,size:0,isShow:false},
-								{time:12,size:0,isShow:false},
-								{time:13,size:0,isShow:false},
-								{time:14,size:0,isShow:false},
-								{time:15,size:0,isShow:false},
-								{time:16,size:0,isShow:false},
-								{time:17,size:0,isShow:false},
-								{time:18,size:0,isShow:false},
-								{time:19,size:0,isShow:false},
-								{time:20,size:0,isShow:false},
-								{time:21,size:0,isShow:false},
-								{time:22,size:0,isShow:false},
-								{time:23,size:0,isShow:false}
-							]
+							allocationNum:100,//已分配
 						};
+					},
+					numItem(){
+						return [
+							{time:0,size:0,isShow:false},
+							{time:1,size:0,isShow:false},
+							{time:2,size:0,isShow:false},
+							{time:3,size:0,isShow:false},
+							{time:4,size:0,isShow:false},
+							{time:5,size:0,isShow:false},
+							{time:6,size:0,isShow:false},
+							{time:7,size:0,isShow:false},
+							{time:8,size:0,isShow:false},
+							{time:9,size:0,isShow:false},
+							{time:10,size:0,isShow:false},
+							{time:11,size:0,isShow:false},
+							{time:12,size:0,isShow:false},
+							{time:13,size:0,isShow:false},
+							{time:14,size:0,isShow:false},
+							{time:15,size:0,isShow:false},
+							{time:16,size:0,isShow:false},
+							{time:17,size:0,isShow:false},
+							{time:18,size:0,isShow:false},
+							{time:19,size:0,isShow:false},
+							{time:20,size:0,isShow:false},
+							{time:21,size:0,isShow:false},
+							{time:22,size:0,isShow:false},
+							{time:23,size:0,isShow:false}
+						]
+					},
+					// 处理初始分配
+					changeDistribution(index){
+						var that=this;
+						var time = new Date();
+						that.startHour =parseInt(time.getHours()) ;
+						var arr=that.getRandomMoney(that.periodList[index].infoNum,24 - that.startHour);
+						arr.map((item)=>{
+							that.numList[index].forEach((ite,index)=>{
+								
+								if(ite.time==item.time){
+									ite.isShow=true;
+									ite.size=item.size;
+								}
+							})
+						})
+					},
+					// 修改单个任务信息数量
+					setOrderNum(type,index){
+						if(type==1){
+							this.periodList[index].infoNum-=1;
+						}else{
+							this.periodList[index].infoNum+=1;
+						}
+						
+						// this.changeDistribution(index);
+					},
+					changeTotal(e,index){
+						
+						this.periodList[index].infoNum=parseInt( e.target.value);
+						// this.changeDistribution(index);
+						
+					},
+					// 修改时段的input
+					changeNumItem(e,index,idex){
+						this.numList[index][idex].size=e.target.value;
+						console.log(this.numList[index][idex]);
+						let total=0;
+						this.numList[index].map(item=>{
+							total+=parseInt(item.size);
+						});
+						if(this.periodList[index].infoNum<total){
+							this.periodList[index].infoNum=total;
+						}
+						
+						this.periodList[index].allocationNum=total;
+						
+					},
+					
+					// 添加任务详情
+					addPeriod(){
+						this.periodList.push(this.periodItem());
+						let length=this.periodList.length-1;
+						
+						this.numList.push(this.numItem());
+						this.changeDistribution(length);
 					},
 					
 					changeTaskType(type){
 						this.taskType=type;
 					},
+					// 获取价格
+					getPrice(){
+						let that=this;
+						Axios.flowPost('/api/liuliang/price',{
+							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+							
+						}).then(function(res){
+							console.log(res);
+							if(res.code==1){
+								that.priceList=res.data;	
+							}
+						});
+					},
+					// 添加流量任务
+					addFlow(){
+						let that=this;
+						
+						// 处理发布量
+						let numStringArr=[];
+						that.numList.map(item=>{
+							let numArr=[];
+							item.map(ite=>{
+								numArr.push(ite.size);
+							});
+							numStringArr.push(numArr.join(","))
+						});
+						console.log(numStringArr);
+						
+						let isAll=true;
+						periodList.map((item,index)=>{
+							Axios.flowPost('/api/liuliang/add',{
+								token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+								count:that.fastDay,
+								hour:numStringArr[index],
+								begin_time:that.taskDateStart,
+								type:that.priceType,
+								target:"",
+								keyword:"",
+								browse_time:"",
+								depth:"",
+								
+							}).then(function(res){
+								console.log(res);
+								if(res.code==1){
+									
+								}
+							});
+						});
+					},
+					
 					// 设置时间
 					setOrderTime(item,type){
 						var time = new Date();
@@ -327,6 +456,25 @@
 							this.timePicker.dispose();
 						});
 					},
+					// 选择浏览时间
+					choseDepth(){
+						
+						var that = this;
+						var picker = new mui.PopPicker();
+						picker.setData(that.depthList);
+						
+						// 点击取消按钮关闭滚动锁定状态
+						var btn = $("button.mui-poppicker-btn-cancel")[0];
+						btn.addEventListener('tap',function () {
+							picker.dispose();
+						});
+						
+						picker.show(function (selectItems) {
+							console.log(selectItems);
+							picker.dispose();
+						})
+					},
+					// 选择浏览深度
 					changeFastDay(type){
 						this.fastDay=type;
 						this.taskDateEnd=this.changeTomorrow(type);
@@ -372,36 +520,7 @@
 					
 					
 				},
-				created(){
-					
-					
-				},
-				mounted(){
-					mui.init();
-					
-					mui.plusReady(function(){
-						
-					});
-					var that=this;
-					var time = new Date();
-					that.startHour =parseInt(time.getHours()) ;
-					var arr=that.getRandomMoney(100,24 - that.startHour);
-					arr.map((item)=>{
-						
-						that.periodList[0].numItem.map((ite,index)=>{
-							if(ite.time==item.time){
-								that.periodList[0].numItem.isShow=true;
-								that.periodList[0].numItem.size=item.size;
-								console.log(that.periodList[0].numItem.isShow);
-							}
-						});
-						
-					})
-					
-				},
-				watch:{
-
-				}
+				
 			});
 			
 		</script>
