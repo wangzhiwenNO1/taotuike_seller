@@ -1,0 +1,358 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>搜索结果</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css"/>
+		<style type="text/css">
+			.mui-content{
+				background: none;
+			}
+			.screenBox{
+				padding:1rem;
+				background-color: rgba(102, 209, 207, 0.1);
+			}
+			.screenBox li{
+				display: flex;
+				align-items: center;
+				margin:0.5rem 0;
+			}
+			
+			.screenBox li>label{
+				width:5rem;
+				color:rgba(51, 51, 51, 1);
+			}
+			
+			.screenBox li>div{
+				flex:1;
+				height:2.94rem;
+				background:rgba(255,255,255,1);
+				border-radius:0.25rem;
+				border:0.03rem solid rgba(238,238,238,1);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding:0 1rem;
+				color: rgba(204, 204, 204, 1);
+			}
+			
+			.screenBox li:last-child{
+				background-color: #FFFFFF;
+			}
+			
+			.searchBox input{
+				padding:0;
+				margin: 0;
+				border:none;
+			}
+			
+			.searchBox input::-webkit-input-placeholder {  	/* WebKit browsers */
+			    color: rgba(204, 204, 204, 1);
+				font-size: 0.65rem;
+			}
+			.searchBox input:-moz-placeholder {            	/* Mozilla Firefox 4 to 18 */
+			    color: rgba(204, 204, 204, 1);
+				font-size: 0.65rem;
+			}
+			.searchBox input::-moz-placeholder {           	/* Mozilla Firefox 19+ */
+			    color: rgba(204, 204, 204, 1);
+				font-size: 0.65rem;
+			}
+			.searchBox input:-ms-input-placeholder {       	/* Internet Explorer 10+ */
+			    color: rgba(204, 204, 204, 1);
+				font-size: 0.65rem;
+			}
+			
+			.searchBtn{
+				width:4.03rem;
+				height:2.3rem;
+				background:rgba(102,209,207,1);
+				border-radius:0.25rem;
+				border:0.03rem solid rgba(238,238,238,1);
+				color:rgba(255, 255, 255, 1);
+				text-align: center;
+				line-height: 2.3rem;
+			}
+			
+			
+			/* 任务日期 */
+			.timeBox {
+				display: flex;
+				align-items: center;
+				border: 1px solid #EEEEEE;
+				border-radius: 0.3rem;
+				
+			}
+			
+			
+			.dateBox {
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0.5rem 0;
+			
+			}
+			
+			.dateBox span {
+				line-height: 1rem;
+				color:rgba(51, 51, 51, 1);
+			}
+			
+			.until {
+				width: 2.75rem;
+				padding: 0.5rem 0;
+				border-left: 1px solid #EEEEEE;
+				border-right: 1px solid #EEEEEE;
+				text-align: center;
+				color: rgba(153, 153, 153, 1);
+				line-height: 1.4rem;
+			}
+			
+			.dateBox i {
+				display: inline-block;
+				width: 0.9rem;
+				height: 0.9rem;
+				background: pink;
+				margin-left: 1rem;
+			}
+			.listBox{
+				padding: 0.1rem 1rem ;
+				color:rgba(55, 55, 55, 1);
+				margin-top: 0.5rem;
+			}
+			.listBox li{
+				margin:0.75rem 0;
+				line-height: 1.5remrem;
+				border-bottom: 1px solid #EEEEEE;
+				padding:0.5rem;
+				background-color: #FFFFFF;
+				border-radius: 0.3rem;
+			}
+			
+			.listBox li>div:last-child{
+				display: flex;
+				justify-content: space-between;
+				
+			}
+			
+			.orderTime{
+				color:rgba(100, 100, 100, 1)
+			}
+		</style>
+	</head>
+
+	<body>
+	    <section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">历史发布</h1>
+			</header>
+			<div class="mui-content">
+				<div class="order_wrap">
+					
+					
+					<ul class="listBox">
+						<li v-for="(item,index) in orderData" :key="index">
+							<div>关键字/链接：{{item.keyword}}</div>
+							<div>
+								<span>单价：{{item.price}}</span>
+								<span>总价：{{item.total}}</span>
+							</div>
+							<div>
+								<div>
+									<span>发布量：{{item.count}}</span>
+									<span>剩余量：{{item.count_else}}</span>
+								</div>
+								<div class="orderTime">{{item.begin_time}}</div>
+							</div>
+						</li>
+						
+					</ul>
+					
+					<ul class="empty"  v-if="orderData.length === 0">
+						<img src="../../img/empty.png" >
+						<p>暂无数据</p>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			let app = new Vue({
+				el:'#app',
+				data(){
+					return {
+						taskDateStart:this.changeTomorrow(0),//任务开始日期
+						taskDateEnd:this.changeTomorrow(1),//任务结束日期
+						
+						// 
+						orderData:[],
+						search:'',
+						pageIndex:1,
+						pageSize:5
+					}
+				},
+				mounted(){
+					mui.init();
+					ca.init();
+					this.token = storage.get("token");
+					this.load();
+					var _this = this;
+					// native.js input框自动获取焦点
+					
+					mui.plusReady(function () {
+						// ca.receiveNotice('orderToRefresh',function (e) {
+						// 	_this.mescroll.resetUpScroll(false);
+						// })
+					})
+					
+					this.refreshOrderData();
+				},
+				methods:{
+					load() {
+						this.mescroll = new MeScroll("body", {
+							down: {
+								auto:false,
+								callback:this.refreshOrderData
+							},
+							up: {
+								callback: this.moreOrderList, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+								isBounce: false,
+								noMoreSize: 5,
+								auto:false,
+								page: {
+									num:0,
+									size: this.pageSize
+								},
+								htmlNodata: '<p class="upwarp-nodata">-- 没有数据啦 --</p>'
+							}
+						});
+					},
+					// 跳转至订单付款、完成明细
+					toDetail(status,id){
+						switch (status) {
+							case '10':  // 进行中
+								ca.newInterface({
+									url:'../mine/orderDetail.html?id=' + id,
+									id:'orderDetail.html'
+								});
+								break;
+							case '20':  // 已完成
+								ca.newInterface({
+									url:'../mine/orderDetail.html?id=' + id,
+									id:'orderDetail.html'
+								});
+								break;
+							case '30':  // 已过期
+								break;
+							case '5':  // 待付款
+								ca.newInterface({
+									url:'../task/tijiaodingdan.html?ids=' + id,
+									id:'task/tijiaodingdan.html'
+								});
+								break;
+							default:
+								break;
+						}
+
+					},
+					// 获取首页订单数据
+					refreshOrderData(){
+						var params = {
+							token:storage.get("token") || "870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							type:0,
+						};
+						var _this = this;
+						// 当上拉加载到最后一页后，下拉刷新，重置上拉加载状态
+						if(!_this.mescroll.optUp.hasNext){
+							_this.mescroll.resetUpScroll(false);
+						}
+						Axios.post('/api/liuliang/lishi',params).then(function(res){
+							mui.hideLoading();
+							
+							if(res.code == 1){
+								_this.orderData = res.data.data;
+								_this.mescroll.endSuccess()
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上拉加载更多订单
+					moreOrderList(page){
+						console.log("上拉了");
+						
+						var params = {
+							token:storage.get("token") || "",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							type:0,
+							page:page.num,
+							limit_num:page.size
+						};
+						var _this = this;
+						Axios.post("/api/order/index",params).then(function(res){
+							if(res.code == 1){
+								//更新列表数据
+								var totalPage = res.data.count;
+								var curPageData = res.data.data;
+								if(page.num == 1) _this.orderData = [];
+								_this.orderData = _this.orderData.concat(curPageData);
+								//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+								//必传参数(当前页的数据个数, 总页数)
+								_this.mescroll.endByPage(curPageData.length, totalPage);
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					
+					// 修改天数
+					changeTomorrow(days){
+						var time = new Date().getTime() + 24 * 60 * 60 * 1000 * days;
+						var yesterday = new Date(time);
+						var month = yesterday.getMonth();
+						var day = yesterday.getDate();
+						yesterday =
+							yesterday.getFullYear() +
+							'-' +
+							(yesterday.getMonth() > 9 ? yesterday.getMonth() + 1 : '0' + (yesterday.getMonth() + 1)) +
+							'-' +
+							(yesterday.getDate() > 9 ? yesterday.getDate() : '0' + yesterday.getDate());
+						
+						return yesterday;
+					}
+					
+					
+				},
+				
+				
+				
+				
+			});
+		</script>
+	</body>
+
+</html>
