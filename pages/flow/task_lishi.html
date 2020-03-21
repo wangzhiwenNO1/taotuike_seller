@@ -312,10 +312,10 @@
 							limit_num:page.size
 						};
 						var _this = this;
-						Axios.post("/api/order/index",params).then(function(res){
+						Axios.post("/api/liuliang/lishi",params).then(function(res){
 							if(res.code == 1){
 								//更新列表数据
-								var totalPage = res.data.count;
+								var totalPage = res.data.last_page;
 								var curPageData = res.data.data;
 								if(page.num == 1) _this.orderData = [];
 								_this.orderData = _this.orderData.concat(curPageData);

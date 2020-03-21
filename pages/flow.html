@@ -97,23 +97,23 @@
 						<ul>
 							<!-- 流量任务 收藏任务  加购任务 -->
 							<li v-if="taskType!==4">
-								<label >商品链接</label>
+								<label>商品链接</label>
 								<div class="inputBox">
-									<input class="inputItem" v-model="target" type="text" placeholder="请输入链接或淘口令" />
+									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
 							<li v-if="taskType!==4">
-								<label >关键词{{index+1}}</label>
+								<label>关键词{{index+1}}</label>
 								<div class="inputBox">
-									<input class="inputItem" v-model="keyword" type="text" placeholder="请输入关键词" />
+									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入关键词" />
 								</div>
 								<button class="" type="button">查排名</button>
 							</li>
 							<!-- 淘宝直播 -->
 							<li v-if="taskType==4">
-								<label >店铺链接</label>
+								<label>店铺链接</label>
 								<div class="inputBox">
-									<input class="inputItem" v-model="target" type="text" placeholder="请输入链接或淘口令" />
+									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
 
@@ -125,8 +125,8 @@
 								<div class="inputBox">
 									<div class="num-count">
 										<div class="count-desc" @tap="setOrderNum(1,index)">-</div>
-										<input class="count-input" type="number" @change="(e)=>{changeTotal(e,index)}" v-model="item.infoNum"  pattern="[0-9]*" />
-										<div class="count-add"  @tap="setOrderNum(2,index)">+</div>
+										<input class="count-input" type="number" @change="(e)=>{changeTotal(e,index)}" v-model="item.infoNum" pattern="[0-9]*" />
+										<div class="count-add" @tap="setOrderNum(2,index)">+</div>
 									</div>
 								</div>
 								<button class="" type="button">时段</button>
@@ -147,11 +147,12 @@
 							</ul>
 						</div>
 
-						<div class="totalTime">共 <span>{{item.infoNum}}</span> 个任务，已分配 <span>{{item.allocationNum}}</span> 个，剩余未分配<span class="renText">{{item.infoNum-item.allocationNum}}</span>个任务</div>
+						<div class="totalTime">共 <span>{{item.infoNum}}</span> 个任务，已分配 <span>{{item.allocationNum}}</span> 个，剩余未分配<span
+							 class="renText">{{item.infoNum-item.allocationNum}}</span>个任务</div>
 						<div class="fillBox">
 							<i></i>
 							<div class="active">随机填充</div>
-							<div>历史发布</div>
+							<div @tap="goToLishi">历史发布</div>
 						</div>
 						<div class="delBox">
 							<div>删除</div>
@@ -164,15 +165,15 @@
 					<ul>
 						<li>
 							<label>浏览时间</label>
-							<div @tap="choseDepth">
-								<span>100-180秒(免费)</span>
+							<div @tap="choseBrowse">
+								<span>{{browse_time}}</span>
 								<i></i>
 							</div>
 						</li>
 						<li>
 							<label>浏览深度</label>
-							<div>
-								<span>不浏览</span>
+							<div @tap="choseDepth">
+								<span>{{depthText}}</span>
 								<i></i>
 							</div>
 						</li>
@@ -190,10 +191,10 @@
 						<i class="icon iconPrice"></i>
 						<div>计费方式</div>
 					</div>
-					<div>任务耗时: <span>100-180</span> 秒,单次消费<span>¥{{priceList[priceType]}}</span></div>
-					<div>合计消费: <span>￥3000</span></div>
+					<div>任务耗时: <span>{{browse_time}}</span> 秒,单次消费<span>¥{{priceList[priceType]}}</span></div>
+					<div>合计消费: <span>￥{{payable.toFixed(2)}}</span></div>
 					<div class="referBox">
-						<div>应付金额：<span>￥378</span></div>
+						<div>应付金额：<span>￥{{payable.toFixed(2)}}</span></div>
 						<div class="referBtn" @tap="addFlow">提交订单</div>
 					</div>
 				</div>
@@ -234,10 +235,11 @@
 						// 0-app流量，1-pc流量，2-直访流量
 						priceType:0,//价格类型
 						priceList:{},//单次消费价格列表
-						target:"",//淘宝链接
-						keyword:"",//关键词
-						browse_time:"",//浏览时间
-						depth:"",//浏览深度
+						browse_time:"100-180",//浏览时间
+						
+						depth:1,//浏览深度
+						depthText:"不浏览",
+						
 						depthList:[{
 							value:0,
 							text:'100-180'
@@ -251,6 +253,19 @@
 							value:3,
 							text:'380-480'
 						}],
+						
+						browseList:[
+							{
+								value:0,
+								text:'不浏览'
+							},{
+								value:1,
+								text:'随机浏览'
+							},{
+								value:2,
+								text:'深度浏览'
+							}
+						]
 					}
 				},
 				computed:{
@@ -262,6 +277,9 @@
 						});
 						return num;
 					},
+					payable(){//应付金额
+						return this.duration*this.dayNum*this.priceList[this.priceType]
+					}
 					
 				},
 				
@@ -286,6 +304,9 @@
 							keyword:"",//关键词
 							infoNum:100,//数量
 							allocationNum:100,//已分配
+							target:"",//淘宝链接
+							keyword:"",//关键词
+							
 						};
 					},
 					numItem(){
@@ -402,28 +423,63 @@
 							});
 							numStringArr.push(numArr.join(","))
 						});
-						console.log(numStringArr);
 						
-						let isAll=true;
-						periodList.map((item,index)=>{
-							Axios.flowPost('/api/liuliang/add',{
-								token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
-								count:that.fastDay,
-								hour:numStringArr[index],
-								begin_time:that.taskDateStart,
-								type:that.priceType,
-								target:"",
-								keyword:"",
-								browse_time:"",
-								depth:"",
-								
-							}).then(function(res){
-								console.log(res);
-								if(res.code==1){
+						
+						
+						var isAll=true;
+						// 
+						for(let i=0;i<that.periodList.length;i++){
+							
+							if(isAll){
+								Axios.flowPost('/api/liuliang/add',{
+									token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
+									count:that.duration*that.dayNum,
+									hour:numStringArr[i],
+									begin_time:that.taskDateStart,
+									type:that.priceType,
+									target:that.periodList[i].target,
+									keyword:that.periodList[i].keyword,
+									browse_time:that.browse_time,
+									depth:that.depth,
 									
-								}
-							});
-						});
+								}).then(function(res){
+									
+									if(res.code==1){
+										
+									}else{
+										console.log(res);
+										isAll=false;
+									}
+								});
+							}else{
+								return;
+							}
+							
+						}
+						
+						// that.periodList.map((item,index)=>{
+							
+							
+						// 	Axios.flowPost('/api/liuliang/add',{
+						// 		token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
+						// 		count:that.duration*that.dayNum,
+						// 		hour:numStringArr[index],
+						// 		begin_time:that.taskDateStart,
+						// 		type:that.priceType,
+						// 		target:item.target,
+						// 		keyword:item.keyword,
+						// 		browse_time:that.browse_time,
+						// 		depth:that.depth,
+								
+						// 	}).then(function(res){
+						// 		console.log(res);
+						// 		if(res.code==0){
+									
+						// 		}else{
+						// 			isAll=false;
+						// 		}
+						// 	});
+						// });
 					},
 					
 					// 设置时间
@@ -431,33 +487,49 @@
 						var time = new Date();
 						var startHour = time.getHours();
 						var startMinutes = time.getMinutes();
+						let that=this;
 						
 						this.timePicker = new mui.DtPicker({
-							type: "time", //设置日历初始视图模式
-							customData: {
-								h: getTime(startHour,24),
-								i: getTime(startMinutes,59)
-							}//时间/日期别名
+							type: "date", //设置日历初始视图模式
+							// customData: {
+							// 	h: getTime(startHour,24),
+							// 	i: getTime(startMinutes,59)
+							// }//时间/日期别名
 						});
 						this.timePicker.show((selectItems) => {
-							// if(type){
-							// 	if(item.shuadan_end_time && selectItems > item.shuadan_end_time){
-							// 		ca.prompt('开始时间不能大于结束时间！');
-							// 		return;
-							// 	}
-							// 	item.shuadan_start_time = selectItems.text;
-							// }else{
-							// 	if(item.shuadan_start_time && selectItems < item.shuadan_start_time){
-							// 		ca.prompt('结束时间不能小于开始时间！');
-							// 		return;
-							// 	}
-							// 	item.shuadan_end_time = selectItems.text;
-							// }
+							console.log(selectItems);
+							if(type==1){
+								
+								if(that.taskDateEnd&& selectItems.value >that.taskDateEnd){
+									ca.prompt('开始时间不能大于结束时间！');
+									return;
+								}
+								
+								that.taskDateStart = selectItems.value;
+								
+							}else{
+								if(that.taskDateStart&& selectItems.value<that.taskDateStart){
+									ca.prompt('结束时间不能小于开始时间！');
+									return;
+								}
+								that.taskDateEnd = selectItems.value;
+								
+							}
 							this.timePicker.dispose();
+							
+							let startTime = new Date(that.taskDateStart); // 开始时间
+							let endTime = new Date(that.taskDateEnd); // 结束时间
+							let usedTime = endTime - startTime; // 相差的毫秒数
+							let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
+							if(days>0){
+								that.duration=days;
+								console.log(days);
+							}
+							
 						});
 					},
 					// 选择浏览时间
-					choseDepth(){
+					choseBrowse(){
 						
 						var that = this;
 						var picker = new mui.PopPicker();
@@ -471,13 +543,35 @@
 						
 						picker.show(function (selectItems) {
 							console.log(selectItems);
+							that.browse_time=selectItems[0].text;
+							
 							picker.dispose();
 						})
 					},
 					// 选择浏览深度
+					choseDepth(){
+						var that = this;
+						var picker = new mui.PopPicker();
+						picker.setData(that.browseList);
+						
+						// 点击取消按钮关闭滚动锁定状态
+						var btn = $("button.mui-poppicker-btn-cancel")[0];
+						btn.addEventListener('tap',function () {
+							picker.dispose();
+						});
+						
+						picker.show(function (selectItems) {
+							console.log(selectItems);
+							that.depth=selectItems[0].value;
+							that.depthText=selectItems[0].text;
+							picker.dispose();
+						})
+					},
 					changeFastDay(type){
 						this.fastDay=type;
 						this.taskDateEnd=this.changeTomorrow(type);
+						this.duration=type;
+						
 					},
 					// 随机分配任务数量
 					getRandomMoney(remainMoney, remainSize) {
@@ -499,6 +593,12 @@
 				
 						moneyList.push({time:that.startHour++,size:Math.round(remainMoney * 100) / 100});
 						return moneyList;
+					},
+					goToLishi(){
+						openWebview({
+							url:"./flow/task_lishi.html?",
+							id:'task_lishi.html'
+						})
 					},
 					
 					
