@@ -389,6 +389,7 @@
 		<script src="../js/storage.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/babel">
 			mui.plusReady(function(){
+				console.log(123);
 				if( !isIPhoneX() ){
 					$(".header").css('paddingTop','24px')
 				}
@@ -410,10 +411,12 @@
 					}
 				},
 				created() {
+					
 					mui.init();
 					ca.init();
 					var _this = this;
 					_this.load();
+					
 					mui.plusReady(function(){
 						var showGuide = plus.storage.getItem("lauchFlag");
 						ca.receiveNotice('refreshMine',function (event) {

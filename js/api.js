@@ -20,51 +20,51 @@ axios.interceptors.response.use(
         return response.data;
     },
     function(err) {
-        if (err && err.response) {
-            switch (err.response.status) {
-                case 400: err.message = '请求错误(400)' ; break;
-                case 401:
-                    err.message = '未授权，请重新登录(401)';
-                    setTimeout(function(){
-                            // plus.webview.open('../pages/login/login.html');
-                            if(window.plus){
-                                if(!hasRestart){
-                                    var btnArray=['登录','取消'];
-                                    mui.confirm('请您重新登录?','未登录',btnArray,function(e){
-                                        if(e.index == 0){
-                                            mui.plusReady(function() {
-                                                // 重启应用
-                                                localStorage.setItem('hasRestart',true);
-                                                plus.runtime.restart();
-                                            });
-                                        }
-                                    });
+   //      if (err && err.response) {
+   //          switch (err.response.status) {
+   //              case 400: err.message = '请求错误(400)' ; break;
+   //              case 401:
+   //                  err.message = '未授权，请重新登录(401)';
+   //                  setTimeout(function(){
+   //                          // plus.webview.open('../pages/login/login.html');
+   //                          if(window.plus){
+   //                              if(!hasRestart){
+   //                                  var btnArray=['登录','取消'];
+   //                                  mui.confirm('请您重新登录?','未登录',btnArray,function(e){
+   //                                      if(e.index == 0){
+   //                                          mui.plusReady(function() {
+   //                                              // 重启应用
+   //                                              localStorage.setItem('hasRestart',true);
+   //                                              plus.runtime.restart();
+   //                                          });
+   //                                      }
+   //                                  });
 
-                                }
-                            }else{
-                                openWebview({
-                                    url:location.origin + '/taotuike_seller/pages/login/login.html',
-                                    id:'pages/login/login.html'
-                                })
-                            }
-                        // popToTargetAndRefresh('pages/login/login.html');
-                    },200);
-                    break;
-                case 403: err.message = '拒绝访问(403)'; break;
-                case 404: err.message = '请求出错(404)'; break;
-                case 408: err.message = '请求超时(408)'; break;
-                case 500: err.message = '服务器错误(500)'; break;
-                case 501: err.message = '服务未实现(501)'; break;
-                case 502: err.message = '网络错误(502)'; break;
-                case 503: err.message = '服务不可用(503)'; break;
-                case 504: err.message = '网络超时(504)'; break;
-                case 505: err.message = 'HTTP版本不受支持(505)'; break;
-                default: err.message = "连接出错(" + err.response.status +")!";
-            }
-        }else{
-            err.message = '连接服务器失败!'
-			// alert(config.base_url)
-        }
+   //                              }
+   //                          }else{
+   //                              openWebview({
+   //                                  url:location.origin + '/taotuike_seller/pages/login/login.html',
+   //                                  id:'pages/login/login.html'
+   //                              })
+   //                          }
+   //                      // popToTargetAndRefresh('pages/login/login.html');
+   //                  },200);
+   //                  break;
+   //              case 403: err.message = '拒绝访问(403)'; break;
+   //              case 404: err.message = '请求出错(404)'; break;
+   //              case 408: err.message = '请求超时(408)'; break;
+   //              case 500: err.message = '服务器错误(500)'; break;
+   //              case 501: err.message = '服务未实现(501)'; break;
+   //              case 502: err.message = '网络错误(502)'; break;
+   //              case 503: err.message = '服务不可用(503)'; break;
+   //              case 504: err.message = '网络超时(504)'; break;
+   //              case 505: err.message = 'HTTP版本不受支持(505)'; break;
+   //              default: err.message = "连接出错(" + err.response.status +")!";
+   //          }
+   //      }else{
+   //          err.message = '连接服务器失败!'
+			// // alert(config.base_url)
+   //      }
         mui.hideLoading();
         // ca.prompt(err.message);
         return Promise.reject(err);

@@ -140,7 +140,7 @@
 									<div class="hours">{{idex>=10?idex:"0"+idex}}:00</div>
 									<div class="percentage">{{(ite.size/item.infoNum*100).toFixed(2)}}%</div>
 									<div class="hoursInput">
-										<input type="text" v-if="!ite.isShow" disabled value="0">
+										<input type="text" v-if="!ite.isShow"  value="0">
 										<input type="number" v-else @change="(e)=>{changeNumItem(e,index,idex)}" v-model="ite.size" />
 									</div>
 								</li>
@@ -152,7 +152,7 @@
 						<div class="fillBox">
 							<i></i>
 							<div class="active">随机填充</div>
-							<div @tap="goToLishi">历史发布</div>
+							<div @tap="goToLishi(index)">历史发布</div>
 						</div>
 						<div class="delBox">
 							<div>删除</div>
@@ -185,13 +185,13 @@
 						</li>
 					</ul>
 				</div>
-
+	<div @tap="parp">弹出</div>
 				<div class="priceInfo">
 					<div class="title">
 						<i class="icon iconPrice"></i>
 						<div>计费方式</div>
 					</div>
-					<div>任务耗时: <span>{{browse_time}}</span> 秒,单次消费<span>¥{{priceList[priceType]}}</span></div>
+					<div>任务耗时: <span>{{browse_time}}</span> 秒,单次消费<span>¥{{priceItem}}</span></div>
 					<div>合计消费: <span>￥{{payable.toFixed(2)}}</span></div>
 					<div class="referBox">
 						<div>应付金额：<span>￥{{payable.toFixed(2)}}</span></div>
@@ -225,8 +225,8 @@
 					return {
 						taskType:1,
 						startHour:24,//当前小时
-						taskDateStart:this.changeTomorrow(0),//任务开始日期
-						taskDateEnd:this.changeTomorrow(1),//任务结束日期
+						taskDateStart:"",//任务开始日期
+						taskDateEnd:"",//任务结束日期
 						dateList:[1,3,7,10,15,30],//快速选择时间列表
 						fastDay:1,//天数
 						periodList:[this.periodItem()],
@@ -236,25 +236,14 @@
 						priceType:0,//价格类型
 						priceList:{},//单次消费价格列表
 						browse_time:"100-180",//浏览时间
+						browseList:[],
+						browseType:0,
 						
 						depth:1,//浏览深度
 						depthText:"不浏览",
 						
-						depthList:[{
-							value:0,
-							text:'100-180'
-						},{
-							value:1,
-							text:'180-280'
-						},{
-							value:2,
-							text:'280-380'
-						},{
-							value:3,
-							text:'380-480'
-						}],
 						
-						browseList:[
+						depthList:[
 							{
 								value:0,
 								text:'不浏览'
@@ -264,8 +253,9 @@
 							},{
 								value:2,
 								text:'深度浏览'
-							}
-						]
+							}],
+						
+						
 					}
 				},
 				computed:{
@@ -278,26 +268,56 @@
 						return num;
 					},
 					payable(){//应付金额
-						return this.duration*this.dayNum*this.priceList[this.priceType]
+						return this.duration*this.dayNum*((this.priceList[this.priceType]+this.browseType).toFixed(2))
+					},
+					priceItem(){
+						
+						return (this.priceList[this.priceType]+this.browseType).toFixed(2)
 					}
 					
 				},
 				
 				created(){
 					mui.init();
+					var that=this;
 					
 					mui.plusReady(function(){
-						
+						 window.addEventListener('changeBackTime', function(e){
+						        　    //获取参数值
+							
+							if(e.detail.hour){
+								// console.log(e.detail.hour);
+								let index=parseInt(e.detail.numType);
+								// let string=e.detail.hour;
+								let string="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,11,16,5,14,14,4,9,7";
+								let numArr=string.split(",");
+								console.log(numArr);
+								
+								// console.log(numArr);
+								
+								that.numList[index].forEach((item,idex)=>{
+									// item.size=numArr[index];
+									// Vue.set(item,size,{size:numArr[index]});
+									app.numList[index][idex].size = numArr[index];
+								});
+								// console.log(JSON.stringify(that.numList[index]) );
+							}
+						});
 					});
-					var that=this;
+					
 					that.changeDistribution(0);
 					this.getPrice();
+					this.taskDateStart=this.changeTomorrow(0);//任务开始日期
+					this.thistaskDateEnd=this.changeTomorrow(1)//任务结束日期
 					
 				},
 				watch:{
 				
 				},
 				methods:{
+					parp(){
+						
+					},
 					periodItem(){
 						return {
 							links:"",//链接
@@ -372,7 +392,6 @@
 					// 修改时段的input
 					changeNumItem(e,index,idex){
 						this.numList[index][idex].size=e.target.value;
-						console.log(this.numList[index][idex]);
 						let total=0;
 						this.numList[index].map(item=>{
 							total+=parseInt(item.size);
@@ -404,9 +423,13 @@
 							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
 							
 						}).then(function(res){
-							console.log(res);
 							if(res.code==1){
-								that.priceList=res.data;	
+								that.priceList=res.data;
+								
+								Object.keys(res.data.browse_price).map((item)=>{
+									that.browseList.push({value:res.data.browse_price[item],text:item})
+								});
+								
 							}
 						});
 					},
@@ -447,7 +470,6 @@
 									if(res.code==1){
 										
 									}else{
-										console.log(res);
 										isAll=false;
 									}
 								});
@@ -497,7 +519,6 @@
 							// }//时间/日期别名
 						});
 						this.timePicker.show((selectItems) => {
-							console.log(selectItems);
 							if(type==1){
 								
 								if(that.taskDateEnd&& selectItems.value >that.taskDateEnd){
@@ -523,7 +544,6 @@
 							let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
 							if(days>0){
 								that.duration=days;
-								console.log(days);
 							}
 							
 						});
@@ -531,25 +551,6 @@
 					// 选择浏览时间
 					choseBrowse(){
 						
-						var that = this;
-						var picker = new mui.PopPicker();
-						picker.setData(that.depthList);
-						
-						// 点击取消按钮关闭滚动锁定状态
-						var btn = $("button.mui-poppicker-btn-cancel")[0];
-						btn.addEventListener('tap',function () {
-							picker.dispose();
-						});
-						
-						picker.show(function (selectItems) {
-							console.log(selectItems);
-							that.browse_time=selectItems[0].text;
-							
-							picker.dispose();
-						})
-					},
-					// 选择浏览深度
-					choseDepth(){
 						var that = this;
 						var picker = new mui.PopPicker();
 						picker.setData(that.browseList);
@@ -561,7 +562,24 @@
 						});
 						
 						picker.show(function (selectItems) {
-							console.log(selectItems);
+							that.browse_time=selectItems[0].text;
+							that.browseType=parseFloat(selectItems[0].value);
+							picker.dispose();
+						})
+					},
+					// 选择浏览深度
+					choseDepth(){
+						var that = this;
+						var picker = new mui.PopPicker();
+						picker.setData(that.depthList);
+						
+						// 点击取消按钮关闭滚动锁定状态
+						var btn = $("button.mui-poppicker-btn-cancel")[0];
+						btn.addEventListener('tap',function () {
+							picker.dispose();
+						});
+						
+						picker.show(function (selectItems) {
 							that.depth=selectItems[0].value;
 							that.depthText=selectItems[0].text;
 							picker.dispose();
@@ -594,9 +612,9 @@
 						moneyList.push({time:that.startHour++,size:Math.round(remainMoney * 100) / 100});
 						return moneyList;
 					},
-					goToLishi(){
+					goToLishi(index){
 						openWebview({
-							url:"./flow/task_lishi.html?",
+							url:"./flow/task_lishi.html?numType="+index,
 							id:'task_lishi.html'
 						})
 					},

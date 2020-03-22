@@ -158,7 +158,7 @@
 					
 					
 					<ul class="listBox">
-						<li v-for="(item,index) in orderData" :key="index">
+						<li v-for="(item,index) in orderData" :key="index" @tap="goToBack(index)">
 							<div>关键字/链接：{{item.keyword}}</div>
 							<div>
 								<span>单价：{{item.price}}</span>
@@ -202,6 +202,7 @@
 				el:'#app',
 				data(){
 					return {
+						backData:{},
 						taskDateStart:this.changeTomorrow(0),//任务开始日期
 						taskDateEnd:this.changeTomorrow(1),//任务结束日期
 						
@@ -213,7 +214,20 @@
 					}
 				},
 				mounted(){
-					mui.init();
+					var that=this;
+					var numType=GetQueryString("numType");
+					mui.init({
+						beforeback: function(){
+							//获得列表界面的webview
+							var view = plus.webview.getWebviewById('pages/flow.html');
+							//触发列表界面的自定义事件（refresh）,从而进行数据刷新
+							that.backData.numType=numType;
+							mui.fire(view,'changeBackTime',that.backData);
+							//返回true，继续页面关闭逻辑
+							
+							return true;
+						}
+					});
 					ca.init();
 					this.token = storage.get("token");
 					this.load();
@@ -229,6 +243,11 @@
 					this.refreshOrderData();
 				},
 				methods:{
+					goToBack(index){
+						this.backData.keyword=this.orderData[index].keyword;
+						this.backData.hour=this.orderData[index].hour;
+						mui.back();
+					},
 					load() {
 						this.mescroll = new MeScroll("body", {
 							down: {
@@ -279,7 +298,7 @@
 					// 获取首页订单数据
 					refreshOrderData(){
 						var params = {
-							token:storage.get("token") || "870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
 							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
 							type:0,
 						};
@@ -305,7 +324,7 @@
 						console.log("上拉了");
 						
 						var params = {
-							token:storage.get("token") || "",
+							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
 							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
 							type:0,
 							page:page.num,
