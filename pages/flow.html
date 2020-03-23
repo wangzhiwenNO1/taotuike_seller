@@ -40,25 +40,25 @@
 						<div class="typesBox" v-if="taskType==1">
 							<div :class="{active:priceType==0}" @tap="changePriceType(0)">APP 流量</div>
 							<div :class="{active:priceType==1}" @tap="changePriceType(1)">PC 流量</div>
-							<div :class="{active:priceType==2}" @tap="changePriceType(2)">直访流量</div>
+							<div :class="{active:priceType==3}" @tap="changePriceType(3)">直访流量</div>
 						</div>
 						<!-- 收藏任务 -->
 						<div class="typesBox" v-else-if="taskType==2">
-							<div :class="{active:priceType==3}" @tap="changePriceType(3)">搜索收藏</div>
-							<div :class="{active:priceType==6}" @tap="changePriceType(6)">商品收藏</div>
-							<div :class="{active:priceType==7}" @tap="changePriceType(7)">店铺收藏</div>
-							<div :class="{active:priceType==9}" @tap="changePriceType(9)">商品点赞</div>
+							<div :class="{active:priceType==9}" @tap="changePriceType(9)">搜索收藏</div>
+							<div :class="{active:priceType==7}" @tap="changePriceType(7)">商品收藏</div>
+							<div :class="{active:priceType==6}" @tap="changePriceType(6)">店铺收藏</div>
+							<div :class="{active:priceType==17}" @tap="changePriceType(17)">商品点赞</div>
 						</div>
 						<!-- 加购任务 -->
 						<div class="typesBox" v-else-if="taskType==3">
-							<div :class="{active:priceType==10}" @tap="changePriceType(10)">搜索加购</div>
-							<div :class="{active:priceType==11}" @tap="changePriceType(11)">直接加购</div>
+							<div :class="{active:priceType==11}" @tap="changePriceType(11)">搜索加购</div>
+							<div :class="{active:priceType==10}" @tap="changePriceType(10)">直接加购</div>
 						</div>
 						<!-- 淘宝直播 -->
 						<div class="typesBox" v-else>
 							<div :class="{active:priceType==12}" @tap="changePriceType(12)">达人关注</div>
-							<div :class="{active:priceType==14}" @tap="changePriceType(14)">微淘点赞</div>
-							<div :class="{active:priceType==17}" @tap="changePriceType(17)">观看人数</div>
+							<div :class="{active:priceType==2}" @tap="changePriceType(2)">微淘点赞</div>
+							<div :class="{active:priceType==14}" @tap="changePriceType(14)">观看人数</div>
 						</div>
 					</div>
 
@@ -102,19 +102,21 @@
 									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
-							<li v-if="taskType!==4">
-								<label>关键词{{index+1}}</label>
-								<div class="inputBox">
-									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入关键词" />
-								</div>
-								<button class="" type="button">查排名</button>
-							</li>
+							
 							<!-- 淘宝直播 -->
 							<li v-if="taskType==4">
 								<label>店铺链接</label>
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入链接或淘口令" />
 								</div>
+							</li>
+							
+							<li >
+								<label>关键词{{index+1}}</label>
+								<div class="inputBox">
+									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入关键词" />
+								</div>
+								<button class="" type="button">查排名</button>
 							</li>
 
 							<li>
@@ -150,9 +152,9 @@
 						<div class="totalTime">共 <span>{{item.infoNum}}</span> 个任务，已分配 <span>{{item.allocationNum}}</span> 个，剩余未分配<span
 							 class="renText">{{item.infoNum-item.allocationNum}}</span>个任务</div>
 						<div class="fillBox">
-							<i></i>
-							<div class="active">随机填充</div>
-							<div @tap="goToLishi(index)">历史发布</div>
+							<!-- <i></i> -->
+							<div :class="{active:fillNum==0}" @tap="changeFill(index)">随机填充</div>
+							<div :class="{active:fillNum==1}" @tap="goToLishi(index)">历史发布</div>
 						</div>
 						<div class="delBox">
 							<div @tap="delPeriod(index)">删除</div>
@@ -166,7 +168,7 @@
 						<li>
 							<label>浏览时间</label>
 							<div @tap="choseBrowse">
-								<span>{{browse_time}}</span>
+								<span>{{browse_time+"("+browsePrice+")"}}</span>
 								<i></i>
 							</div>
 						</li>
@@ -238,10 +240,10 @@
 						browse_time:"100-180",//浏览时间
 						browseList:[],
 						browseType:0,
-						
+						browsePrice:0,
+						fillNum:0,//是否随机填充
 						depth:1,//浏览深度
 						depthText:"不浏览",
-						
 						
 						depthList:[
 							{
@@ -271,7 +273,6 @@
 						return this.duration*this.dayNum*((this.priceList[this.priceType]+this.browseType).toFixed(2))
 					},
 					priceItem(){
-						
 						return (this.priceList[this.priceType]+this.browseType).toFixed(2)
 					}
 					
@@ -290,6 +291,7 @@
 								let numArr=string.split(",");
 								that.numList[index].forEach((item,idex)=>{
 									app.numList[index][idex].size = numArr[idex];
+									app.numList[index][idex].isShow = true;
 								});
 							}
 							
@@ -375,10 +377,19 @@
 							this.periodList[index].infoNum+=1;
 						}
 						
+						if(this.fillNum==0){
+							this.changeDistribution(index);
+						}
+						
 					},
 					changeTotal(e,index){
-						this.periodList[index].infoNum=parseInt( e.target.value);
+						this.periodList[index].infoNum=parseInt(e.target.value);
+						console.log(e.target.value);
 						// this.changeDistribution(index);
+						if(this.fillNum==0){
+							this.changeDistribution(index);
+							this.periodList[index].allocationNum=parseInt(e.target.value);
+						}
 						
 					},
 					// 修改时段的input
@@ -407,6 +418,11 @@
 					
 					changeTaskType(type){
 						this.taskType=type;
+						if(type==1){
+							this.priceType=0;
+						}else if(type==2){
+							this.priceType=9;
+						}
 					},
 					// 获取价格
 					getPrice(){
@@ -419,7 +435,7 @@
 								that.priceList=res.data;
 								
 								Object.keys(res.data.browse_price).map((item)=>{
-									that.browseList.push({value:res.data.browse_price[item],text:item})
+									that.browseList.push({value:res.data.browse_price[item],text:item+"("+res.data.browse_price[item]+")",price:item})
 								});
 								
 							}
@@ -453,7 +469,7 @@
 										for(let i=0;i<that.periodList.length;i++){
 											
 											if(isAll){
-												Axios.flowPost('/api/liuliang/add',{
+												let data={
 													token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
 													count:that.duration*that.dayNum,
 													hour:numStringArr[i],
@@ -464,13 +480,19 @@
 													browse_time:that.browse_time,
 													depth:that.depth,
 													
-												}).then(function(res){
+												};
+												if(that.priceType==17){
+													data.itemid=that.periodList[i].target;
+												}
+												Axios.flowPost('/api/liuliang/add',data).then(function(res){
 													
 													if(res.code==1){
 														
 													}else{
 														isAll=false;
 													}
+													
+													mui.toast(res.msg);
 												});
 											}else{
 												return;
@@ -548,8 +570,9 @@
 						});
 						
 						picker.show(function (selectItems) {
-							that.browse_time=selectItems[0].text;
+							that.browse_time=selectItems[0].price;
 							that.browseType=parseFloat(selectItems[0].value);
+							that.browsePrice=parseFloat(selectItems[0].value);
 							picker.dispose();
 						})
 					},
@@ -598,7 +621,19 @@
 						moneyList.push({time:that.startHour++,size:Math.round(remainMoney * 100) / 100});
 						return moneyList;
 					},
+					changeFill(index){
+						this.fillNum=0;
+						let arr=this.numList[index];
+						
+						arr.forEach((item,idex)=>{
+							this.numList[index][idex].size=0;
+							// app.numList[index][idex].size = 0;
+							// console.log(JSON.stringify(app.numList[index][idex]) );
+						})
+						this.changeDistribution(index);
+					},
 					goToLishi(index){
+						this.fillNum=1;
 						openWebview({
 							url:"./flow/task_lishi.html?numType="+index,
 							id:'task_lishi.html'

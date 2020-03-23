@@ -1,6 +1,6 @@
 mui.init();
 ca.init();
-axios.defaults.timeout = 10000;              //超时默认值
+axios.defaults.timeout = 100000;              //超时默认值
 axios.defaults.baseURL = config.base_url;    //默认baseUrl
 axios.defaults.responseType = 'json';       //默认数据相应类型
 // http response 拦截器
