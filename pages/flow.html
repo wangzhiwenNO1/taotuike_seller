@@ -38,27 +38,27 @@
 						</div>
 						<!-- 流量任务 -->
 						<div class="typesBox" v-if="taskType==1">
-							<div :class="{active:priceType==0}">APP 流量</div>
-							<div :class="{active:priceType==1}">PC 流量</div>
-							<div :class="{active:priceType==2}">直访流量</div>
+							<div :class="{active:priceType==0}" @tap="changePriceType(0)">APP 流量</div>
+							<div :class="{active:priceType==1}" @tap="changePriceType(1)">PC 流量</div>
+							<div :class="{active:priceType==2}" @tap="changePriceType(2)">直访流量</div>
 						</div>
 						<!-- 收藏任务 -->
 						<div class="typesBox" v-else-if="taskType==2">
-							<div :class="{active:priceType==3}">搜索收藏</div>
-							<div :class="{active:priceType==6}">商品收藏</div>
-							<div :class="{active:priceType==7}">店铺收藏</div>
-							<div :class="{active:priceType==9}">商品点赞</div>
+							<div :class="{active:priceType==3}" @tap="changePriceType(3)">搜索收藏</div>
+							<div :class="{active:priceType==6}" @tap="changePriceType(6)">商品收藏</div>
+							<div :class="{active:priceType==7}" @tap="changePriceType(7)">店铺收藏</div>
+							<div :class="{active:priceType==9}" @tap="changePriceType(9)">商品点赞</div>
 						</div>
 						<!-- 加购任务 -->
 						<div class="typesBox" v-else-if="taskType==3">
-							<div :class="{active:priceType==10}">搜索加购</div>
-							<div :class="{active:priceType==11}">直接加购</div>
+							<div :class="{active:priceType==10}" @tap="changePriceType(10)">搜索加购</div>
+							<div :class="{active:priceType==11}" @tap="changePriceType(11)">直接加购</div>
 						</div>
 						<!-- 淘宝直播 -->
 						<div class="typesBox" v-else>
-							<div :class="{active:priceType==12}">达人关注</div>
-							<div :class="{active:priceType==14}">微淘点赞</div>
-							<div :class="{active:priceType==17}">观看人数</div>
+							<div :class="{active:priceType==12}" @tap="changePriceType(12)">达人关注</div>
+							<div :class="{active:priceType==14}" @tap="changePriceType(14)">微淘点赞</div>
+							<div :class="{active:priceType==17}" @tap="changePriceType(17)">观看人数</div>
 						</div>
 					</div>
 
@@ -155,7 +155,7 @@
 							<div @tap="goToLishi(index)">历史发布</div>
 						</div>
 						<div class="delBox">
-							<div>删除</div>
+							<div @tap="delPeriod(index)">删除</div>
 						</div>
 					</div>
 					<div class="addBox" @tap="addPeriod">添加</div>
@@ -185,7 +185,7 @@
 						</li>
 					</ul>
 				</div>
-	<div @tap="parp">弹出</div>
+
 				<div class="priceInfo">
 					<div class="title">
 						<i class="icon iconPrice"></i>
@@ -284,40 +284,29 @@
 					mui.plusReady(function(){
 						 window.addEventListener('changeBackTime', function(e){
 						        　    //获取参数值
-							
 							if(e.detail.hour){
-								// console.log(e.detail.hour);
 								let index=parseInt(e.detail.numType);
-								// let string=e.detail.hour;
-								let string="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,11,16,5,14,14,4,9,7";
+								let string=e.detail.hour;
 								let numArr=string.split(",");
-								console.log(numArr);
-								
-								// console.log(numArr);
-								
 								that.numList[index].forEach((item,idex)=>{
-									// item.size=numArr[index];
-									// Vue.set(item,size,{size:numArr[index]});
-									app.numList[index][idex].size = numArr[index];
+									app.numList[index][idex].size = numArr[idex];
 								});
-								// console.log(JSON.stringify(that.numList[index]) );
 							}
+							
 						});
 					});
 					
 					that.changeDistribution(0);
 					this.getPrice();
 					this.taskDateStart=this.changeTomorrow(0);//任务开始日期
-					this.thistaskDateEnd=this.changeTomorrow(1)//任务结束日期
+					this.taskDateEnd=this.changeTomorrow(1)//任务结束日期
 					
 				},
 				watch:{
 				
 				},
 				methods:{
-					parp(){
-						
-					},
+
 					periodItem(){
 						return {
 							links:"",//链接
@@ -357,6 +346,11 @@
 							{time:23,size:0,isShow:false}
 						]
 					},
+					
+					changePriceType(index){
+						this.priceType=index;
+					},
+					
 					// 处理初始分配
 					changeDistribution(index){
 						var that=this;
@@ -381,10 +375,8 @@
 							this.periodList[index].infoNum+=1;
 						}
 						
-						// this.changeDistribution(index);
 					},
 					changeTotal(e,index){
-						
 						this.periodList[index].infoNum=parseInt( e.target.value);
 						// this.changeDistribution(index);
 						
@@ -437,71 +429,65 @@
 					addFlow(){
 						let that=this;
 						
-						// 处理发布量
-						let numStringArr=[];
-						that.numList.map(item=>{
-							let numArr=[];
-							item.map(ite=>{
-								numArr.push(ite.size);
-							});
-							numStringArr.push(numArr.join(","))
+						// 请求window
+						Axios.flowPost('/api/liuliang/window',{
+							token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
+							
+						}).then(function(res){
+							console.log(JSON.stringify(res));
+							if(res.code==1){
+								if(res.data.status==1){
+									mui.alert(res.data.content,"","",function(e){
+										// 处理发布量
+										let numStringArr=[];
+										that.numList.map(item=>{
+											let numArr=[];
+											item.map(ite=>{
+												numArr.push(ite.size);
+											});
+											numStringArr.push(numArr.join(","))
+										});
+										
+										var isAll=true;
+										// 
+										for(let i=0;i<that.periodList.length;i++){
+											
+											if(isAll){
+												Axios.flowPost('/api/liuliang/add',{
+													token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
+													count:that.duration*that.dayNum,
+													hour:numStringArr[i],
+													begin_time:that.taskDateStart,
+													type:that.priceType,
+													target:that.periodList[i].target,
+													keyword:that.periodList[i].keyword,
+													browse_time:that.browse_time,
+													depth:that.depth,
+													
+												}).then(function(res){
+													
+													if(res.code==1){
+														
+													}else{
+														isAll=false;
+													}
+												});
+											}else{
+												return;
+											}
+											
+										}
+									},"div");
+								}
+							}
 						});
 						
-						
-						
-						var isAll=true;
-						// 
-						for(let i=0;i<that.periodList.length;i++){
-							
-							if(isAll){
-								Axios.flowPost('/api/liuliang/add',{
-									token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
-									count:that.duration*that.dayNum,
-									hour:numStringArr[i],
-									begin_time:that.taskDateStart,
-									type:that.priceType,
-									target:that.periodList[i].target,
-									keyword:that.periodList[i].keyword,
-									browse_time:that.browse_time,
-									depth:that.depth,
-									
-								}).then(function(res){
-									
-									if(res.code==1){
-										
-									}else{
-										isAll=false;
-									}
-								});
-							}else{
-								return;
-							}
-							
-						}
-						
-						// that.periodList.map((item,index)=>{
-							
-							
-						// 	Axios.flowPost('/api/liuliang/add',{
-						// 		token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
-						// 		count:that.duration*that.dayNum,
-						// 		hour:numStringArr[index],
-						// 		begin_time:that.taskDateStart,
-						// 		type:that.priceType,
-						// 		target:item.target,
-						// 		keyword:item.keyword,
-						// 		browse_time:that.browse_time,
-						// 		depth:that.depth,
-								
-						// 	}).then(function(res){
-						// 		console.log(res);
-						// 		if(res.code==0){
-									
-						// 		}else{
-						// 			isAll=false;
-						// 		}
-						// 	});
-						// });
+					},
+					
+					delPeriod(index){
+						// 删除
+						this.periodList.splice(index,1);
+						this.numList.splice(index,1);
 					},
 					
 					// 设置时间
