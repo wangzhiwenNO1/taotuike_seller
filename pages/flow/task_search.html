@@ -117,9 +117,12 @@
 			
 			.dateBox i {
 				display: inline-block;
-				width: 0.9rem;
-				height: 0.9rem;
-				background: pink;
+				width: 0.5rem;
+				height: 0.5rem;
+				border-bottom: 1px solid #C0C0C0;
+				border-right: 1px solid #C0C0C0;
+				transform:rotate(45deg);
+				margin-bottom: 0.3rem;
 				margin-left: 1rem;
 			}
 			.listBox{
@@ -152,9 +155,7 @@
 	    <section id="app" v-cloak>
 			<header class="mui-bar mui-bar-nav">
 				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-				<div class="search">
-					<label class="mui-icon mui-icon-search" ></label>
-				</div>
+				<h1 class="mui-title">任务查询</h1>
 				
 			</header>
 			<div class="mui-content">
@@ -162,26 +163,26 @@
 					<ul class="screenBox">
 						<li>
 							<label for="">任务类型</label>
-							<div>
+							<div @tap="changeTaskType">
 								<div>请选择</div>
 								<i class="icon"></i>
 							</div>
 						</li>
 						<li>
 							<label for="">任务状态</label>
-							<div>
+							<div @tap="changeTaskStuts">
 								<div>请选择</div>
 								<i class="icon"></i>
 							</div>
 						</li>
 						<li>
 							<div class="timeBox">
-								<div class="dateBox" @tap="setOrderTime(23,1)">
+								<div class="dateBox" @tap="setOrderTime(1)">
 									<span>{{taskDateStart}}</span>
 									<i class="icon"></i>
 								</div>
 								<div class="until">—</div>
-								<div class="dateBox" @tap="setOrderTime(23,2)">
+								<div class="dateBox" @tap="setOrderTime(2)">
 									<span>{{taskDateEnd}}</span>
 									<i class="icon"></i>
 								</div>
@@ -190,8 +191,8 @@
 						<li>
 							<div class="searchBox">
 								<i class="mui-icon mui-icon-search"></i>
-								<div><input type="text" placeholder="请输入关键词" /></div>
-								<div class="searchBtn">查询</div>
+								<div><input type="text" v-model="keyword" placeholder="请输入关键词" /></div>
+								<div class="searchBtn" @tap="refreshOrderData">查询</div>
 							</div>
 							
 						</li>
@@ -209,7 +210,7 @@
 									<span>发布量：{{item.count}}</span>
 									<span>剩余量：15</span>
 								</div>
-								<div class="orderTime">2020-03-19 19:31</div>
+								<div class="orderTime">{{item.begin_time}}</div>
 							</div>
 						</li>
 						
@@ -246,10 +247,58 @@
 					return {
 						taskDateStart:this.changeTomorrow(0),//任务开始日期
 						taskDateEnd:this.changeTomorrow(1),//任务结束日期
+						taskType:"",
+						taskTypeList:[{
+								value:0,
+								text:'APP 流量'
+							},{
+								value:1,
+								text:'PC 流量'
+							},{
+								value:3,
+								text:'直访流量'
+							},{
+								value:9,
+								text:'搜索收藏'
+							},{
+								value:7,
+								text:'商品收藏'
+							},{
+								value:6,
+								text:'店铺收藏'
+							},{
+								value:17,
+								text:'商品点赞'
+							},{
+								value:11,
+								text:'搜索加购'
+							},{
+								value:10,
+								text:'直接加购'
+							},{
+								value:12,
+								text:'达人关注'
+							},{
+								value:2,
+								text:'微淘点赞'
+							},{
+								value:14,
+								text:'观看人数'
+							},
+						],
+						taskStatus:"",
+						taskStatusList:[{
+							value:0,
+							text:"进行中"
+						},{
+							value:1,
+							text:"已完成"
+						}],
 						
 						// 
 						orderData:[],
 						timePicker:"",
+						keyword:"",
 						// search:'',
 						page:1,
 						pageSize:10
@@ -321,15 +370,15 @@
 					},
 					// 获取首页订单数据
 					refreshOrderData(){
-						console.log("下拉了");
+						
 						var params = {
 							token:storage.get("token") || "870bc868-10c5-45fe-a479-31a7aef0f1b4",
 							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
 							type:0,
 							status:0,
-							begin_date:'',
-							end_date:"",
-							keyword:"",
+							begin_date:this.taskDateStart,
+							end_date:this.taskDateEnd,
+							keyword:this.keyword,
 							key:"",
 							page:1,
 							limit_num:10
@@ -357,16 +406,16 @@
 						console.log("上拉了");
 						
 						var params = {
-							token:storage.get("token") || "",
+							token:storage.get("token") || "870bc868-10c5-45fe-a479-31a7aef0f1b4",
 							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
 							type:0,
 							status:0,
-							begin_date:'',
-							end_date:"",
-							keyword:"",
+							begin_date:this.taskDateStart,
+							end_date:this.taskDateEnd,
+							keyword:this.keyword,
 							key:"",
-							page:page.num,
-							limit_num:page.size
+							page:1,
+							limit_num:10
 						};
 						var _this = this;
 						Axios.post("/api/liuliang/lists",params).then(function(res){
@@ -385,33 +434,66 @@
 							}
 						})
 					},
-					setOrderTime(item,type){
-						var time = new Date();
-						var startHour = time.getHours();
-						var startMinutes = time.getMinutes();
+					changeTaskType(){
+						var that = this;
+						var picker = new mui.PopPicker();
+						picker.setData(that.taskTypeList);
 						
+						// 点击取消按钮关闭滚动锁定状态
+						var btn = $("button.mui-poppicker-btn-cancel")[0];
+						btn.addEventListener('tap',function () {
+							picker.dispose();
+						});
 						
+						picker.show(function (selectItems) {
+							that.taskType=parseFloat(selectItems[0].value);							
+							picker.dispose();
+						})
+					},
+					changeTaskStuts(){
+						var that = this;
+						var picker = new mui.PopPicker();
+						picker.setData(that.taskStatusList);
+						
+						// 点击取消按钮关闭滚动锁定状态
+						var btn = $("button.mui-poppicker-btn-cancel")[0];
+						btn.addEventListener('tap',function () {
+							picker.dispose();
+						});
+						
+						picker.show(function (selectItems) {
+							that.taskStatus=parseFloat(selectItems[0].value);							
+							picker.dispose();
+						})
+					},
+					setOrderTime(type){
+						var that=this;
 						this.timePicker = new mui.DtPicker({
-							// type: "time", //设置日历初始视图模式
+							type: "date", //设置日历初始视图模式
 							// customData: {
 							// 	h: getTime(startHour,24),
 							// 	i: getTime(startMinutes,59)
 							// }//时间/日期别名
 						});
 						this.timePicker.show((selectItems) => {
-							// if(type){
-							// 	if(item.shuadan_end_time && selectItems > item.shuadan_end_time){
-							// 		ca.prompt('开始时间不能大于结束时间！');
-							// 		return;
-							// 	}
-							// 	item.shuadan_start_time = selectItems.text;
-							// }else{
-							// 	if(item.shuadan_start_time && selectItems < item.shuadan_start_time){
-							// 		ca.prompt('结束时间不能小于开始时间！');
-							// 		return;
-							// 	}
-							// 	item.shuadan_end_time = selectItems.text;
-							// }
+							if(type==1){
+								
+								if(that.taskDateEnd&& selectItems.value >that.taskDateEnd){
+									ca.prompt('开始时间不能大于结束时间！');
+									return;
+								}
+								
+								that.taskDateStart = selectItems.value;
+								
+							}else{
+								if(that.taskDateStart&& selectItems.value<that.taskDateStart){
+									ca.prompt('结束时间不能小于开始时间！');
+									return;
+								}
+								that.taskDateEnd = selectItems.value;
+								
+							}
+							console.log(selectItems);
 							this.timePicker.dispose();
 						});
 					},

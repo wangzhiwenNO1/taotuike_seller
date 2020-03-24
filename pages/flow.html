@@ -38,27 +38,27 @@
 						</div>
 						<!-- 流量任务 -->
 						<div class="typesBox" v-if="taskType==1">
-							<div :class="{active:priceType==0}" @tap="changePriceType(0)">APP 流量</div>
-							<div :class="{active:priceType==1}" @tap="changePriceType(1)">PC 流量</div>
-							<div :class="{active:priceType==3}" @tap="changePriceType(3)">直访流量</div>
+							<div :class="{active:priceType==0}" @tap="changePriceType(0)">APP 流量0</div>
+							<div :class="{active:priceType==1}" @tap="changePriceType(1)">PC 流量1</div>
+							<div :class="{active:priceType==3}" @tap="changePriceType(3)">直访流量3</div>
 						</div>
 						<!-- 收藏任务 -->
 						<div class="typesBox" v-else-if="taskType==2">
-							<div :class="{active:priceType==9}" @tap="changePriceType(9)">搜索收藏</div>
-							<div :class="{active:priceType==7}" @tap="changePriceType(7)">商品收藏</div>
-							<div :class="{active:priceType==6}" @tap="changePriceType(6)">店铺收藏</div>
-							<div :class="{active:priceType==17}" @tap="changePriceType(17)">商品点赞</div>
+							<div :class="{active:priceType==9}" @tap="changePriceType(9)">搜索收藏9</div>
+							<div :class="{active:priceType==7}" @tap="changePriceType(7)">商品收藏7</div>
+							<div :class="{active:priceType==6}" @tap="changePriceType(6)">店铺收藏6</div>
+							<div :class="{active:priceType==17}" @tap="changePriceType(17)">商品点赞17</div>
 						</div>
 						<!-- 加购任务 -->
 						<div class="typesBox" v-else-if="taskType==3">
-							<div :class="{active:priceType==11}" @tap="changePriceType(11)">搜索加购</div>
+							<div :class="{active:priceType==11}" @tap="changePriceType(11)">搜索加购11</div>
 							<div :class="{active:priceType==10}" @tap="changePriceType(10)">直接加购</div>
 						</div>
 						<!-- 淘宝直播 -->
 						<div class="typesBox" v-else>
-							<div :class="{active:priceType==12}" @tap="changePriceType(12)">达人关注</div>
-							<div :class="{active:priceType==2}" @tap="changePriceType(2)">微淘点赞</div>
-							<div :class="{active:priceType==14}" @tap="changePriceType(14)">观看人数</div>
+							<div :class="{active:priceType==12}" @tap="changePriceType(12)">达人关注12</div>
+							<div :class="{active:priceType==2}" @tap="changePriceType(2)">微淘点赞2</div>
+							<div :class="{active:priceType==14}" @tap="changePriceType(14)">观看人数14</div>
 						</div>
 					</div>
 
@@ -95,28 +95,51 @@
 					</div>
 					<div class="calendarItem" v-for="(item,index) in periodList">
 						<ul>
+							
+							<!-- 店铺链接 -->
+							<li v-if="priceType==6">
+								<label>店铺链接</label>
+								<div class="inputBox">
+									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入店铺链接或淘口令" />
+								</div>
+							</li>
+							
+							<li v-else-if="priceType==12">
+								<label>店铺链接</label>
+								<div class="inputBox">
+									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入店铺链接或淘口令" />
+								</div>
+							</li>
+							<li v-else-if="priceType==2">
+								<label>微淘口令</label>
+								<div class="inputBox">
+									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入微淘点赞的淘口令" />
+								</div>
+							</li>
+							<!-- 观看人数 -->
+							<li v-else-if="priceType==14">
+								<label>直播口令</label>
+								<div class="inputBox">
+									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入淘宝直播分享的淘口令" />
+								</div>
+							</li>
+							
 							<!-- 流量任务 收藏任务  加购任务 -->
-							<li v-if="taskType!==4">
+							<li v-else>
 								<label>商品链接</label>
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入链接或淘口令" />
 								</div>
 							</li>
 							
-							<!-- 淘宝直播 -->
-							<li v-if="taskType==4">
-								<label>店铺链接</label>
-								<div class="inputBox">
-									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入链接或淘口令" />
-								</div>
-							</li>
 							
-							<li >
+							
+							<li v-if="isKey">
 								<label>关键词{{index+1}}</label>
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入关键词" />
 								</div>
-								<button class="" type="button">查排名</button>
+								<!-- <button class="" type="button">查排名</button> -->
 							</li>
 
 							<li>
@@ -164,15 +187,24 @@
 				</div>
 
 				<div class="ulBox">
-					<ul>
+					<ul v-if="taskType==4">
 						<li>
+							<label>任务备注</label>
+							<div class="inputBox">
+								<input type="text" placeholder="请输入备注（可不填）">
+							</div>
+						</li>
+					</ul>
+					
+					<ul v-else>
+						<li v-if="priceType==9||priceType==11||priceType==0||priceType==1||priceType==3">
 							<label>浏览时间</label>
 							<div @tap="choseBrowse">
 								<span>{{browse_time+"("+browsePrice+")"}}</span>
 								<i></i>
 							</div>
 						</li>
-						<li>
+						<li v-if="priceType==9||priceType==11||priceType==0||priceType==1||priceType==3">
 							<label>浏览深度</label>
 							<div @tap="choseDepth">
 								<span>{{depthText}}</span>
@@ -186,6 +218,7 @@
 							</div>
 						</li>
 					</ul>
+					
 				</div>
 
 				<div class="priceInfo">
@@ -244,6 +277,8 @@
 						fillNum:0,//是否随机填充
 						depth:1,//浏览深度
 						depthText:"不浏览",
+						
+						isKey:true,//是否显示关键词
 						
 						depthList:[
 							{
@@ -348,9 +383,20 @@
 							{time:23,size:0,isShow:false}
 						]
 					},
-					
+					resetData(){
+						this.periodList=[this.periodItem()];
+						this.numList=[this.numItem()];
+					},
 					changePriceType(index){
 						this.priceType=index;
+						if(index==3||index==7||index==6||index==17||index==10||index==12||index==2||index==14){
+							this.isKey=false;
+						}else{
+							this.isKey=true;
+						}
+						this.resetData();
+						this.changeDistribution(0);
+						
 					},
 					
 					// 处理初始分配
@@ -418,11 +464,19 @@
 					
 					changeTaskType(type){
 						this.taskType=type;
+						this.isKey=true;
 						if(type==1){
 							this.priceType=0;
 						}else if(type==2){
 							this.priceType=9;
+						}else if(type==3){
+							this.priceType=11;
+						}else{
+							this.priceType=12;
+							this.isKey=false;
 						}
+						this.resetData();
+						this.changeDistribution(0);
 					},
 					// 获取价格
 					getPrice(){
