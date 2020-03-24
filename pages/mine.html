@@ -239,6 +239,15 @@
 			.icon-tuandui{
 				color: #66D1CF;
 			}
+			.icon-liuliang{
+				display: inline-block;
+				width:16px;
+				height: 16px;
+				background: url(../img/flowIcon.png) no-repeat;
+				background-size: contain;
+				margin-right: 10px;
+				padding-top:10px;
+			}
 			.bind-store{
 				float: right;
 				margin-top: 20px;
@@ -330,8 +339,8 @@
 					</div>
 					<div class="more">
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell" @tap="toOtherPage('liuliang')">
-								<a class="mui-navigate-right" id="huiyuan"><i class="iconfont icon-yaoqing"></i>流量订单</a>
+							<li class="mui-table-view-cell" @tap="toFlow()">
+								<a class="mui-navigate-right" id="liuliang"><i class=" icon-liuliang"></i>流量订单</a>
 							</li>
 							<li class="mui-table-view-cell" @tap="toOtherPage('fenxiao')" v-if="myInfo.userinfo.group_id == 4 || myInfo.userinfo.group_id == 5">
 								<a class="mui-navigate-right" id="fenxiao"><i class="iconfont icon-tuandui"></i>我的分销</a>
@@ -510,6 +519,12 @@
 						ca.newInterface({
 							url:'mine/'+ name +'.html',
 							id:'mine/'+ name +'.html'
+						})
+					},
+					toFlow(){
+						ca.newInterface({
+							url:'flow/task_search.html',
+							id:'flow/task_search.html'
 						})
 					},
 					// 去设置页面

@@ -17,7 +17,7 @@
 	<body>
 		<section id="app" v-cloak>
 			<header class="mui-bar mui-bar-nav">
-				<div class="mui-pull-left lishi"><i class="iconFont"></i>教程</div>
+				<!-- <div class="mui-pull-left lishi"><i class="iconFont"></i>教程</div> -->
 				<h1 class="mui-title">任务发布</h1>
 			</header>
 			<div class="mui-content">
@@ -38,27 +38,27 @@
 						</div>
 						<!-- 流量任务 -->
 						<div class="typesBox" v-if="taskType==1">
-							<div :class="{active:priceType==0}" @tap="changePriceType(0)">APP 流量0</div>
-							<div :class="{active:priceType==1}" @tap="changePriceType(1)">PC 流量1</div>
-							<div :class="{active:priceType==3}" @tap="changePriceType(3)">直访流量3</div>
+							<div :class="{active:priceType==0}" @tap="changePriceType(0)">APP 流量</div>
+							<div :class="{active:priceType==1}" @tap="changePriceType(1)">PC 流量</div>
+							<div :class="{active:priceType==3}" @tap="changePriceType(3)">直访流量</div>
 						</div>
 						<!-- 收藏任务 -->
 						<div class="typesBox" v-else-if="taskType==2">
-							<div :class="{active:priceType==9}" @tap="changePriceType(9)">搜索收藏9</div>
-							<div :class="{active:priceType==7}" @tap="changePriceType(7)">商品收藏7</div>
-							<div :class="{active:priceType==6}" @tap="changePriceType(6)">店铺收藏6</div>
-							<div :class="{active:priceType==17}" @tap="changePriceType(17)">商品点赞17</div>
+							<div :class="{active:priceType==9}" @tap="changePriceType(9)">搜索收藏</div>
+							<div :class="{active:priceType==7}" @tap="changePriceType(7)">商品收藏</div>
+							<div :class="{active:priceType==6}" @tap="changePriceType(6)">店铺收藏</div>
+							<div :class="{active:priceType==17}" @tap="changePriceType(17)">商品点赞</div>
 						</div>
 						<!-- 加购任务 -->
 						<div class="typesBox" v-else-if="taskType==3">
-							<div :class="{active:priceType==11}" @tap="changePriceType(11)">搜索加购11</div>
+							<div :class="{active:priceType==11}" @tap="changePriceType(11)">搜索加购</div>
 							<div :class="{active:priceType==10}" @tap="changePriceType(10)">直接加购</div>
 						</div>
 						<!-- 淘宝直播 -->
 						<div class="typesBox" v-else>
-							<div :class="{active:priceType==12}" @tap="changePriceType(12)">达人关注12</div>
-							<div :class="{active:priceType==2}" @tap="changePriceType(2)">微淘点赞2</div>
-							<div :class="{active:priceType==14}" @tap="changePriceType(14)">观看人数14</div>
+							<div :class="{active:priceType==12}" @tap="changePriceType(12)">达人关注</div>
+							<!-- <div :class="{active:priceType==2}" @tap="changePriceType(2)">微淘点赞2</div> -->
+							<div :class="{active:priceType==14}" @tap="changePriceType(14)">观看人数</div>
 						</div>
 					</div>
 
@@ -132,8 +132,6 @@
 								</div>
 							</li>
 							
-							
-							
 							<li v-if="isKey">
 								<label>关键词{{index+1}}</label>
 								<div class="inputBox">
@@ -143,10 +141,13 @@
 							</li>
 
 							<li>
-								<label v-if="taskType==1">访客数量</label>
-								<label v-else-if="taskType==2">收藏数量</label>
-								<label v-else-if="taskType==3">加购数量</label>
-								<label v-else>粉丝数量</label>
+								<label v-if="priceType==0||priceType==1||priceType==3">访客数量</label>
+								<label v-else-if="priceType==9||priceType==7||priceType==6">收藏数量</label>
+								<label v-else-if="priceType==17">点赞数量</label>
+								<label v-else-if="priceType==11||priceType==10">加购数量</label>
+								
+								<label v-else-if="priceType==12">关注数量</label>
+								<label v-else-if="priceType==14">观看数量</label>
 								<div class="inputBox">
 									<div class="num-count">
 										<div class="count-desc" @tap="setOrderNum(1,index)">-</div>
@@ -200,7 +201,7 @@
 						<li v-if="priceType==9||priceType==11||priceType==0||priceType==1||priceType==3">
 							<label>浏览时间</label>
 							<div @tap="choseBrowse">
-								<span>{{browse_time+"("+browsePrice+")"}}</span>
+								<span>{{browse_time+browsePrice}}</span>
 								<i></i>
 							</div>
 						</li>
@@ -273,7 +274,7 @@
 						browse_time:"100-180",//浏览时间
 						browseList:[],
 						browseType:0,
-						browsePrice:0,
+						browsePrice:"(免费)",
 						fillNum:0,//是否随机填充
 						depth:1,//浏览深度
 						depthText:"不浏览",
@@ -347,7 +348,6 @@
 					periodItem(){
 						return {
 							links:"",//链接
-							keyword:"",//关键词
 							infoNum:100,//数量
 							allocationNum:100,//已分配
 							target:"",//淘宝链接
@@ -482,14 +482,17 @@
 					getPrice(){
 						let that=this;
 						Axios.flowPost('/api/liuliang/price',{
-							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+							token:storage.get("token") || "",
+							// 35b49ed8-543d-475f-a1be-22560ed9141c
 							
 						}).then(function(res){
 							if(res.code==1){
 								that.priceList=res.data;
 								
 								Object.keys(res.data.browse_price).map((item)=>{
-									that.browseList.push({value:res.data.browse_price[item],text:item+"("+res.data.browse_price[item]+")",price:item})
+									let browse_price=res.data.browse_price[item];
+									let browse_text=browse_price==0?'(免费)':"(￥"+res.data.browse_price[item]+")";
+									that.browseList.push({value:browse_price,text:item+browse_text,price:item})
 								});
 								
 							}
@@ -501,7 +504,8 @@
 						
 						// 请求window
 						Axios.flowPost('/api/liuliang/window',{
-							token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
+							token:storage.get("token") || "",
+							// 5d62eeec-e67f-45a8-9275-76a30a3a179f
 							
 						}).then(function(res){
 							console.log(JSON.stringify(res));
@@ -524,7 +528,7 @@
 											
 											if(isAll){
 												let data={
-													token:storage.get("token") || "5d62eeec-e67f-45a8-9275-76a30a3a179f",
+													token:storage.get("token") || "",
 													count:that.duration*that.dayNum,
 													hour:numStringArr[i],
 													begin_time:that.taskDateStart,
@@ -626,7 +630,9 @@
 						picker.show(function (selectItems) {
 							that.browse_time=selectItems[0].price;
 							that.browseType=parseFloat(selectItems[0].value);
-							that.browsePrice=parseFloat(selectItems[0].value);
+							
+							let browseValue=parseFloat(selectItems[0].value);
+							that.browsePrice=browseValue==0?"(免费)":"(￥"+browseValue+")";
 							picker.dispose();
 						})
 					},

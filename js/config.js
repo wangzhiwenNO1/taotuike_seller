@@ -210,7 +210,7 @@ function popToTargetAndRefresh(targetId, isReload, eventName, data) {
 
 // native.js input框自动获取焦点
 function autoFocus() {
-
+	return;
     var nativeWebview, imm, InputMethodManager;
     var initNativeObjects = function () {
         if (mui.os.android) {

@@ -120,7 +120,7 @@
 			}
 		}
 	};
-	var subpages = ['pages/home.html','pages/task.html', 'pages/mine.html'];
+	var subpages = ['pages/home.html','pages/task.html','pages/flow.html', 'pages/mine.html'];
 	if(/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)) {
 		var subpage_style = {
 			top: '0',
@@ -140,7 +140,7 @@
 	var aniShow = {};
 	mui.plusReady(function() {
 		var self = plus.webview.currentWebview();
-		for(var i = 0; i < 3; i++) {
+		for(var i = 0; i < 4; i++) {
 			var temp = {};
 			var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
 			if(i > 0) {

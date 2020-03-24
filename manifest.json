@@ -1,11 +1,11 @@
 {
     "@platforms" : [ "android", "iPhone", "iPad" ],
-    "id" : "H5C890A3D",
+    "id" : "H51EA9DF1",
     /*应用的标识，创建应用时自动生成，勿手动修改*/
     "name" : "淘推宝",
     /*应用名称，程序桌面图标名称*/
     "version" : {
-        "name" : "1.6.0",
+        "name" : "1.7.0",
         /*应用版本名称*/
         "code" : 160
     },
@@ -36,7 +36,6 @@
         "Events" : {
             "description" : "应用扩展事件"
         },
-        "OAuth" : {},
         "Speech" : {}
     },
     "compatible" : {
@@ -266,14 +265,10 @@
                 "speech" : {
                     "ifly" : {}
                 },
-                "oauth" : {
-                    "weixin" : {
-                        "appid" : "wxa5a0130c61f35277",
-                        "appsecret" : "75b377a759b24abcebaf757976d21692"
-                    }
-                }
+                "oauth" : {}
             }
-        }
+        },
+        "screenOrientation" : [ "portrait-primary" ]
     },
     "fullscreen" : false
 }

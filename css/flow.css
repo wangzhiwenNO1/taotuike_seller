@@ -238,6 +238,7 @@ body,
 	border: none !important;
 	height: 2rem !important;
 	padding: 0 0.3rem;
+	font-size: 1rem;
 }
 
 .calendarBox ul li label {
@@ -259,25 +260,25 @@ body,
 }
 
 input:-ms-input-placeholder {
-	font-size: 0.75rem;
+	font-size: 1rem;
 }
 
 /* Internet Explorer 10+ */
 
 input::-webkit-input-placeholder {
-	font-size: 0.75rem;
+	font-size: 1rem;
 }
 
 /* WebKit browsers */
 
 input::-moz-placeholder {
-	font-size: 0.75rem;
+	font-size: 1rem;
 }
 
 /* Mozilla Firefox 4 to 18 */
 
 input:-moz-placeholder {
-	font-size: 0.75rem;
+	font-size: 1rem;
 }
 
 /*数字计数器*/
@@ -297,6 +298,7 @@ input:-moz-placeholder {
 	border: 0.03rem solid rgba(204, 204, 204, 1);
 	padding: 0;
 	text-align: center;
+	font-size: 1rem;
 }
 
 .num-count div {
@@ -350,24 +352,27 @@ input:-moz-placeholder {
 }
 
 .delBox>div {
-	width: 4.06rem;
-	height: 1.5rem;
-	background: rgba(227, 33, 31, 1);
-	border-radius: 0.75rem;
-	text-align: center;
-	color: rgba(255, 255, 255, 0.8);
-	font-size: 0.65rem;
-}
-
-.addBox {
-	width: 4.06rem;
-	height: 1.5rem;
-	background: rgba(102, 209, 207, 1);
-	border-radius: 0.75rem;
+	width: 5.06rem;
+	height: 2rem;
+	background:  rgba(227, 33, 31, 1);
+	border-radius: 1rem;
 	margin-top: 0.5rem;
 	text-align: center;
 	color: rgba(255, 255, 255, 0.8);
-	font-size: 0.65rem;
+	font-size: 1rem;
+	line-height: 2rem;
+}
+
+.addBox {
+	width: 5.06rem;
+	height: 2rem;
+	background: rgba(102, 209, 207, 1);
+	border-radius: 1rem;
+	margin-top: 0.5rem;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 1rem;
+	line-height: 2rem;
 }
 
 .ulBox {
