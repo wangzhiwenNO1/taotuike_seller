@@ -62,7 +62,6 @@
 						</div>
 					</div>
 
-
 					<!-- 任务日期 -->
 					<div class="flowBox">
 						<div class="title">
@@ -95,15 +94,15 @@
 					</div>
 					<div class="calendarItem" v-for="(item,index) in periodList">
 						<ul>
-							
+
 							<!-- 店铺链接 -->
 							<li v-if="priceType==6">
 								<label>店铺链接</label>
 								<div class="inputBox">
-									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入店铺链接或淘口令" />
+									<input class="inputItem" v-model="item.target"  type="text" placeholder="请输入店铺链接或淘口令" />
 								</div>
 							</li>
-							
+
 							<li v-else-if="priceType==12">
 								<label>店铺链接</label>
 								<div class="inputBox">
@@ -123,19 +122,31 @@
 									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入淘宝直播分享的淘口令" />
 								</div>
 							</li>
-							
+
 							<!-- 流量任务 收藏任务  加购任务 -->
 							<li v-else>
 								<label>商品链接</label>
 								<div class="inputBox">
-									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入链接或淘口令" />
+									<input class="inputItem" v-model="item.target" type="text" @change="(e)=>{transitionWord(e,index)}"  placeholder="请输入链接或淘口令" />
+
 								</div>
 							</li>
-							
+
 							<li v-if="isKey">
 								<label>关键词{{index+1}}</label>
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入关键词" />
+								</div>
+								<!-- <button class="" type="button">查排名</button> -->
+							</li>
+							<li>
+								<label>拍下件数</label>
+								<div class="inputBox">
+									<div class="num-count">
+										<div class="count-desc" @tap="setAuctionNum(1,index)">-</div>
+										<input class="count-input" type="number" @change="(e)=>{changeAuction(e,index)}" v-model="item.paixia" pattern="[0-9]*" />
+										<div class="count-add" @tap="setAuctionNum(2,index)">+</div>
+									</div>
 								</div>
 								<!-- <button class="" type="button">查排名</button> -->
 							</li>
@@ -145,7 +156,7 @@
 								<label v-else-if="priceType==9||priceType==7||priceType==6">收藏数量</label>
 								<label v-else-if="priceType==17">点赞数量</label>
 								<label v-else-if="priceType==11||priceType==10">加购数量</label>
-								
+
 								<label v-else-if="priceType==12">关注数量</label>
 								<label v-else-if="priceType==14">观看数量</label>
 								<div class="inputBox">
@@ -155,18 +166,18 @@
 										<div class="count-add" @tap="setOrderNum(2,index)">+</div>
 									</div>
 								</div>
-								<button class="" type="button">时段</button>
+								<button class="" type="button" @tap="changePeriod(index)">时段</button>
 							</li>
 						</ul>
 
 						<!-- 24h -->
-						<div class="periodBox">
+						<div class="periodBox" v-if="item.isShowTime">
 							<ul>
 								<li v-for="(ite,idex) in numList[index]">
 									<div class="hours">{{idex>=10?idex:"0"+idex}}:00</div>
 									<div class="percentage">{{(ite.size/item.infoNum*100).toFixed(2)}}%</div>
 									<div class="hoursInput">
-										<input type="text" v-if="!ite.isShow"  value="0">
+										<input type="text" v-if="!ite.isShow" value="0">
 										<input type="number" v-else @change="(e)=>{changeNumItem(e,index,idex)}" v-model="ite.size" />
 									</div>
 								</li>
@@ -196,7 +207,7 @@
 							</div>
 						</li>
 					</ul>
-					
+
 					<ul v-else>
 						<li v-if="priceType==9||priceType==11||priceType==0||priceType==1||priceType==3">
 							<label>浏览时间</label>
@@ -219,7 +230,7 @@
 							</div>
 						</li>
 					</ul>
-					
+
 				</div>
 
 				<div class="priceInfo">
@@ -329,6 +340,9 @@
 									app.numList[index][idex].size = numArr[idex];
 									app.numList[index][idex].isShow = true;
 								});
+								// app.periodList[index].price=e.detail.price;
+								// app.periodList[index].infoNum=e.detail.count;
+								// console.log(e.detail.count);
 							}
 							
 						});
@@ -352,7 +366,8 @@
 							allocationNum:100,//已分配
 							target:"",//淘宝链接
 							keyword:"",//关键词
-							
+							isShowTime:false,
+							paixia:0,
 						};
 					},
 					numItem(){
@@ -383,6 +398,9 @@
 							{time:23,size:0,isShow:false}
 						]
 					},
+					changePeriod(index){
+						this.periodList[index].isShowTime=!this.periodList[index].isShowTime;
+					},
 					resetData(){
 						this.periodList=[this.periodItem()];
 						this.numList=[this.numItem()];
@@ -397,6 +415,21 @@
 						this.resetData();
 						this.changeDistribution(0);
 						
+					},
+					// 转换淘口令
+					transitionWord(e,index){
+						console.log(e);
+						let that=this;
+						Axios.flowPost('/api/goods/info',{
+							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+							// 35b49ed8-543d-475f-a1be-22560ed9141c
+							target:e.target.value
+						}).then(function(res){
+							console.log(res);
+							if(res.code==1){
+								that.periodList[index].target=res.data.url;
+							}
+						});
 					},
 					
 					// 处理初始分配
@@ -415,6 +448,13 @@
 							})
 						})
 					},
+					setAuctionNum(type,index){
+						if(type==1){
+							this.periodList[index].paixia-=1;
+						}else{
+							this.periodList[index].paixia+=1;
+						}
+					},
 					// 修改单个任务信息数量
 					setOrderNum(type,index){
 						if(type==1){
@@ -428,10 +468,12 @@
 						}
 						
 					},
+					changeAuction(e,index){
+						this.periodList[index].paixia=parseInt(e.target.value);
+					},
 					changeTotal(e,index){
 						this.periodList[index].infoNum=parseInt(e.target.value);
-						console.log(e.target.value);
-						// this.changeDistribution(index);
+						
 						if(this.fillNum==0){
 							this.changeDistribution(index);
 							this.periodList[index].allocationNum=parseInt(e.target.value);
@@ -502,66 +544,49 @@
 					addFlow(){
 						let that=this;
 						
-						// 请求window
-						Axios.flowPost('/api/liuliang/window',{
-							token:storage.get("token") || "",
-							// 5d62eeec-e67f-45a8-9275-76a30a3a179f
-							
-						}).then(function(res){
-							console.log(JSON.stringify(res));
-							if(res.code==1){
-								if(res.data.status==1){
-									mui.alert(res.data.content,"","",function(e){
-										// 处理发布量
-										let numStringArr=[];
-										that.numList.map(item=>{
-											let numArr=[];
-											item.map(ite=>{
-												numArr.push(ite.size);
-											});
-											numStringArr.push(numArr.join(","))
-										});
-										
-										var isAll=true;
-										// 
-										for(let i=0;i<that.periodList.length;i++){
-											
-											if(isAll){
-												let data={
-													token:storage.get("token") || "",
-													count:that.duration*that.dayNum,
-													hour:numStringArr[i],
-													begin_time:that.taskDateStart,
-													type:that.priceType,
-													target:that.periodList[i].target,
-													keyword:that.periodList[i].keyword,
-													browse_time:that.browse_time,
-													depth:that.depth,
-													
-												};
-												if(that.priceType==17){
-													data.itemid=that.periodList[i].target;
-												}
-												Axios.flowPost('/api/liuliang/add',data).then(function(res){
-													
-													if(res.code==1){
-														
-													}else{
-														isAll=false;
-													}
-													
-													mui.toast(res.msg);
-												});
-											}else{
-												return;
-											}
-											
-										}
-									},"div");
-								}
-							}
+						// 处理发布量
+						let numStringArr=[];
+						that.numList.map(item=>{
+							let numArr=[];
+							item.map(ite=>{
+								numArr.push(ite.size);
+							});
+							numStringArr.push(numArr.join(","))
 						});
 						
+						var isAll=true;
+						// 
+						for(let i=0;i<that.periodList.length;i++){
+							
+							if(isAll){
+								let data={
+									token:storage.get("token") || "",
+									count:that.duration*that.dayNum,
+									hour:numStringArr[i],
+									begin_time:that.taskDateStart,
+									type:that.priceType,
+									target:that.periodList[i].target,
+									keyword:that.periodList[i].keyword,
+									browse_time:that.browse_time,
+									depth:that.depth,
+								};
+								if(that.priceType==17){
+									data.itemid=that.periodList[i].target;
+								}
+								Axios.flowPost('/api/liuliang/add',data).then(function(res){
+									
+									if(res.code==1){
+										
+									}else{
+										isAll=false;
+									}
+									
+									mui.toast(res.msg);
+								});
+							}else{
+								return;
+							}
+						}
 					},
 					
 					delPeriod(index){
@@ -699,7 +724,6 @@
 							id:'task_lishi.html'
 						})
 					},
-					
 					
 					// 修改天数
 					changeTomorrow(days){

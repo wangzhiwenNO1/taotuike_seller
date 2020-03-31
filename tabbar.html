@@ -69,7 +69,7 @@
 <nav class="mui-bar mui-bar-tab">
 	<a class="mui-tab-item mui-active" id="pages/home.html">
 		<span class="mui-icon iconfont "><img class="navImg" src="img/homeChecked.png"/></span>
-		<span class="mui-tab-label">主页</span>
+		<span class="mui-tab-label">首页</span>
 	</a>
 	<a class="mui-tab-item" id="pages/task.html">
 		<span class="mui-icon iconfont "><img class="navImg" src="img/sales.png"/></span>
@@ -116,6 +116,7 @@
 			}, 1000);
 		} else {
 			if(new Date().getTime() - first < 1000) {
+				plus.storage.setItem("showNotic",0);
 				plus.runtime.quit();
 			}
 		}

@@ -246,6 +246,10 @@
 					goToBack(index){
 						this.backData.keyword=this.orderData[index].keyword;
 						this.backData.hour=this.orderData[index].hour;
+						// this.backData.price=this.orderData[index].price;
+						// this.backData.count=this.orderData[index].count;
+						// console.log(JSON.stringify(this.orderData[index]));
+						
 						mui.back();
 					},
 					load() {
@@ -363,13 +367,7 @@
 						
 						return yesterday;
 					}
-					
-					
 				},
-				
-				
-				
-				
 			});
 		</script>
 	</body>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css" />
+		<style type="text/css">
+			.orderItem {
+				display: flex;
+			}
+
+			.imgBox {
+				width: 5rem;
+				height: 5rem;
+				margin-right: 1rem;
+				background-color: pink;
+				border-radius: 0.3rem;
+				overflow: hidden;
+			}
+
+			.imgBox img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+
+			.orderInfo {
+				flex: 1;
+			}
+
+			.orderInfo>div:first-child {
+				width: 90%;
+				margin-bottom: 0.6rem;
+			}
+
+			.orderInfo>div:last-child {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.price {
+				font-size: 1rem;
+				line-height: 1.41rem;
+				color: rgba(255, 98, 46, 1);
+			}
+
+			.price>span {
+				font-size: 1.2rem;
+			}
+
+			.btns {
+				width: 4.3rem;
+				height: 2rem;
+				background: rgba(102, 209, 207, 1);
+				opacity: 1;
+				border-radius: 1rem;
+				text-align: center;
+				color: #FFFFFF;
+				line-height: 2rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">商品列表</h1>
+			</header>
+			<div class="mui-content">
+				<ul id="OA_task_1" class="mui-table-view">
+					<li class="mui-table-view-cell" v-for="(item,index) in orderData" :key="index" >
+						<div class="mui-slider-right mui-disabled">
+							<a class="mui-btn mui-btn-red" @tap.stop="delData(index)">删除</a>
+						</div>
+						<div class="mui-slider-handle">
+							<div class="orderItem">
+								<div class="imgBox">
+									<img src="../ImgCropping/img/add.png">
+								</div>
+								<div class="orderInfo">
+									<div>{{item.content.length>40?item.content.substr(0,40)+"...":item.content}}</div>
+									<div>
+										<div class="price">￥<span>260</span></div>
+										<div class="btns" @tap="toBack(index)">选择</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+
+				</ul>
+
+			</div>
+		</section>
+
+
+	</body>
+	<script src="../../js/jquery-3.2.1.min.js"></script>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		let app = new Vue({
+			el: '#app',
+			data() {
+				return {
+					backData: {},
+					// 
+					orderData: [],
+					search: '',
+					pageIndex: 1,
+					pageSize: 5
+				}
+			},
+			mounted() {
+				var that = this;
+				var numType = GetQueryString("numType");
+				mui.init({
+					beforeback: function() {
+						//获得列表界面的webview
+						var view = plus.webview.getWebviewById('pages/task.html');
+						//触发列表界面的自定义事件（refresh）,从而进行数据刷新
+						
+						mui.fire(view, 'changeBackCommand', that.backData);
+						//返回true，继续页面关闭逻辑
+						return true;
+					}
+				});
+
+				this.token = storage.get("token");
+
+				var _this = this;
+				// native.js input框自动获取焦点
+
+				mui.plusReady(function() {
+					// ca.receiveNotice('orderToRefresh',function (e) {
+					// 	_this.mescroll.resetUpScroll(false);
+					// })
+				})
+
+				this.refreshOrderData();
+			},
+			methods: {
+				toBack(index) {
+					this.backData.content = this.orderData[index].content;
+					this.backData.url = this.orderData[index].url;
+					this.backData.pic_url = this.orderData[index].pic_url;
+					this.backData.price = this.orderData[index].price;
+					mui.back();
+				},
+
+
+				// 获取首页订单数据
+				refreshOrderData() {
+					var params = {
+						token: storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+						// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+						type: 0,
+					};
+					var _this = this;
+					// 当上拉加载到最后一页后，下拉刷新，重置上拉加载状态
+					// if(!_this.mescroll.optUp.hasNext){
+					// 	_this.mescroll.resetUpScroll(false);
+					// }
+					Axios.post('/api/goods/lists', params).then(function(res) {
+						mui.hideLoading();
+
+						if (res.code == 1) {
+							_this.orderData = res.data.data;
+							// _this.mescroll.endSuccess()
+						} else {
+							// _this.mescroll.endErr();
+							ca.prompt(res.msg);
+						}
+					})
+				},
+				// 上拉加载更多订单
+				moreOrderList(page) {
+					console.log("上拉了");
+
+					var params = {
+						token: storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+						// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+						type: 0,
+						page: page.num,
+						limit_num: page.size
+					};
+					var _this = this;
+					Axios.post("/api/goods/lists", params).then(function(res) {
+						if (res.code == 1) {
+							//更新列表数据
+							var totalPage = res.data.last_page;
+							var curPageData = res.data.data;
+							if (page.num == 1) _this.orderData = [];
+							_this.orderData = _this.orderData.concat(curPageData);
+							//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+							//必传参数(当前页的数据个数, 总页数)
+							_this.mescroll.endByPage(curPageData.length, totalPage);
+						} else {
+							_this.mescroll.endErr();
+							ca.prompt(res.msg);
+						}
+					})
+				},
+
+				delData(idex) {
+
+					mui.confirm('确认删除该条记录？', 'Hello MUI', ["确定", "取消"], function(e) {
+						if (e.index == 0) {
+							
+						} else {
+							
+						}
+					});
+				},
+			},
+		});
+	</script>
+</html>

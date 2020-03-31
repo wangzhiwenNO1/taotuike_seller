@@ -559,6 +559,22 @@
 				background: #fff;
 				border-radius: 50%;
 			}
+			
+			.flexBox{
+				display: flex;
+				align-items: center;
+			}
+			
+			.flexBox input{
+				flex:1;
+			}
+			.chooseBtn{
+				padding:5px 10px;
+				border:1px solid #EEEEEE;
+				border-radius: 5px;
+				margin-right: 10px;
+				color:rgba(108, 123, 138, 1);
+			}
 
 		</style>
 
@@ -589,9 +605,10 @@
 			<div class="goods leibiao">
 				<p class="title"><img src="../img/msg.png" alt="">商品信息</p>
 				<ul>
-					<li>
+					<li class="flexBox">
 						<label>商品链接</label>
 						<input type="text" v-model="task.tao_password"  placeholder="请输入连接或淘口令" @input="getGoodsByCode"/>
+						<div class="chooseBtn" type="button" @tap="chooseCommodity()">选择商品</div>
 					</li>
 					<li>
 						<p>商品主图</p>
@@ -763,7 +780,7 @@
 				<ul>
 					<li class="biao_h">
 						<p>单价</p>
-						<p>地推费用</p>
+						<p>计费</p>
 					</li>
 					<li v-for="(fee,index) in configData.fee">
 						<p>{{fee.min_price}}-{{fee.max_price}}元</p>
@@ -917,7 +934,6 @@
 							is_card_price:this.task.is_card_price ? this.startPrice + '-'+ this.endPrice  : 0,
 							shuadan_info:this.task.shuadan_info,
 						};
-						console.log(params,'提交的信息');
 						if(storage.get("userInfo")['judge_status'] === 1){
 							ca.prompt("请先绑定店铺信息，才能发布任务哦!");
 							return;
@@ -1051,6 +1067,13 @@
 							}
 						})
 					},
+					// 跳转发表过的商品列表
+					chooseCommodity(){
+						openWebview({
+							url:"./flow/command_list.html?",
+							id:'command_list.html'
+						})
+					},
 					// 获取店铺列表
 					getStore(isAuto){
 						let params = {
@@ -1133,7 +1156,6 @@
 						};
 						var _this = this;
 						Axios.get('/api/Index/config_get',params).then(function(res){
-							console.log('// 获取发布任务配置信息',res);
 							if(res.code == 1){
 								var tagObjArr = [];
 								var tagObj = {};
@@ -1149,7 +1171,6 @@
 								_this.configData.fee = res.data["unit_price"];
 								_this.configData.address = res.data['address_list'];
 								_this.task.express_price = res.data.express_price;
-								console.log(_this.task.express_price);
 								_this.getRank();
 							}else{
 								ca.prompt(res.msg);
@@ -1433,7 +1454,7 @@
 				},
 				mounted(){
 					mui.init({
-						swipeBack:false //启用右滑关闭功能
+						swipeBack:false ,//启用右滑关闭功能
 					});
 					ca.init();
 					mui.previewImage();
@@ -1442,13 +1463,22 @@
 					_this.getConfig();
 					_this.getStore(true);
 					mui.plusReady(function(){
+						window.addEventListener('changeBackCommand', function(e){
+						    //获取参数值
+							console.log(e.detail.content);
+						});
+						
 						var showGuide = plus.storage.getItem("lauchFlag");
 						var ws=plus.webview.currentWebview();
 						// alert( "窗口标识: "+ws.id );
 						ca.receiveNotice('task',function (event) {
 							_this.task.goods_image = event.detail.imgUrl;
 						});
+						
+						
 					});
+					
+					
 					_this.danId = GetQueryString("id") || 0;
 
 				},

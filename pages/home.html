@@ -549,6 +549,72 @@
 				height:28px;
 				display: inline-block;
 			}
+			
+			.modalBox{
+				position: fixed;
+				width:100%;
+				height: 100vh;
+				background-color: rgba(0,0,0,0.3);
+				top:0;
+				left:0;
+				z-index: 999;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.noticBox{
+				width:90%;
+				min-height: 50vh;
+				background-color: #FFFFFF;
+				border-radius: 1rem;
+				padding:1rem;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				position: relative;
+				justify-content: space-between;
+			}
+			.noticBox .mui-icon{
+				position: absolute;
+				top:-0.3rem;
+				right: 0.5rem;
+				font-size: 3rem;
+			}
+			.noticTop{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			.noticImg{
+				width:10rem;
+				height: 10rem;
+				text-align: center;
+				margin-bottom: 1rem;
+			}
+			.noticImg img{
+				width:10rem;
+				height: 8rem;
+				object-fit: contain;
+			}
+			.noticText{
+				color: rgba(108, 123, 138, 1);
+				font-size: 1.1rem;
+				line-height: 1.3rem;
+				text-align: center;
+			}
+			.closeBtn{
+				width:80%;
+				height:3.13rem;
+				opacity:1;
+				border-radius:3rem;
+				background:rgba(102,209,207,1);
+				text-align: center;
+				line-height: 3.13rem;
+				color: #FFFFFF;
+				font-size: 1.2rem;
+			}
 		</style>
 	</head>
 
@@ -672,6 +738,20 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="modalBox" v-if="showNotic">
+				<div class="noticBox">
+					<i class="mui-icon mui-icon-closeempty" @tap="closeView"></i>
+					<div class="noticTop">
+						<div class="noticImg">
+							<img src="../img/alerts.png" >
+							<div>消息通知</div>
+						</div>
+						<div class="noticText" v-html="noticContent"></div>
+					</div>
+					<div class="closeBtn" @tap="closeView">知道了</div>
+				</div>
+			</div>
 		</section>
 
 		<script src="../js/jquery-3.2.1.min.js"></script>
@@ -709,6 +789,8 @@
 						pageIndex:0,
 						pageSize:5,
 						nowDate:this.getNowFormatDate(),
+						showNotic:false,
+						noticContent:"",
 					}
 				},
 
@@ -723,6 +805,27 @@
 					_this.getArticleCate();
 					mui.plusReady(function () {
 						var showGuide = plus.storage.getItem("lauchFlag");
+						var showNotic =plus.storage.getItem("showNotic");
+						
+						if(showNotic==0||!showNotic){
+							
+							_this.showNotic=true;
+							plus.storage.setItem("showNotic",1);
+							// 请求window
+							Axios.flowPost('/api/liuliang/window',{
+								token:storage.get("token") || "",
+								// 5d62eeec-e67f-45a8-9275-76a30a3a179f
+								
+							}).then(function(res){
+								console.log(JSON.stringify(res));
+								if(res.code==1){
+									if(res.data.status==1){
+										_this.noticContent=res.data.content;
+										
+									}
+								}
+							});
+						}
 						ca.receiveNotice('refreshHome',function () {
 							_this.load();
 							_this.initHomeData();
@@ -731,6 +834,10 @@
 					})
 				},
 				methods:{
+					closeView(){
+						this.showNotic=false;
+						plus.storage.setItem("showNotic",0);
+					},
 					load() {
 						this.mescroll = new MeScroll("body", {
 							down: {
