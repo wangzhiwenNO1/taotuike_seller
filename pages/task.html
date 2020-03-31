@@ -1466,6 +1466,11 @@
 						window.addEventListener('changeBackCommand', function(e){
 						    //获取参数值
 							console.log(e.detail.content);
+							if(e.detail.content){
+								_this.task.tao_password=e.detail.url;
+								_this.task.goods_image=e.detail.pic_url;
+								_this.task.goods_title=e.detail.content;
+							}
 						});
 						
 						var showGuide = plus.storage.getItem("lauchFlag");
@@ -1473,6 +1478,7 @@
 						// alert( "窗口标识: "+ws.id );
 						ca.receiveNotice('task',function (event) {
 							_this.task.goods_image = event.detail.imgUrl;
+							
 						});
 						
 						

@@ -18,8 +18,8 @@
 			}
 
 			.imgBox {
-				width: 5rem;
-				height: 5rem;
+				width: 6rem;
+				height: 6rem;
 				margin-right: 1rem;
 				background-color: pink;
 				border-radius: 0.3rem;
@@ -85,7 +85,7 @@
 						<div class="mui-slider-handle">
 							<div class="orderItem">
 								<div class="imgBox">
-									<img src="../ImgCropping/img/add.png">
+									<img :src="item.pic_url">
 								</div>
 								<div class="orderInfo">
 									<div>{{item.content.length>40?item.content.substr(0,40)+"...":item.content}}</div>
