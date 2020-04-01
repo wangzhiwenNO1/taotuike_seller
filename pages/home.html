@@ -809,8 +809,7 @@
 						
 						if(showNotic==0||!showNotic){
 							
-							_this.showNotic=true;
-							plus.storage.setItem("showNotic",1);
+							
 							// 请求window
 							Axios.flowPost('/api/liuliang/window',{
 								token:storage.get("token") || "",
@@ -821,7 +820,8 @@
 								if(res.code==1){
 									if(res.data.status==1){
 										_this.noticContent=res.data.content;
-										
+										_this.showNotic=true;
+										plus.storage.setItem("showNotic",1);
 									}
 								}
 							});

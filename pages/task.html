@@ -607,7 +607,8 @@
 				<ul>
 					<li class="flexBox">
 						<label>商品链接</label>
-						<input type="text" v-model="task.tao_password"  placeholder="请输入连接或淘口令" @input="getGoodsByCode"/>
+						 <!-- @input="getGoodsByCode" -->
+						<input type="text" v-model="task.tao_password"  placeholder="请输入连接或淘口令" @change="transitionWord"/>
 						<div class="chooseBtn" type="button" @tap="chooseCommodity()">选择商品</div>
 					</li>
 					<li>
@@ -1070,7 +1071,7 @@
 					// 跳转发表过的商品列表
 					chooseCommodity(){
 						openWebview({
-							url:"./flow/command_list.html?",
+							url:"./flow/command_list.html?type=1",
 							id:'command_list.html'
 						})
 					},
@@ -1090,6 +1091,21 @@
 								ca.prompt(res.msg);
 							}
 						})
+					},
+					// 转换淘口令
+					transitionWord(e,index){
+						console.log(e);
+						let that=this;
+						Axios.flowPost('/api/goods/info',{
+							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+							// 35b49ed8-543d-475f-a1be-22560ed9141c
+							target:e.target.value
+						}).then(function(res){
+							console.log(res);
+							if(res.code==1){
+								that.task.tao_password=res.data.url;
+							}
+						});
 					},
 					// 删除图片
 					delImage(){

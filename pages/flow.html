@@ -101,6 +101,7 @@
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.target"  type="text" placeholder="请输入店铺链接或淘口令" />
 								</div>
+								<div class="chooseBtn" type="button" @tap="chooseCommodity(index)">选择商品</div>
 							</li>
 
 							<li v-else-if="priceType==12">
@@ -108,12 +109,14 @@
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入店铺链接或淘口令" />
 								</div>
+								<div class="chooseBtn" type="button" @tap="chooseCommodity(index)">选择商品</div>
 							</li>
 							<li v-else-if="priceType==2">
 								<label>微淘口令</label>
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.target" type="text" placeholder="请输入微淘点赞的淘口令" />
 								</div>
+								<div class="chooseBtn" type="button" @tap="chooseCommodity(index)">选择商品</div>
 							</li>
 							<!-- 观看人数 -->
 							<li v-else-if="priceType==14">
@@ -121,6 +124,7 @@
 								<div class="inputBox">
 									<input class="inputItem" v-model="item.keyword" type="text" placeholder="请输入淘宝直播分享的淘口令" />
 								</div>
+								<div class="chooseBtn" type="button" @tap="chooseCommodity(index)">选择商品</div>
 							</li>
 
 							<!-- 流量任务 收藏任务  加购任务 -->
@@ -130,6 +134,7 @@
 									<input class="inputItem" v-model="item.target" type="text" @change="(e)=>{transitionWord(e,index)}"  placeholder="请输入链接或淘口令" />
 
 								</div>
+								<div class="chooseBtn" type="button" @tap="chooseCommodity(index)">选择商品</div>
 							</li>
 
 							<li v-if="isKey">
@@ -340,11 +345,17 @@
 									app.numList[index][idex].size = numArr[idex];
 									app.numList[index][idex].isShow = true;
 								});
-								// app.periodList[index].price=e.detail.price;
-								// app.periodList[index].infoNum=e.detail.count;
-								// console.log(e.detail.count);
 							}
 							
+						});
+						
+						window.addEventListener('changeBackCommand', function(e){
+						    //获取参数值
+							if(e.detail.itemNum){
+								var num=e.detail.itemNum;
+								app.periodList[num].target = e.detail.url;
+								
+							}
 						});
 					});
 					
@@ -397,6 +408,13 @@
 							{time:22,size:0,isShow:false},
 							{time:23,size:0,isShow:false}
 						]
+					},
+					// 跳转发表过的商品列表
+					chooseCommodity(index){
+						openWebview({
+							url:"./flow/command_list.html?type=2&itemNum="+index,
+							id:'command_list.html'
+						})
 					},
 					changePeriod(index){
 						this.periodList[index].isShowTime=!this.periodList[index].isShowTime;
