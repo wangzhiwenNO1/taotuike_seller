@@ -197,22 +197,30 @@
 						<label>差评</label>
 						<input name="radio1" v-model="saleManage.type" value="2" type="radio" class="rds">
 					</div>
+					<div class="mui-input-row mui-radio  mui-left">
+						<label>其他</label>
+						<input name="radio1" v-model="saleManage.type" value="3" type="radio" class="rds">
+					</div>
 				</div>
 			</div>
 			<div class="fukuan">
 				<p class="title">填写用户信息</p>
 				<ul>
-					<li class="mui-input-row">
+					<li v-if="saleManage.type!=3" class="mui-input-row">
 						<label>姓名</label>
 						<input type="text" v-model="saleManage.name" id="name" placeholder="请输入姓名">
 					</li>
-					<li class="mui-input-row">
+					<li v-if="saleManage.type!=3" class="mui-input-row">
 						<label>旺旺账号</label>
 						<input type="text" v-model="saleManage.wangwang" id="nameId" placeholder="请输入付旺旺号">
 					</li>
-					<li class="mui-input-row">
+					<li v-if="saleManage.type!=3" class="mui-input-row">
 						<label>手机号</label>
 						<input type="text" v-model="saleManage.mobile" id="phone" placeholder="请输入手机号">
+					</li>
+					<li v-if="saleManage.type==3" class="mui-input-row">
+						<label>说明</label>
+						<input type="text" v-model="saleManage.shuoming" id="phone" placeholder="请输入手机号">
 					</li>
 					<li class="jietu">
 						<div>上传截图</div>
@@ -257,7 +265,8 @@
 							name:'',
 							wangwang:'',
 							mobile:'',
-							images:[]
+							images:[],
+							shuoming:"",
 						}
 					}
 				},
