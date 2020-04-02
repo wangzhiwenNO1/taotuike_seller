@@ -90,7 +90,7 @@
 								<div class="orderInfo">
 									<div>{{item.content.length>40?item.content.substr(0,40)+"...":item.content}}</div>
 									<div>
-										<div class="price">￥<span>260</span></div>
+										<div class="price">￥<span>{{item.price}}</span></div>
 										<div class="btns" @tap="toBack(index)">选择</div>
 									</div>
 								</div>
@@ -179,7 +179,7 @@
 				// 获取首页订单数据
 				refreshOrderData() {
 					var params = {
-						token: storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+						token: storage.get("token") || "",
 						// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
 						type: 0,
 					};

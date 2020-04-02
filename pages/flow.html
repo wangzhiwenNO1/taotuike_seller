@@ -144,7 +144,7 @@
 								</div>
 								<!-- <button class="" type="button">查排名</button> -->
 							</li>
-							<li>
+							<!-- <li>
 								<label>拍下件数</label>
 								<div class="inputBox">
 									<div class="num-count">
@@ -153,8 +153,7 @@
 										<div class="count-add" @tap="setAuctionNum(2,index)">+</div>
 									</div>
 								</div>
-								<!-- <button class="" type="button">查排名</button> -->
-							</li>
+							</li> -->
 
 							<li>
 								<label v-if="priceType==0||priceType==1||priceType==3">访客数量</label>
@@ -351,9 +350,14 @@
 						
 						window.addEventListener('changeBackCommand', function(e){
 						    //获取参数值
-							if(e.detail.itemNum){
+							if(e.detail.url){
 								var num=e.detail.itemNum;
-								app.periodList[num].target = e.detail.url;
+								if(app.priceType==14){
+									app.periodList[num].keyword = e.detail.url;
+								}else{
+									app.periodList[num].target = e.detail.url;
+								}
+								
 								
 							}
 						});

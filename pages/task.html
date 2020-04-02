@@ -658,6 +658,18 @@
 						<input type="text" v-model="order.shuadan_keyword" placeholder="输入关键词" />
 					</li>
 					<li>
+						<label for="">拍下件数</label>
+						<div class="num-count f_right">
+							<!-- <div class="count-desc" @tap="setAuctionNum(1,index)">-</div>
+							<input class="count-input" type="number"  v-model="order.paixia" pattern="[0-9]*" />
+							<div class="count-add" @tap="setAuctionNum(2,index)">+</div> -->
+							
+							<button class="count-desc" type="button" @tap="setAuctionNum(1,index)">-</button>
+							<input class="count-input" v-model="order.paixia" type="number" pattern="[0-9]*"/>
+							<button class="count-add" type="button" @tap="setAuctionNum(2,index)">+</button>
+						</div>
+					</li>
+					<li>
 						<label for="">任务数量</label>
 						<div class="num-count f_right" :id="'numBox'+index">
 							<button class="count-desc" type="button" @tap="setOrderNum(order,0)">-</button>
@@ -836,7 +848,8 @@
 									shuadan_keyword:'',  //  刷单关键词
 									shuadan_number:1,   //  刷单数量
 									shuadan_start_time:'',//  刷单开始时间
-									shuadan_end_time:'22:00'   //  刷单结束时间
+									shuadan_end_time:'22:00',   //  刷单结束时间
+									paixia:0,//拍下件数
 								}
 							], // 刷单信息
 							goods_price:'', //  商品价格
@@ -1308,6 +1321,17 @@
 							}
 						}
 					},
+					// 拍下件数
+					setAuctionNum(type,index){
+						if(type==1){
+							if(this.task.shuadan_info[index].paixia>0){
+								this.task.shuadan_info[index].paixia-=1;
+							}
+						}else{
+							
+							this.task.shuadan_info[index].paixia+=1;
+						}
+					},
 					// 设置刷单时间
 					setOrderTime(item,type){
 						var time = new Date();
@@ -1481,11 +1505,13 @@
 					mui.plusReady(function(){
 						window.addEventListener('changeBackCommand', function(e){
 						    //获取参数值
-							console.log(e.detail.content);
-							if(e.detail.content){
+							
+							if(e.detail.url){
+								console.log(e.detail.url);
 								_this.task.tao_password=e.detail.url;
 								_this.task.goods_image=e.detail.pic_url;
 								_this.task.goods_title=e.detail.content;
+								_this.task.goods_price=e.detail.price;
 							}
 						});
 						
