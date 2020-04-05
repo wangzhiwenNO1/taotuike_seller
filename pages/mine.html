@@ -272,6 +272,81 @@
 				left:-2px;
 				margin-right: 6px;
 			}
+			
+			.addDianpu{
+				width:100%;
+				height: 100vh;
+				position: fixed;
+				background-color: rgba(0,0,0,0.3);
+				top:0;
+				left:0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			.infoBox{
+				width:80%;
+				background-color: #FFFFFF;
+				padding:1rem;
+				border-radius: 1rem;
+				position: relative;
+			}
+			.closeBtn{
+				position: absolute;
+				top:0.1rem;
+				right: 1rem;
+			}
+			.addTitle{
+				display: flex;
+				justify-content: center;
+				font-size: 1rem;
+			}
+			.infoBox label~input,
+			.infoBox label~select,
+			.infoBox label~textarea {
+				color: #333;
+				font-size: 0.9rem;
+				/*text-align: right;*/
+			}
+			.infoBox input{
+				margin: 0;
+				border:none;
+				background-color: #EEEEEE;
+				padding:0;
+			}
+			.infoBox input::-webkit-input-placeholder{
+				color: rgba(191, 191, 191, 1);
+			}
+			.infoBox label{
+				width:2rem;
+				height: 2rem;
+				background-color: pink;
+				margin:0 0.3rem;
+				flex-shrink: 0;
+				display: inline-block;
+			}
+			.infoBox ul li{
+				background-color: #EEEEEE;
+				display: flex;
+				align-items: center;
+				height: 3rem;
+				margin:1rem 0;
+				padding-left:0.5rem;
+				border-radius: 3rem;
+				overflow: hidden;
+			}
+			.tijiao{
+				width: 100%;
+				height:2.75rem;
+				background:rgba(102,209,207,1);
+				border-radius:1.37rem;
+				color:#FFFFFF;
+				margin-top:1rem;
+			}
+			#city{
+				color: rgba(191, 191, 191, 1);
+			}
 		</style>
 	</head>
 
@@ -381,6 +456,42 @@
 						</ul>
 					</div>
 				</div>
+				
+				<!-- 添加店铺 -->
+				<div class="addDianpu">
+					<div class="infoBox">
+						<div class="addTitle">
+							<div>填写店铺信息</div>
+							<div class="closeBtn mui-icon mui-icon-closeempty"></div>
+						</div>
+						<ul>
+							<li>
+								<label></label>
+								<input type="text" v-model="storeInfo.name" id="name" placeholder="请输入店铺名称">
+							</li>
+							<li class="addr" @tap="addr">
+								<label></label>
+								<div id="city">{{storeInfo.city || '请选择城市'}}</div>
+							</li>
+							<li>
+								<label></label>
+								<input type="text" v-model="storeInfo.wangwang" id="code" placeholder="请输入旺旺账号">
+							</li>
+							<!-- <li class="jietu">
+								<label>后台截图</label>
+								<div class="pingzheng">
+									<i class="iconfont icon-tianjia htImg"  @tap="uploadFile" v-if="!storeInfo.image_url"></i>
+									<div class="hasPingZheng" v-else>
+										<img :src="storeInfo.image_url ? storeInfo.image_url : ''" data-preview-src="" data-preview-group="1" alt="">
+										<span class="mui-icon mui-icon-close" @tap="delImage()"></span>
+									</div>
+								</div>
+							</li>	 -->
+						</ul>
+						<p class="beizhu"><span>*</span>每个账号最多绑定6个店铺</p>
+						<button class="tijiao" id="doDiv" @tap="shopSubmit">提交</button>
+					</div>
+				</div>
 			</div>
 		</section>
 
@@ -416,7 +527,17 @@
 							myaccount:{}
 						},
 						mescroll:{},
-						isSaler:0
+						isSaler:0,
+						// 添加店铺
+						selectedIndex:0,
+						storeList:[],
+						storeInfo:{
+							name:'',
+							city:'',
+							wangwang:'',
+							image_url:'',
+							store_id:0
+						}
 					}
 				},
 				created() {
@@ -437,6 +558,88 @@
 					});
 				},
 				methods: {
+					// 添加店铺
+					addr(){
+						var _this = this;
+						var cityPicker3 = new mui.PopPicker({
+							layer: 3
+						});
+						cityPicker3.setData(cityData3);
+						cityPicker3.show(function(items) {
+							items.forEach(function (val,index) {
+								if(index > 0){
+									_this.storeInfo.city = _this.storeInfo.city + '-' + val.text;
+								}else{
+									_this.storeInfo.city = val.text;
+								}
+							});
+						});
+					},
+					shopSubmit() {
+						if(this.storeInfo.name == '') {
+							ca.prompt('请输入姓名');
+							return;
+						}
+						if(this.storeInfo.city == '') {
+							ca.prompt('请输入城市');
+							return;
+						}
+					
+						if(this.storeInfo.wangwang==''){
+							ca.prompt('请输入旺旺账号');
+							return;
+						}
+						if(this.storeInfo.image_url==''){
+							ca.prompt('请上传店铺图片');
+							return;
+						}
+						this.storeInfo.store_id = this.storeId || 0;
+						var params = this.storeInfo;
+						var _this = this;
+						params.token = storage.get("token") || "";
+						var api = _this.storeId ? '/api/store/edit_store' : '/api/store/store_add';
+						Axios.post(api, params).then(function(res) {
+							if (res.code == 1) {
+								ca.prompt(res.msg);
+								setTimeout(function () {
+									var parentId = plus.webview.currentWebview().opener().id;
+									popToTargetAndRefresh(parentId,true,'refreshStore');
+								},500)
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 获取已绑定店铺信息
+					getShopInfo() {
+						var params =  {
+							store_id:this.storeId,
+							token: storage.get("token") || ""
+						};;
+						var _this = this;
+						Axios.post("/api/Store/mystore_info", params).then(function(res) {
+							if (res.code == 1) {
+								_this.storeInfo = res.data;
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					
+					// 商品图片裁切上传
+					uploadFile(){
+						openWebview({
+							url:'../ImgCropping/cropperImg.html?type=store',
+							id:'cropperImg'
+						})
+					},
+					// 删除图片
+					delImage(){
+						this.storeInfo.image_url = '';
+					},
+					
+					
+					
 					load() {
 						this.mescroll = new MeScroll("body", {
 							down: {

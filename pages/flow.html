@@ -344,6 +344,9 @@
 									app.numList[index][idex].size = numArr[idex];
 									app.numList[index][idex].isShow = true;
 								});
+								app.periodList[index].infoNum=e.detail.count//数量
+								app.periodList[index].allocationNum=e.detail.count//数量
+							
 							}
 							
 						});
@@ -717,7 +720,7 @@
 						while (remainSize > 1) {
 							max = remainMoney / remainSize * 2;
 							money = parseInt(Math.random() * max);
-							money = money < 1 ? 1 : money;
+							money = money < 0 ? 0 : money;
 							money = Math.round(money * 100) / 100;
 							// moneyList.push(money);
 							moneyList.push({time:that.startHour++,size:money});

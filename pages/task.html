@@ -1117,6 +1117,9 @@
 							console.log(res);
 							if(res.code==1){
 								that.task.tao_password=res.data.url;
+								that.task.goods_image=res.data.pic_url;
+								that.task.goods_title=res.data.content;
+								that.task.goods_price=res.data.price;
 							}
 						});
 					},
