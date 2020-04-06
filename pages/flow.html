@@ -571,49 +571,56 @@
 					addFlow(){
 						let that=this;
 						
-						// 处理发布量
-						let numStringArr=[];
-						that.numList.map(item=>{
-							let numArr=[];
-							item.map(ite=>{
-								numArr.push(ite.size);
-							});
-							numStringArr.push(numArr.join(","))
-						});
-						
-						var isAll=true;
-						// 
-						for(let i=0;i<that.periodList.length;i++){
-							
-							if(isAll){
-								let data={
-									token:storage.get("token") || "",
-									count:that.duration*that.dayNum,
-									hour:numStringArr[i],
-									begin_time:that.taskDateStart,
-									type:that.priceType,
-									target:that.periodList[i].target,
-									keyword:that.periodList[i].keyword,
-									browse_time:that.browse_time,
-									depth:that.depth,
-								};
-								if(that.priceType==17){
-									data.itemid=that.periodList[i].target;
-								}
-								Axios.flowPost('/api/liuliang/add',data).then(function(res){
-									
-									if(res.code==1){
-										
-									}else{
-										isAll=false;
-									}
-									
-									mui.toast(res.msg);
+						mui.confirm('message','title',['取消','确认'],function (e) {
+							if(e.index==1){
+								
+								// 处理发布量
+								let numStringArr=[];
+								that.numList.map(item=>{
+									let numArr=[];
+									item.map(ite=>{
+										numArr.push(ite.size);
+									});
+									numStringArr.push(numArr.join(","))
 								});
-							}else{
-								return;
+								
+								var isAll=true;
+								// 
+								for(let i=0;i<that.periodList.length;i++){
+									
+									if(isAll){
+										let data={
+											token:storage.get("token") || "",
+											count:that.duration*that.dayNum,
+											hour:numStringArr[i],
+											begin_time:that.taskDateStart,
+											type:that.priceType,
+											target:that.periodList[i].target,
+											keyword:that.periodList[i].keyword,
+											browse_time:that.browse_time,
+											depth:that.depth,
+										};
+										if(that.priceType==17){
+											data.itemid=that.periodList[i].target;
+										}
+										Axios.flowPost('/api/liuliang/add',data).then(function(res){
+											
+											if(res.code==1){
+												
+											}else{
+												isAll=false;
+											}
+											
+											mui.toast(res.msg);
+										});
+									}else{
+										return;
+									}
+								}
 							}
-						}
+						},'div')
+						
+						
 					},
 					
 					delPeriod(index){
