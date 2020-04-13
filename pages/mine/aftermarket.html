@@ -10,6 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
 		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css"/>
 		<style type="text/css">
 			.mui-icon-left-nav {
 				color: #666;
@@ -226,7 +227,7 @@
 
 			.orderInfo {
 				padding: 1rem;
-				height: 11rem;
+				height: 155px;
 				background: url(../../img/bgs.png) no-repeat;
 				background-size: cover;
 
@@ -296,53 +297,46 @@
 		<div class="mui-content" id="app" v-cloak>
 			<div class="header">
 				<p class="title">选择售后类型</p>
-				<div class="leixing ">
+				<div class="leixing">
 					<div class="taskStatus" @tap="changeType">
 						<div>售后类型</div>
 						<span>{{taskStatusText}}<i class="mui-icon mui-icon-arrowright"></i></span>
 					</div>
-					<!-- <div class="mui-input-row mui-radio  mui-left">
-						<label>申请退款</label>
-						<input name="radio1" v-model="saleManage.type" value="1" type="radio" class="rds">
-					</div>
-					<div class="mui-input-row mui-radio  mui-left">
-						<label>差评</label>
-						<input name="radio1" v-model="saleManage.type" value="2" type="radio" class="rds">
-					</div>
-					<div class="mui-input-row mui-radio  mui-left">
-						<label>其他</label>
-						<input name="radio1" v-model="saleManage.type" value="3" type="radio" class="rds">
-					</div> -->
+					
 				</div>
 			</div>
 			<div class="fukuan">
-				<p class="title">填写用户信息</p>
-				<ul class="userUl">
-					<li v-if="saleManage.type!=3" class="mui-input-row">
+				<p class="title" v-if="taskStatusText!='其他'">填写用户信息</p>
+				<p class="title" v-if="taskStatusText=='其他'">填写说明</p>
+				<ul class="userUl" v-if="isType">
+					<li v-if="taskStatusText!='其他'" class="mui-input-row">
 						<label>订单号</label>
-						<input type="text" v-model="saleManage.name" id="name" placeholder="请输入订单号">
+						<input type="text" v-model="saleManage.order_no" id="name" placeholder="请输入订单号">
 					</li>
 
-					<li v-if="saleManage.type!=3" class="mui-input-row">
+					<li v-if="taskStatusText!='其他'" class="mui-input-row">
 						<label>旺旺账号</label>
 						<input type="text" v-model="saleManage.wangwang" id="nameId" placeholder="请输入付旺旺号">
 					</li>
-					<li v-if="saleManage.type!=3" class="mui-input-row">
+					<li v-if="taskStatusText!='其他'" class="mui-input-row">
 						<label>手机号</label>
 						<input type="text" v-model="saleManage.mobile" id="phone" placeholder="请输入手机号">
 					</li>
-					<li v-if="saleManage.type!=3" class="mui-input-row">
+					<li v-if="taskStatusText!='其他'" class="mui-input-row">
 						<label>付款价格</label>
-						<input type="text" v-model="saleManage.name" placeholder="请输入付款价格">
+						<input type="text" v-model="saleManage.fukuan_price" placeholder="请输入付款价格">
 					</li>
-					<li v-if="saleManage.type!=3" class="mui-input-row">
+					<li v-if="taskStatusText!='其他'" class="mui-input-row">
 						<label>修改价</label>
-						<input type="text" v-model="saleManage.name" placeholder="请输入修改价">
+						<input type="text" v-model="saleManage.xiugai_price" placeholder="请输入修改价">
 					</li>
 					<!-- <li v-if="saleManage.type==3" class="mui-input-row">
 						<label>说明</label>
 						<input type="text" v-model="saleManage.shuoming" id="phone" placeholder="请输入说明">
 					</li> -->
+					<li class="textareaBox" v-if="taskStatusText=='其他'">
+						<textarea rows="" cols=""></textarea>
+					</li>
 					<li class="jietu">
 						<div>上传截图</div>
 						<div class="pingzheng img" v-for="(src, index) in saleManage.images">
@@ -355,10 +349,8 @@
 					</li>
 				</ul>
 				
-				<p class="title">填写说明</p>
-				<div class="textareaBox">
-					<textarea rows="" cols=""></textarea>
-				</div>
+				
+				
 				
 				<!-- dingdan  -->
 				<div class="orderList">
@@ -367,17 +359,17 @@
 						<div>我的售后订单</div>
 						<i></i>
 					</div>
-					<div class="orderInfo">
+					<div class="orderInfo" v-for="(item,index) in orderData" :key="index" @tap="changeUrl(index)">
 						<div class="timeBox">
-							<div><i></i>日期<span>2019-03-01</span></div>
-							<div class="examine">审核中</div>
+							<div><i></i>日期<span>{{formatDate(item.createtime*1000,'yyyy-MM-DD')}}</span></div>
+							<div class="examine">{{oldstatusList[item.type]}}</div>
 						</div>
 						<ul class="orderUl">
 							<li>售后类型：价格有误</li>
-							<li>订单号：82378578</li>
-							<li>旺旺号：tb98938</li>
-							<li>付款价：￥88.00</li>
-							<li>修改价：<span>￥100.00</span></li>
+							<li>订单号：{{item.order_no}}</li>
+							<li>旺旺号：{{item.wangwang}}</li>
+							<li>付款价：￥{{item.fukuan_price}}</li>
+							<li>修改价：<span>￥{{item.xiugai_price}}</span></li>
 						</ul>
 					</div>
 
@@ -398,6 +390,7 @@
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
@@ -413,26 +406,25 @@
 				data() {
 					return {
 						saleManage:{
-							type:1,
-							name:'',
+							order_no:"",
 							wangwang:'',
+							type:1,
 							mobile:'',
 							images:[],
-							shuoming:"",
+							fukuan_price:"",
+							xiugai_price:"",
+							
 						},
+						shuoming:"",
 						taskStatusText:"申请退款",
 						status:"",
-						statusList:[
-							{
-								value:0,
-								text:'申请退款'
-							},{
-								value:1,
-								text:'差评'
-							},{
-								value:2,
-								text:'其他'
-							}],
+						oldstatusList:[],
+						statusList:[],
+						pageIndex:1,
+						pageSize:5,
+						orderData:[],
+						
+						isType:true,
 					}
 				},
 				created() {
@@ -440,13 +432,126 @@
 					ca.init();
 					mui.previewImage();
 					var _this = this;
+					
+					if(GetQueryString("type")==1){
+						let afterMarket=storage.get("afterMarket");
+						console.log(JSON.stringify(afterMarket));
+						let data={
+							order_no:afterMarket.order_no,
+							wangwang:afterMarket.wangwang,
+							type:1,
+							mobile:afterMarket.afterMobile,
+							images:[],
+							fukuan_price:afterMarket.fukuan_price,
+							xiugai_price:afterMarket.xiugai_price
+						}
+						this.saleManage=data;
+						_this.saleManage.images.push(afterMarket.goods_image);
+					}
+					this.load();
 					mui.plusReady(function(){
 						ca.receiveNotice('sale',function (event) {
 							_this.saleManage.images.push(event.detail.imgUrl);
 						})
 					});
+					this.getStatus();
+					this.getOrderList();
 				},
 				methods: {
+					load() {
+						this.mescroll = new MeScroll("body", {
+							down: {
+								auto:false,
+								callback:this.getOrderList
+							},
+							up: {
+								callback: this.moreOrderList, //上拉回调,此处可简写; 相当于 callback: function (page) { getListData(page); }
+								isBounce: false,
+								noMoreSize: 5,
+								auto:false,
+								page: {
+									num:0,
+									size: this.pageSize
+								},
+								htmlNodata: '<p class="upwarp-nodata">-- 没有数据啦 --</p>'
+							}
+						});
+					},
+					// 获取售后类型
+					getStatus(){
+						let params={
+							id:"383"
+						}
+						params.token = storage.get("token") || "";
+						Axios.post("/api/after_sale/managetype", params).then((res) => {
+							if (res.code == 1) {
+								
+								let arr=Object.keys(res.data)
+								this.oldstatusList=res.data;
+								arr.forEach((item,index)=>{
+									let data={
+										value:item,
+										text:res.data[item]
+									}
+									this.statusList.push(data);
+								})
+								
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					
+					// 获取首页订单数据
+					getOrderList(){
+						var params = {
+							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+						};
+						var _this = this;
+						// 当上拉加载到最后一页后，下拉刷新，重置上拉加载状态
+						if(!_this.mescroll.optUp.hasNext){
+							_this.mescroll.resetUpScroll(false);
+						}
+						Axios.post('/api/after_sale/managelist',params).then(function(res){
+							mui.hideLoading();
+							if(res.code == 1){
+								_this.orderData = res.msg.data;
+								_this.mescroll.endSuccess()
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 上拉加载更多订单
+					moreOrderList(page){
+						console.log("上拉了");
+						
+						var params = {
+							token:storage.get("token") || "35b49ed8-543d-475f-a1be-22560ed9141c",
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+							page:page.num,
+							limit_num:page.size
+						};
+						var _this = this;
+						Axios.post("/api/after_sale/managelist",params).then(function(res){
+							if(res.code == 1){
+								//更新列表数据
+								
+								var totalPage = res.msg.last_page;
+								var curPageData = res.msg.data;
+								if(page.num == 1) _this.orderData = [];
+								_this.orderData = _this.orderData.concat(curPageData);
+								//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+								//必传参数(当前页的数据个数, 总页数)
+								_this.mescroll.endByPage(curPageData.length, totalPage);
+							}else{
+								_this.mescroll.endErr();
+								ca.prompt(res.msg);
+							}
+						})
+					},
 					// 余额明细详情
 					saleSubmit() {
 						if(this.saleManage.name == '') {
@@ -492,7 +597,7 @@
 						});
 						
 						picker.show(function (selectItems) {
-							that.status=selectItems[0].value;
+							that.saleManage.type=selectItems[0].value;
 							that.taskStatusText=selectItems[0].text;
 							picker.dispose();
 						})
@@ -504,10 +609,60 @@
 							id:'cropperImg'
 						})
 					},
+					changeUrl(index){
+						let data=this.orderData[index];
+						data.images=[];
+						console.log(this.orderData[index].images);
+						let arr=this.orderData[index].images.split(",");
+						
+						arr.forEach((item,index)=>{
+							data.images.push(item);
+						});
+						storage.set("afterMarket",this.orderInfo);
+						window.location.replace("../mine/aftermarket.html?type=1")
+					},
 
 					// 删除截图
 					delImage(index){
 						this.saleManage.images.splice(index,1);
+					},
+					formatDate(dates,format) {
+						let date=new Date(dates)
+					    let myyear = date.getFullYear();
+					    let mymonth = date.getMonth() + 1;
+					    let myweekday = date.getDate();
+					    let myHours = date.getHours()
+					    let myMinutes = date.getMinutes()
+					    let mySeconds = date.getSeconds()
+					
+					    if (mymonth < 10) {
+					        mymonth = "0" + mymonth;
+					    }
+					    if (myweekday < 10) {
+					        myweekday = "0" + myweekday;
+					    }
+					    if (myHours < 10) {
+					        myHours = "0" + myHours;
+					    }
+					    if (myMinutes < 10) {
+					        myMinutes = "0" + myMinutes;
+					    }
+					    if (mySeconds < 10) {
+					        mySeconds = "0" + mySeconds;
+					    }
+					    let dayNames = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
+					    let weekday = dayNames[date.getDay()]
+					
+					    switch(format){
+					        case 'yyyy-MM-DD' : return (myyear + "-" + mymonth + "-" + myweekday);
+					        break;
+					        case 'yyyy-MM-DD HH:mm:ss' : return (myyear + "-" + mymonth + "-" + myweekday + " " + myHours + ":" + myMinutes + ":" + mySeconds);
+					        break;
+					        case 'HH:mm:ss' : return (myHours + ":" + myMinutes + ":" + mySeconds);
+					        break;
+					        case 'getDay' : return weekday;
+					        break
+					    }
 					}
 				}
 			});

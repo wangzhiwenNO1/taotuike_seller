@@ -476,14 +476,20 @@
 				
 
 				delData(idex) {
-
-					mui.confirm('确认删除该条记录？', 'Hello MUI', ["确定", "取消"], function(e) {
-						if (e.index == 0) {
-							
-						} else {
-							
-						}
+					this.orderInfo.fukuan_price=this.payPrice;
+					this.orderInfo.afterMobile=this.orderInfo.brush_list[idex].mobile;
+					storage.set("afterMarket",this.orderInfo);
+					ca.newInterface({
+						url:'../mine/aftermarket.html?type=1',
+						id:'mine/aftermarket.html'
 					});
+					// mui.confirm('确认删除该条记录？', 'Hello MUI', ["确定", "取消"], function(e) {
+					// 	if (e.index == 0) {
+							
+					// 	} else {
+							
+					// 	}
+					// });
 				},
 			},
 		});
