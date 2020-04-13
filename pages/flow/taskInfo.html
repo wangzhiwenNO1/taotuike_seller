@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/video-js.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css"/>
+		<style type="text/css">
+			.mui-content {
+				background: rgba(246, 246, 246, 1);
+				padding-bottom: 50px;
+			}
+			
+			.infoTop{
+				background-color: rgba(81, 206, 204, 1);
+				color: #FFFFFF;
+				padding:1rem;
+				
+			}
+			.orderNum{
+				font-size:1.25rem;
+				font-weight:bold;
+				color:rgba(255,255,255,1);
+				line-height:1.75rem;
+				margin-bottom: 0.5rem;
+			}
+			.topTime{
+				display: flex;
+				align-items: center;
+			}
+			.topTime>div:first-child{
+				margin-right: 1.5rem;
+			}
+			.topTime span{
+				font-size:1.25rem;
+			}
+			
+			
+			.keyUl{
+				
+				padding:1rem 0.5rem;
+			}
+			.keyUl li{
+				display: flex;
+				align-items: center;
+				padding:1rem 0.5rem;
+				width: 100%;
+				border-bottom: 1px solid rgba(216, 216, 216, 1);
+				flex-wrap: wrap;
+				line-height: 2rem;
+			}
+			
+			.keyUl li div{
+				width: 50%;
+				color: rgba(51, 51, 51, 1);
+				
+			}
+			.keyUl li div:first-child{
+				width:100%;
+			}
+			
+			.shopInfoBox{
+				background-color: #FFF;
+				margin:1rem;
+				box-sizing: border-box;
+				border-radius: 0.5rem;
+				padding:0.75rem;
+				color:rgba(153,153,153,1);
+			}
+			
+			.shopInfo{
+				display: flex;
+				font-size:0.85rem;
+				font-weight:400;
+				color:rgba(153,153,153,1);
+				line-height:1.4rem;
+				margin-bottom: 0.5rem;
+			}
+			
+			.shopInfo .imgBox{
+				width:6rem;
+				height:6rem;
+				border-radius:0.25rem;
+				background-color: pink;
+				overflow: hidden;
+				margin-right: 1rem;
+			}
+			.shopInfo .imgBox img{
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+			
+			.shopName{
+				font-size:0.98rem;
+				font-weight:600;
+				color:rgba(51,51,51,1);
+				line-height:1.5rem;
+			}
+			.shopInfo span{
+				margin-right: 1rem;
+			}
+			.shopInfo .price{
+				color: rgba(254, 178, 88, 1);
+				line-height: 1.7rem;
+			}
+			.price span{
+				font-size: 1.2rem;
+			}
+			
+			.userListBox{
+				padding:0.5rem;
+				background-color: #FFF;
+				color: rgba(51, 51, 51, 1);
+				margin-top:2rem;
+			}
+			.infoBtn{
+				width:7rem;
+				height:2rem;
+				background:rgba(255,255,255,1);
+				box-shadow:0rem 0.13rem 0.25rem 0rem rgba(0,0,0,0.16);
+				border-radius:1rem;
+				text-align: center;
+				line-height: 2rem;
+				margin: auto;
+				position: relative;
+				top:-1.5rem;
+			}
+			.title{
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.title>div:first-child{
+				padding:0 0.5rem;
+				border-left: 0.3rem solid rgba(102, 209, 207, 1);
+				line-height: 1rem;
+			}
+			.orderStatus{
+				display: flex;
+			}
+			.orderStatus>div:first-child{
+				margin-right: 0.5rem;
+				
+			}
+			.orderStatus span{
+				color: rgba(255, 166, 61, 1);
+			}
+			.statusBtn{
+				color: rgba(255, 166, 61, 1);
+				background-color: rgba(253, 244, 232, 1);
+				padding:0 0.3rem;
+				font-size: 0.75rem;
+				border-radius: 0.5rem;
+			}
+			.userUl{
+				
+			}
+			.userUl li{
+				display: flex;
+				align-items: center;
+				padding:1rem 0 ;
+				border-bottom: 1px solid rgba(229, 229, 229, 1);
+				justify-content: space-between;
+			}
+			.userInfo{
+				display: flex;
+				align-items: center;
+			}
+			.avatar{
+				width:3rem;
+				height:3rem;
+				background-color: pink;
+				border-radius: 50%;
+				overflow: hidden;
+				margin-right: 0.8rem;
+			}
+			.avatar img{
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+			.userUl .btn{
+				padding:0 0.6rem; 
+				height: 2rem;
+				line-height: 1.9rem;
+				background:rgba(102,209,207,1);
+				border-radius:1rem;
+				font-size: 0.88rem;
+				color: #FFF;
+			}
+			.userUl .price{
+				font-size:0.88rem;
+				font-weight:bold;
+				color:rgba(254,178,88,1);
+				line-height:1.25rem;
+			}
+			.practical{
+				padding:0.5rem 0;
+				text-align: right;
+			}
+			.practical span{
+				font-size: 1.3rem;
+			}
+			
+			.btnRow{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height:3.13rem;
+				background:rgba(255,255,255,1);
+				box-shadow:0rem -0.06rem 0.38rem 0rem rgba(0,0,0,0.16);
+				padding:0 0.8rem;
+				position: fixed;
+				z-index: 999;
+				bottom: 0;
+				width: 100%;
+				box-sizing: border-box;
+			}
+			.btnRow>div:last-child{
+				display: flex;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div class="mui-content" id="app" v-cloak>
+			<!-- 头部 -->
+			<div class="infoTop">
+				<div class="orderNum">订单编号:Y2222222</div>
+				<div class="topTime">
+					<div>发布日期：2019-06-12</div>
+					<div>共2单任务，合计：￥<span>369.00</span></div>
+				</div>
+			</div>
+			
+			<div>
+				<!-- 关键词 -->
+				<ul class="keyUl">
+					<li>
+						<div>关键词1：夏季时尚学生情侣</div>
+						<div>单价：￥69.50</div>
+						<div>标签：女生</div>
+						<div>件数：10</div>
+						<div>佣金：￥796.50</div>
+						<div>本金：￥796.00</div>
+						<div>运费预留：0.00</div>
+					</li>
+				</ul>
+				<!-- 商品详情 -->
+				<div class="shopInfoBox">
+					<div class="shopInfo">
+						<div class="imgBox"><img src="#" ></div>
+						<div>
+							<div class="shopName">店铺名称：神女旗舰店</div>
+							<div>旺旺账号：神女旗舰店</div>
+							<div><span>规格：均码</span><span>销量：1990</span></div>
+							<div class="price">￥<span>69.20</span></div>
+						</div>
+					</div>
+					<div>所在地区：上海</div>
+					<div>卡地区、卡销量、卡价格</div>
+				</div>
+			</div>
+			
+			<!-- 完成人列表 -->
+			<div class="userListBox">
+				<div class="infoBtn">详情</div>
+				<div class="title">
+					<div>已完成</div>
+					<div class="orderStatus">
+						<div><span>15</span>/20</div>
+						<div class="statusBtn">进行中</div>
+					</div>
+				</div>
+				<ul class="userUl">
+					<li>
+						<div class="userInfo">
+							<div class="avatar"><img src="#" ></div>
+							<div>
+								<div>旺旺号：lujiao00</div>
+								<div>手机号：1821345456545</div>
+							</div>
+						</div>
+						
+						<div class="btn">申请售后</div>
+					</li>
+					<li>
+						<div class="userInfo">
+							<div class="avatar"><img src="#" ></div>
+							<div>
+								<div>旺旺号：lujiao00</div>
+								<div>手机号：1821345456545</div>
+							</div>
+						</div>
+						
+						<div class="price">￥88.00</div>
+					</li>
+				</ul>
+				<div class="practical">实际付款：￥<span>666.66</span></div>
+			</div>
+			
+			<!-- 确认订单 -->
+			<div class="btnRow">
+				<div>差价：￥<span>88.00</span></div>
+				<div>
+					<div><i></i><span>1:00</span></div>
+					<div>确认订单</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/babel">
+			mui.init();
+			ca.init();
+			let app = new Vue({
+				el:'#app',
+				data(){
+					return {
+						
+					}
+				},
+
+				mounted(){
+					mui.init();
+					ca.init();
+					var _this = this;
+					
+					
+					ca.receiveNotice('refreshMoney',function (event) {
+						_this.mescroll.resetUpScroll(false);
+					})
+				},
+				methods:{
+					// 获取订单详情
+					
+					// 去充值
+					chongzhi(){
+						ca.newInterface({
+							url:'../mine/chongzhi.html?type=order',
+							id:'mine/chongzhi.html'
+						})
+					}
+				},
+			});
+		</script>
+	</body>
+
+</html>
