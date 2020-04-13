@@ -688,7 +688,7 @@
 										<img src="../img/order.png" alt="">
 										任务日期：<span>{{item.task_date}}</span>
 									</p>
-									<p class="f_right"><span class="pie" :id="'pie' + index"></span> <span>{{item.finished_number}}</span>/{{item.shuadan_number}} <button :class="item.order_status == 10 ? 'jinxing' : item.order_status == 20 ? 'wancheng' : item.order_status == 5 ? 'daifu' : 'guoqi'">{{item.order_status == 10 ? '进行中' : item.order_status == 20 ? '已完成' : item.order_status == 30 ? '已过期' : item.order_status == 5 ? '待付款' : ''}}</button></p>
+									<p class="f_right"><span class="pie" :id="'pie' + index"></span> <span>{{item.finished_number}}</span>/{{item.shuadan_number}} <button :class="item.order_status == 10 ? 'jinxing' : item.order_status == 20||item.order_status == 25 ? 'wancheng' : item.order_status == 5 ? 'daifu' : 'guoqi'">{{item.order_status == 10 ? '进行中' : item.order_status == 20 ? '已完成' : item.order_status == 30 ? '已过期' : item.order_status == 5 ? '待付款' : item.order_status == 25 ?"已确认":""}}</button></p>
 								</div>
 <!--								<div class="msg clearfix">-->
 <!--									<div class="f_left">-->
@@ -1036,8 +1036,8 @@
 							});
 						}else{
 							ca.newInterface({
-								url:'./mine/orderDetail.html?id=' + id,
-								id:'mine/orderDetail.html'
+								url:'./task/taskInfo.html?id=' + id,
+								id:'mine/taskInfo.html'
 							});
 						}
 					},

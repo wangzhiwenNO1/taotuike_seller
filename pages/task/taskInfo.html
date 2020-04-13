@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>订单详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css" />
+		<style type="text/css">
+			.orderItem {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.imgBox {
+				width: 3rem;
+				height: 3rem;
+				margin-right: 1rem;
+				background-color: pink;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+
+			.imgBox img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+
+			.orderInfo {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.orderInfo>div:first-child {
+				
+				margin-bottom: 0.6rem;
+			}
+
+			.orderInfo>div:last-child {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.price {
+				font-size: 1rem;
+				line-height: 1.41rem;
+				color: rgba(254, 178, 88, 1);
+			}
+			.actual{
+				text-align: right;
+				padding:1rem;
+				background-color: #FFF;
+				margin-bottom: 5rem;
+			}
+			.actual span{
+				font-size: 1.2rem;
+				font-weight: 600;
+			}
+
+			.price>span {
+				font-size: 1.2rem;
+			}
+
+			.btns {
+				width: 4.3rem;
+				height: 2rem;
+				background: rgba(102, 209, 207, 1);
+				opacity: 1;
+				border-radius: 1rem;
+				text-align: center;
+				color: #FFFFFF;
+				line-height: 2rem;
+			}
+			
+			.orderTop{
+				color: #FFF;
+				background:rgba(81,206,204,1);
+				padding:1rem;
+			}
+			.orderTop>div:first-child{
+				
+				font-size:1.25rem;
+				font-weight:bold;
+				color:rgba(255,255,255,1);
+				line-height:1.75rem;
+			}
+			.orderTop>div:last-child{
+				color: rgba(255, 255, 255, 0.8);
+				display: flex;
+				justify-content: space-between;
+				margin-top:0.5rem;
+			}
+			.orderTop>div:last-child span{
+				font-size: 1.3rem;
+				font-weight: bold;
+			}
+			
+			.orderInfoBox{
+				background-color: rgba(246, 246, 246, 1);
+				color: rgba(51, 51, 51, 1);
+			}
+			.orderInfoBox ul li{
+				display: flex;
+				flex-wrap: wrap;
+				padding:1rem;
+				line-height: 1.7rem;
+			}
+			.orderInfoBox ul li>div{
+				width:50%;
+			}
+			.orderInfoBox ul li>div:first-child{
+				width:100%;
+			}
+			.orderInfoText{
+				margin: 1rem;
+				background-color: #FFF;
+				box-sizing: border-box;
+				border-radius: 0.3rem;
+				padding:0.5rem;
+				color: rgba(153, 153, 153, 1);
+			}
+			.orderInfoTextTop{
+				display: flex;
+				line-height:1.6rem;
+			}
+			.orderInfoTextTop .imgBox{
+				width:6rem;
+				height:6rem;
+				border-radius:0.25rem;
+			}
+			.orderInfoTextTop span{
+				margin-right: 1rem;
+			}
+			.orderTitle{
+				
+				font-size:1.1rem;
+				font-weight:600;
+				color:rgba(51,51,51,1);
+				line-height:1.6rem;
+			}
+			#OA_task_1{
+				background-color: #FFF;
+			}
+			
+			.infoBtnRow{
+				background-color: #FFF;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top:2rem;
+			}
+			.infoBtnRow>div{
+				width:5.56rem;
+				height:2rem;
+				background:rgba(255,255,255,1);
+				box-shadow:0rem 0.13rem 0.25rem 0rem rgba(0,0,0,0.16);
+				border-radius:1rem;
+				position: relative;
+				top:-1rem;
+				text-align: center;
+				color: rgba(51, 51, 51, 1);
+				font-size: 0.8rem;
+				line-height: 2rem;
+			}
+			.infoBtnRow>div .mui-icon{
+				font-size: 1.1rem;
+				margin-left: 0.2rem;
+			}
+			.footerBox{
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				height:3.5rem;
+				background:rgba(255,255,255,1);
+				box-shadow:0rem -0.06rem 0.38rem 0rem rgba(0,0,0,0.16);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding:0 1rem;
+				box-sizing: border-box;
+			}
+			.disparity{
+				color:rgba(212, 25, 25, 1);
+			}
+			.disparity span{
+				font-weight: bold;
+				font-size: 1.3rem;
+			}
+			.btnRow{
+				display: flex;
+				align-items: center;
+			}
+			.btnRow i{
+				display: inline-block;
+				width: 1rem;
+				height: 1rem;
+				background-color: pink;
+				margin-right: 0.5rem;
+			}
+			.btnRow>div:first-child{
+				display: flex;
+				align-items: center;
+			}
+			.btnRow .btns{
+				margin-left: 1rem;
+				width:6rem;
+				height: 2.5rem;
+				border-radius: 2rem;
+				line-height: 2.5rem;
+			}
+			.title{
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				background-color: #FFF;
+				padding:0 1rem;
+			}
+			.title>div:first-child{
+				padding:0 0.5rem;
+				border-left: 0.3rem solid rgba(102, 209, 207, 1);
+				line-height: 1rem;
+			}
+			.orderStatus{
+				display: flex;
+			}
+			.orderStatus>div:first-child{
+				margin-right: 0.5rem;
+				
+			}
+			.orderStatus span{
+				color: rgba(255, 166, 61, 1);
+			}
+			.statusBtn{
+				color: rgba(255, 166, 61, 1);
+				background-color: rgba(253, 244, 232, 1);
+				padding:0 0.3rem;
+				font-size: 0.75rem;
+				border-radius: 0.5rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<section id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">订单详情</h1>
+			</header>
+			<div class="mui-content">
+				<div class="orderTop">
+					<div>订单编号：{{orderInfo.order_no}}</div>
+					<div>
+						<div>发布日期：{{orderInfo.createtime}}</div>
+						<div class="">共{{orderInfo.shuadan_number}}单任务，合计￥<span>{{orderInfo.total_price}}</span></div>
+					</div>
+				</div>
+				
+				<div class="orderInfoBox">
+					<ul>
+						<li>
+							<div>关键词:{{orderInfo.shuadan_keyword}}</div>
+							<div>单价：￥{{orderInfo.danpin_price}}</div>
+							<div>标签：{{orderInfo.tag}}</div>
+							<div>件数：{{orderInfo.shuadan_number}}</div>
+							<div>本金：￥{{orderInfo.danpin_price*orderInfo.shuadan_number}}</div>
+							<div>佣金：￥{{orderInfo.shuadan_price}}</div>
+							<div>运费预留：{{orderInfo.express_price}}</div>
+						</li>
+					</ul>
+					
+					<div class="orderInfoText">
+						<div class="orderInfoTextTop">
+							<div class="imgBox"><img src="#" /></div>
+							<div>
+								<div class="orderTitle">店铺名称：{{orderInfo.store_name}}</div>
+								<div>旺旺账号：{{orderInfo.wangwang}}</div>
+								<div>
+									<span>规格：{{orderInfo.danpin_spec}}</span>
+									<span>销量：{{orderInfo.sales_volume}}</span>
+								</div>
+								<div class="price">￥<span>{{orderInfo.goods_price}}</span></div>
+							</div>
+						</div>
+						
+						<div>所在地区：{{orderInfo.store_city}}</div>
+						<div>
+							{{orderInfo.is_card_address==0?"":"卡地区、"}}
+							{{orderInfo.is_card_sales==0?"":"卡销量、"}}
+							{{orderInfo.is_card_price==0?"":"卡价格"}}
+						</div>
+					</div>
+				</div>
+				
+				<!-- 完成人 -->
+				<div class="infoBtnRow">
+					<div>详情<i class="mui-icon mui-icon-arrowdown"></i></div>
+				</div>
+				<div class="title">
+					<div>已完成</div>
+					<div class="orderStatus">
+						<div><span>{{orderInfo.finished_number}}</span>/{{orderInfo.shuadan_number}}</div>
+						<div class="statusBtn" v-if="orderInfo.order_status==5">待付款</div>
+						<div class="statusBtn" v-else-if="orderInfo.order_status==10">进行中</div>
+						<div class="statusBtn" v-else-if="orderInfo.order_status==20">已完成</div>
+						<div class="statusBtn" v-else-if="orderInfo.order_status==30">已过期</div>
+						<div class="statusBtn" v-else>已确认</div>
+					</div>
+				</div>
+				<ul id="OA_task_1" class="">
+					<li class="mui-table-view-cell" v-for="(item,index) in orderInfo.brush_list" :key="index" >
+						<div class="mui-slider-right mui-disabled">
+							<a class="mui-btn mui-btn-red" @tap.stop="delData(index)">申请售后</a>
+						</div>
+						<div class="mui-slider-handle">
+							<div class="orderItem" >
+								
+								<div class="orderInfo">
+									<div class="imgBox">
+										<img :src="item.avatar?item.avatar:'../../img/touxiang.png'">
+									</div>
+									
+									<div>
+										<div>旺旺号：{{item.wangwang}}</div>
+										<div>手机号：{{item.mobile}}</div>
+									</div>
+									
+								</div>
+								<div>
+									<div class="price">￥<span>{{item.danpin_price}}</span></div>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="actual">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
+				<div class="footerBox">
+					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.total_price)-payPrice).toFixed(2)}}</span></div>
+					<div class="btnRow" v-if="orderInfo.order_status==20">
+						<div><i></i><span>{{nowTime}}</span></div>
+						<div class="btns" @tap="confirmorder">确认订单</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+	</body>
+	<script src="../../js/jquery-3.2.1.min.js"></script>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/browser.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/axios.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/load/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/config.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		let app = new Vue({
+			el: '#app',
+			data() {
+				return {
+					orderInfo:{},
+					orderId:"383",
+					
+					backData: {},
+					// 
+					orderData: [],
+					search: '',
+					pageIndex: 1,
+					pageSize: 5
+				}
+			},
+			computed:{
+				// 实际付款
+				payPrice(){
+					let num=0;
+					if(this.orderInfo.brush_list){
+						this.orderInfo.brush_list.forEach(item=>{
+							num+=parseFloat(item.danpin_price);
+						});
+					}
+					
+					return num;
+				},
+				nowTime(){
+					
+					let startTime = new Date(this.orderInfo.complete_time); // 开始时间
+					let endTime = new Date(); // 结束时间
+					let usedTime = endTime - startTime; // 相差的毫秒数
+					let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
+					let leavel = usedTime % (24 * 3600 * 1000); // 计算天数后剩余的时间
+					let hours = Math.floor(leavel / (3600 * 1000)); // 计算剩余的小时数
+					let leavel2 = leavel % (3600 * 1000); // 计算剩余小时后剩余的毫秒数
+					let minutes = Math.floor(leavel2 / (60 * 1000)); // 计算剩余的分钟数
+					return days + ':' + hours;
+					
+				},
+			},
+			mounted() {
+				var that = this;
+				this.orderId = GetQueryString("id")||383;
+
+				this.token = storage.get("token");
+
+				var _this = this;
+				// native.js input框自动获取焦点
+
+				mui.plusReady(function() {
+					// ca.receiveNotice('orderToRefresh',function (e) {
+					// 	_this.mescroll.resetUpScroll(false);
+					// })
+				})
+
+				this.refreshOrderData();
+			},
+			methods: {
+				
+
+
+				// 获取首页订单数据
+				refreshOrderData() {
+					var params = {
+						token: storage.get("token") || "",
+						// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+						id: this.orderId,
+					};
+					var _this = this;
+					
+					Axios.post('/api/order/details', params).then(function(res) {
+						mui.hideLoading();
+
+						if (res.code == 1) {
+							_this.orderInfo=res.data;
+						} else {
+							// _this.mescroll.endErr();
+							ca.prompt(res.msg);
+						}
+					})
+				},
+				confirmorder(){
+					var params = {
+						token: storage.get("token") || "",
+						// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
+						id: this.orderId,
+					};
+					var _this = this;
+					mui.confirm("确认提交？","提示",["确定","取消"],(e)=>{
+						console.log(e);
+						if(e.index==0){
+							Axios.post('/api/order/confirmorder', params).then(function(res) {
+								mui.hideLoading();
+							
+								if (res.code == 1) {
+									 location.reload();
+								} else {
+									// _this.mescroll.endErr();
+									ca.prompt(res.msg);
+								}
+							})
+						}
+					});
+					
+				},
+				
+
+				delData(idex) {
+
+					mui.confirm('确认删除该条记录？', 'Hello MUI', ["确定", "取消"], function(e) {
+						if (e.index == 0) {
+							
+						} else {
+							
+						}
+					});
+				},
+			},
+		});
+	</script>
+</html>

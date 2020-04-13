@@ -9,6 +9,7 @@
 		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
 		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
 		<style type="text/css">
 			.mui-icon-left-nav {
 				color: #666;
@@ -275,6 +276,15 @@
 				font-size: 0.8rem;
 				color: rgba(255, 166, 61, 1);
 			}
+			
+			
+			.textareaBox{
+				padding:0 1rem;
+				height: 5rem;
+			}
+			.textareaBox textarea{
+				height: 100%;
+			}
 		</style>
 	</head>
 
@@ -287,9 +297,9 @@
 			<div class="header">
 				<p class="title">选择售后类型</p>
 				<div class="leixing ">
-					<div class="taskStatus">
+					<div class="taskStatus" @tap="changeType">
 						<div>售后类型</div>
-						<span>价格有误<i class="mui-icon mui-icon-arrowright"></i></span>
+						<span>{{taskStatusText}}<i class="mui-icon mui-icon-arrowright"></i></span>
 					</div>
 					<!-- <div class="mui-input-row mui-radio  mui-left">
 						<label>申请退款</label>
@@ -312,8 +322,6 @@
 						<label>订单号</label>
 						<input type="text" v-model="saleManage.name" id="name" placeholder="请输入订单号">
 					</li>
-
-
 
 					<li v-if="saleManage.type!=3" class="mui-input-row">
 						<label>旺旺账号</label>
@@ -346,7 +354,12 @@
 						</div>
 					</li>
 				</ul>
-
+				
+				<p class="title">填写说明</p>
+				<div class="textareaBox">
+					<textarea rows="" cols=""></textarea>
+				</div>
+				
 				<!-- dingdan  -->
 				<div class="orderList">
 					<div class="titles">
@@ -388,6 +401,8 @@
 		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/storage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.picker.min.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
 		<script type="text/babel">
 			mui.init();
 			ca.init();
@@ -404,7 +419,20 @@
 							mobile:'',
 							images:[],
 							shuoming:"",
-						}
+						},
+						taskStatusText:"申请退款",
+						status:"",
+						statusList:[
+							{
+								value:0,
+								text:'申请退款'
+							},{
+								value:1,
+								text:'差评'
+							},{
+								value:2,
+								text:'其他'
+							}],
 					}
 				},
 				created() {
@@ -450,6 +478,23 @@
 							} else {
 								ca.prompt(res.msg);
 							}
+						})
+					},
+					changeType(){
+						var that = this;
+						var picker = new mui.PopPicker();
+						picker.setData(that.statusList);
+						
+						// 点击取消按钮关闭滚动锁定状态
+						var btn = $("button.mui-poppicker-btn-cancel")[0];
+						btn.addEventListener('tap',function () {
+							picker.dispose();
+						});
+						
+						picker.show(function (selectItems) {
+							that.status=selectItems[0].value;
+							that.taskStatusText=selectItems[0].text;
+							picker.dispose();
 						})
 					},
 					// 上传截图
