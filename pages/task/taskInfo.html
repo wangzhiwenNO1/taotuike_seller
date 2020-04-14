@@ -23,7 +23,7 @@
 				width: 3rem;
 				height: 3rem;
 				margin-right: 1rem;
-				background-color: pink;
+				
 				border-radius: 50%;
 				overflow: hidden;
 			}
@@ -200,10 +200,11 @@
 			}
 			.btnRow i{
 				display: inline-block;
-				width: 1rem;
-				height: 1rem;
-				background-color: pink;
+				width: 2rem;
+				height: 2rem;
 				margin-right: 0.5rem;
+				background: url(../../img/naozhong.png) no-repeat;
+				background-size: cover;
 			}
 			.btnRow>div:first-child{
 				display: flex;
@@ -278,7 +279,7 @@
 					
 					<div class="orderInfoText">
 						<div class="orderInfoTextTop">
-							<div class="imgBox"><img src="#" /></div>
+							<div class="imgBox"><img :src="orderInfo.goods_image ? orderInfo.goods_image : '../../img/TB2I00qoH1YBuNjSszeXXablFXa_!!406390357.jpg'" /></div>
 							<div>
 								<div class="orderTitle">店铺名称：{{orderInfo.store_name}}</div>
 								<div>旺旺账号：{{orderInfo.wangwang}}</div>
