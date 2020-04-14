@@ -362,7 +362,7 @@
 					<div class="orderInfo" v-for="(item,index) in orderData" :key="index" @tap="changeUrl(index)">
 						<div class="timeBox">
 							<div><i></i>日期<span>{{formatDate(item.createtime*1000,'yyyy-MM-DD')}}</span></div>
-							<div class="examine">{{oldstatusList[item.type]}}</div>
+							<div class="examine">{{item.status=="10"?"审核中":"审核完成"}}</div>
 						</div>
 						<ul class="orderUl">
 							<li>售后类型：价格有误</li>
@@ -435,10 +435,12 @@
 					
 					if(GetQueryString("type")==1){
 						let afterMarket=storage.get("afterMarket");
+						let index=GetQueryString("index");
+						console.log("index",index);
 						console.log(JSON.stringify(afterMarket));
 						let data={
 							order_no:afterMarket.order_no,
-							wangwang:afterMarket.wangwang,
+							wangwang:afterMarket.brush_list[index].wangwang,
 							type:1,
 							mobile:afterMarket.afterMobile,
 							images:[],
@@ -446,7 +448,7 @@
 							xiugai_price:afterMarket.xiugai_price
 						}
 						this.saleManage=data;
-						_this.saleManage.images.push(afterMarket.goods_image);
+						// _this.saleManage.images.push(afterMarket.goods_image);
 					}
 					this.load();
 					mui.plusReady(function(){

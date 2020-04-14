@@ -340,7 +340,7 @@
 						</div>
 					</li>
 				</ul>
-				<div class="actual">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
+				<div class="actual" v-if="orderInfo.brush_list.length>0">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
 				<div class="footerBox">
 					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.total_price)-payPrice).toFixed(2)}}</span></div>
 					<div class="btnRow" v-if="orderInfo.order_status==20">
@@ -480,7 +480,7 @@
 					this.orderInfo.afterMobile=this.orderInfo.brush_list[idex].mobile;
 					storage.set("afterMarket",this.orderInfo);
 					ca.newInterface({
-						url:'../mine/aftermarket.html?type=1',
+						url:'../mine/aftermarket.html?type=1&index='+idex,
 						id:'mine/aftermarket.html'
 					});
 					// mui.confirm('确认删除该条记录？', 'Hello MUI', ["确定", "取消"], function(e) {
