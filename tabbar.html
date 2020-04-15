@@ -122,22 +122,30 @@
 		}
 	};
 	var subpages = ['pages/home.html','pages/task.html','pages/flow.html', 'pages/mine.html'];
-	if(/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)) {
-		var subpage_style = {
-			top: '0',
-			bottom: '55px', //89px
-			scrollIndicator: 'none',
-			style: {
-				"render": "always"
-			}
-		};
-	} else {
-		var subpage_style = {
-			top: '0px',
-			bottom: '55px', //
-			scrollIndicator: 'none'
-		};
-	}
+	var subpage_style = {
+		top: '0',
+		bottom: '55px', //89px
+		scrollIndicator: 'none',
+		style: {
+			"render": "always"
+		}
+	};
+	// if(/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)) {
+	// 	var subpage_style = {
+	// 		top: '0',
+	// 		bottom: '55px', //89px
+	// 		scrollIndicator: 'none',
+	// 		style: {
+	// 			"render": "always"
+	// 		}
+	// 	};
+	// } else {
+	// 	var subpage_style = {
+	// 		top: '0px',
+	// 		bottom: '55px', //
+	// 		scrollIndicator: 'none'
+	// 	};
+	// }
 	var aniShow = {};
 	mui.plusReady(function() {
 		var self = plus.webview.currentWebview();

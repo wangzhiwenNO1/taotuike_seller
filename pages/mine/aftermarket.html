@@ -318,10 +318,10 @@
 						<label>旺旺账号</label>
 						<input type="text" v-model="saleManage.wangwang" id="nameId" placeholder="请输入付旺旺号">
 					</li>
-					<li v-if="taskStatusText!='其他'" class="mui-input-row">
+					<!-- <li v-if="taskStatusText!='其他'" class="mui-input-row">
 						<label>手机号</label>
 						<input type="text" v-model="saleManage.mobile" id="phone" placeholder="请输入手机号">
-					</li>
+					</li> -->
 					<li v-if="taskStatusText!='其他'" class="mui-input-row">
 						<label>付款价格</label>
 						<input type="text" v-model="saleManage.fukuan_price" placeholder="请输入付款价格">
@@ -416,7 +416,7 @@
 							
 						},
 						shuoming:"",
-						taskStatusText:"申请退款",
+						taskStatusText:"价格错误",
 						status:"",
 						oldstatusList:[],
 						statusList:[],
@@ -564,18 +564,22 @@
 							ca.prompt('请输入旺旺账号');
 							return;
 						}
-						if(this.saleManage.mobile == '') {
-							ca.prompt('请输入手机号');
-							return;
-						}
+						
+						// if(this.saleManage.mobile == '') {
+						// 	ca.prompt('请输入手机号');
+						// 	return;
+						// }
+						
 						if(!(/^1[3-9][0-9]{9}$/.test(this.saleManage.mobile))) {
 							ca.prompt('手机号格式不正确');
 							return;
 						}
-						if(this.saleManage.images ==''){
-							ca.prompt('请上传后台截图');
-							return;
-						}
+						
+						// if(this.saleManage.images ==''){
+						// 	ca.prompt('请上传后台截图');
+						// 	return;
+						// }
+						
 						let params = this.saleManage;
 						params.token = storage.get("token") || "";
 						Axios.post("/api/after_sale/manage", params).then((res) => {

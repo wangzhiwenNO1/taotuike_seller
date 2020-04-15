@@ -639,6 +639,14 @@
 						<input type="text" v-model="order.shuadan_keyword" placeholder="输入关键词" />
 					</li>
 					<li>
+						<label for="">拍下件数</label>
+						<div class="num-count f_right">
+							<button class="count-desc" type="button" @tap="setAuctionNum(1,index)">-</button>
+							<input class="count-input" v-model="order.paixia" type="number" pattern="[0-9]*"/>
+							<button class="count-add" type="button" @tap="setAuctionNum(2,index)">+</button>
+						</div>
+					</li>
+					<li>
 						<label for="">任务数量</label>
 						<div class="num-count f_right" :id="'numBox'+index">
 							<button class="count-desc" type="button" @tap="setOrderNum(order,0)">-</button>
@@ -812,7 +820,8 @@
 								shuadan_keyword:'',  //  刷单关键词
 								shuadan_number:1,   //  刷单数量
 								shuadan_start_time:'',//  刷单开始时间
-								shuadan_end_time:'22:00'   //  刷单结束时间
+								shuadan_end_time:'22:00',   //  刷单结束时间
+								paixia:1,//拍下件数
 							}
 						], // 刷单信息
 						goods_price:'', //  商品价格
@@ -860,6 +869,59 @@
 				countFee(){
 					this.orderTotalNum = 0;
 					var _this = this;
+					var totalFee=0;
+					
+					for(var i = this.configData.fee.length -1 ;i >= 0;i--){
+						var item = this.configData.fee[i];
+						if(this.validateNumber(this.task.danpin_price)){
+							if(parseFloat(this.task.danpin_price) > parseFloat(item.min_price)){
+								this.shuaFee = parseFloat(item.shuadan_price);
+								break;
+							}
+						}
+					}
+					
+					let discount=this.userLevel.discount;
+					let price=this.task.goods_price;
+					switch(price){
+						case price>=0&&price<=99:
+						discount=15;
+						break;
+						case price>=100&&price<=299:
+						discount=16;
+						break;
+						case price>=300&&price<=499:
+						discount=17;
+						break;
+						case price>=500&&price<=799:
+						discount=20;
+						break;
+						case price>=800&&price<=999:
+						discount=22;
+						break;
+						case price>=1000&&price<=1499:
+						discount=25;
+						break;
+						case price>=1500&&price<=200:
+						discount=30;
+						break;
+					}
+					
+					if(this.validateNumber(_this.task.danpin_price)){
+						_this.task.shuadan_info.forEach(function(item,index){
+							var postFee = _this.task.is_express ? 0 : (_this.task.express_price || 0) ;
+							totalFee += (parseFloat(_this.task.danpin_price)*parseFloat(_this.task.shuadan_info[index].paixia) + _this.shuaFee * parseInt(discount)  + postFee)*parseInt(item.shuadan_number);
+						});
+						_this.totalFee=totalFee;
+					}else{
+						this.totalFee = 0;
+					}
+					console.log((_this.totalFee).toFixed(2));
+					
+					return (_this.totalFee).toFixed(2);
+					
+					
+					
 					this.task.shuadan_info.forEach(function(item,index){
 						_this.orderTotalNum = _this.orderTotalNum + parseInt(item.shuadan_number);
 					});
@@ -872,12 +934,23 @@
 							}
 						}
 					}
+					
+					var paixiaNum=0;
+					this.task.shuadan_info.forEach(item=>{
+						paixiaNum+=parseInt(item.paixia);
+					});
+					paixiaNum==0?1:paixiaNum;
+					
+					
+					
 					if(this.validateNumber(this.task.danpin_price)){
-						var postFee = parseFloat( this.task.is_express ? 0 : this.postFee );
-						this.totalFee = (parseFloat(this.task.danpin_price) + this.shuaFee * parseInt(this.userLevel.discount) / 10 + postFee )*this.orderTotalNum;
+						var postFee = this.task.is_express ? 0 : (this.task.express_price || 0) ;
+						this.totalFee = (parseFloat(this.task.danpin_price)*paixiaNum + this.shuaFee * parseInt(this.userLevel.discount) / 10 + postFee)*this.orderTotalNum;
 					}else{
 						this.totalFee = 0;
 					}
+					
+					
 					return (this.totalFee).toFixed(2);
 				}
 			},
@@ -1091,6 +1164,7 @@
 							_this.configData.fee = res.data["unit_price"];
 							_this.configData.address = res.data['address_list'];
 							_this.task.express_price = res.data.express_price;
+							
 							console.log(_this.task.express_price);
 							if(_this.danId){
 								_this.getOrderInfo();
@@ -1160,11 +1234,22 @@
 						shuadan_keyword:'',  //  刷单关键词
 						shuadan_number:1,   //  刷单数量
 						shuadan_start_time:this.comStartTime(),//  刷单开始时间
-						shuadan_end_time:'22:00'   //  刷单结束时间
+						shuadan_end_time:'22:00',   //  刷单结束时间
+						paixia:1,
 					};
 					_this.task.shuadan_info.push(orderOne);
 				},
-
+// 拍下件数
+					setAuctionNum(type,index){
+						if(type==1){
+							if(this.task.shuadan_info[index].paixia>1){
+								this.task.shuadan_info[index].paixia-=1;
+							}
+						}else{
+							
+							this.task.shuadan_info[index].paixia=parseFloat(this.task.shuadan_info[index].paixia)+1;
+						}
+					},
 				// 删除刷单单子
 				delOrder(index){
 					if(this.task.shuadan_info.length > 1){
