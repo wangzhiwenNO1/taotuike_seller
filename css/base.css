@@ -181,7 +181,7 @@
 	/*公共样式*/
 	.mui-bar{
 		-webkit-box-shadow: inherit; 
-	     box-shadow: inherit;
+	     /* box-shadow: inherit; */
 	     /* border-bottom: 1px solid #ddd!important; */
 	     background-color: #fff;
 	}
