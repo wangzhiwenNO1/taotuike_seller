@@ -912,7 +912,7 @@
 						}
 						
 						let discount=this.userLevel.discount;
-						let price=parseFloat(this.task.goods_price) ;
+						let price=parseFloat(this.task.danpin_price) ;
 						console.log(price);
 						if(price>=0&&price<=99){
 							discount=15;
@@ -936,7 +936,7 @@
 						if(this.validateNumber(_this.task.danpin_price)){
 							_this.task.shuadan_info.forEach(function(item,index){
 								var postFee = _this.task.is_express ? 0 : (_this.task.express_price || 0) ;
-								totalFee += (parseFloat(_this.task.danpin_price)*parseFloat(_this.task.shuadan_info[index].paixia)   + postFee)*parseInt(item.shuadan_number) + parseInt(discount);
+								totalFee += (parseFloat(_this.task.danpin_price)*parseFloat(_this.task.shuadan_info[index].paixia)+ parseInt(discount)   + postFee)*parseInt(item.shuadan_number) ;
 							});
 							_this.totalFee=totalFee;
 						}else{
