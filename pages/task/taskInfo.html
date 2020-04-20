@@ -275,7 +275,7 @@
 							<div>标签：{{orderInfo.tag}}</div>
 							<div>件数：{{orderInfo.shuadan_number}}</div>
 							<div>佣金：￥{{orderInfo.shuadan_price*orderInfo.shuadan_number}}</div>
-							<div>本金：￥{{orderInfo.danpin_price*orderInfo.shuadan_number}}</div>
+							<div>本金：￥{{orderInfo.danpin_price*orderInfo.shuadan_number*orderInfo.paixia}}</div>
 							<div>运费预留：{{orderInfo.express_price}}</div>
 						</li>
 					</ul>
@@ -346,7 +346,7 @@
 				</ul>
 				<div class="actual" v-if="orderInfo.brush_list.length>0&&isShow">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
 				<div class="footerBox">
-					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.danpin_price*orderInfo.shuadan_number)-payPrice).toFixed(2)}}</span></div>
+					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.shuadan_price*orderInfo.shuadan_number*orderInfo.paixia)-payPrice).toFixed(2)}}</span></div>
 					<div class="btnRow" v-if="orderInfo.order_status==20">
 						<div><i></i><span>{{nowTime}}</span></div>
 						<div class="btns" @tap="confirmorder">确认订单</div>
