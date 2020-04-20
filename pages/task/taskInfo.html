@@ -58,7 +58,7 @@
 				text-align: right;
 				padding:1rem;
 				background-color: #FFF;
-				margin-bottom: 5rem;
+				padding-bottom: 5rem;
 			}
 			.actual span{
 				font-size: 1.2rem;
@@ -158,6 +158,7 @@
 				align-items: center;
 				justify-content: center;
 				margin-top:2rem;
+				position: relative;
 			}
 			.infoBtnRow>div{
 				width:5.56rem;
@@ -165,7 +166,7 @@
 				background:rgba(255,255,255,1);
 				box-shadow:0rem 0.13rem 0.25rem 0rem rgba(0,0,0,0.16);
 				border-radius:1rem;
-				position: relative;
+				position: absolute;
 				top:-1rem;
 				text-align: center;
 				color: rgba(51, 51, 51, 1);
@@ -224,7 +225,7 @@
 				align-items: center;
 				justify-content: space-between;
 				background-color: #FFF;
-				padding:0 1rem;
+				padding:1rem;
 			}
 			.title>div:first-child{
 				padding:0 0.5rem;
@@ -273,7 +274,7 @@
 							<div>单价：￥{{orderInfo.danpin_price}}</div>
 							<div>标签：{{orderInfo.tag}}</div>
 							<div>件数：{{orderInfo.shuadan_number}}</div>
-							<div>佣金：￥{{orderInfo.shuadan_price}}</div>
+							<div>佣金：￥{{orderInfo.shuadan_price*orderInfo.shuadan_number}}</div>
 							<div>本金：￥{{orderInfo.danpin_price*orderInfo.shuadan_number}}</div>
 							<div>运费预留：{{orderInfo.express_price}}</div>
 						</li>
@@ -304,9 +305,9 @@
 				
 				<!-- 完成人 -->
 				<div class="infoBtnRow">
-					<div>详情<i class="mui-icon mui-icon-arrowdown"></i></div>
+					<div @tap="showPage">详情<i class="mui-icon mui-icon-arrowdown"></i></div>
 				</div>
-				<div class="title">
+				<div class="title" v-if="isShow">
 					<div>已完成</div>
 					<div class="orderStatus">
 						<div><span>{{orderInfo.finished_number}}</span>/{{orderInfo.shuadan_number}}</div>
@@ -317,7 +318,7 @@
 						<div class="statusBtn" v-else>已确认</div>
 					</div>
 				</div>
-				<ul id="OA_task_1" class="">
+				<ul id="OA_task_1" class="" v-if="isShow">
 					<li class="mui-table-view-cell" v-for="(item,index) in orderInfo.brush_list" :key="index" >
 						<div class="mui-slider-right mui-disabled">
 							<a class="mui-btn mui-btn-red" @tap.stop="delData(index)">申请售后</a>
@@ -343,9 +344,9 @@
 						</div>
 					</li>
 				</ul>
-				<div class="actual" v-if="orderInfo.brush_list.length>0">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
+				<div class="actual" v-if="orderInfo.brush_list.length>0&&isShow">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
 				<div class="footerBox">
-					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.total_price)-payPrice).toFixed(2)}}</span></div>
+					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.danpin_price*orderInfo.shuadan_number)-payPrice).toFixed(2)}}</span></div>
 					<div class="btnRow" v-if="orderInfo.order_status==20">
 						<div><i></i><span>{{nowTime}}</span></div>
 						<div class="btns" @tap="confirmorder">确认订单</div>
@@ -376,6 +377,7 @@
 				return {
 					orderInfo:{},
 					orderId:"383",
+					isShow:false,
 					
 					backData: {},
 					// 
@@ -429,7 +431,9 @@
 				this.refreshOrderData();
 			},
 			methods: {
-				
+				showPage(){
+					this.isShow=!this.isShow
+				},
 
 
 				// 获取首页订单数据
