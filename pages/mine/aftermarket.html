@@ -362,7 +362,9 @@
 					<div class="orderInfo" v-for="(item,index) in orderData" :key="index" @tap="changeUrl(index)">
 						<div class="timeBox">
 							<div><i></i>日期<span>{{formatDate(item.createtime*1000,'yyyy-MM-DD')}}</span></div>
-							<div class="examine">{{item.status=="10"?"审核中":"审核完成"}}</div>
+							<div class="examine" v-if="item.status==10">审核中</div>
+							<div class="examine" v-else-if="item.status==20">审核完成</div>
+							<div class="examine" v-else="item.status==30">审核驳回</div>
 						</div>
 						<ul class="orderUl">
 							<li>售后类型：价格有误</li>
