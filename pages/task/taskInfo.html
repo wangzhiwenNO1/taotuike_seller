@@ -344,7 +344,7 @@
 						</div>
 					</li>
 				</ul>
-				<div class="actual" v-if="orderInfo.brush_list.length>0&&isShow">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
+				<div class="actual" v-if="orderInfo.brush_list&&orderInfo.brush_list.length>0&&isShow">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
 				<div class="footerBox">
 					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.shuadan_price*orderInfo.shuadan_number*orderInfo.paixia)-payPrice).toFixed(2)}}</span></div>
 					<div class="btnRow" v-if="orderInfo.order_status==20">
@@ -376,8 +376,8 @@
 			data() {
 				return {
 					orderInfo:{},
-					orderId:"383",
-					isShow:false,
+					orderId:"",
+					isShow:true,
 					
 					backData: {},
 					// 
@@ -483,8 +483,9 @@
 				
 
 				delData(idex) {
-					this.orderInfo.fukuan_price=this.payPrice;
+					this.orderInfo.fukuan_price=this.orderInfo.brush_list[idex].danpin_price;
 					this.orderInfo.afterMobile=this.orderInfo.brush_list[idex].mobile;
+					console.log(this.orderInfo);
 					storage.set("afterMarket",this.orderInfo);
 					ca.newInterface({
 						url:'../mine/aftermarket.html?type=1&index='+idex,

@@ -438,19 +438,20 @@
 					if(GetQueryString("type")==1){
 						let afterMarket=storage.get("afterMarket");
 						let index=GetQueryString("index");
-						console.log("index",index);
-						console.log(JSON.stringify(afterMarket));
+						
+						console.log(JSON.stringify(afterMarket.fukuan_price));
 						let data={
 							order_no:afterMarket.order_no,
 							wangwang:afterMarket.brush_list[index].wangwang,
 							type:1,
 							mobile:afterMarket.afterMobile,
 							images:[],
-							fukuan_price:afterMarket.fukuan_price,
+							fukuan_price:parseFloat(afterMarket.fukuan_price),
 							xiugai_price:afterMarket.xiugai_price
 						}
 						this.saleManage=data;
-						this.taskStatusText="价格有误"
+						this.taskStatusText="价格有误";
+						
 						// _this.saleManage.images.push(afterMarket.goods_image);
 					}
 					this.load();

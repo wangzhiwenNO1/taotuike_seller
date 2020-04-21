@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<title>底部导航</title>
@@ -94,6 +94,7 @@
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/storage.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+	
 	ca.init();
 	mui.init();
 	mui.plusReady(function () {
@@ -121,33 +122,33 @@
 			}
 		}
 	};
-	var subpages = ['pages/home.html','pages/task.html','pages/flow.html', 'pages/mine.html'];
-	var subpage_style = {
-		top: '0',
-		bottom: '55px', //89px
-		scrollIndicator: 'none',
-		style: {
-			"render": "always"
-		}
-	};
-	// if(mui.os.ios && (screen.height == 812 && screen.width == 375)) {
-	// 	var subpage_style = {
-	// 		top: '0',
-	// 		bottom: '55px', //89px
-	// 		scrollIndicator: 'none',
-	// 		style: {
-	// 			"render": "always"
-	// 		}
-	// 	}; 
-	// } else {
-	// 	var subpage_style = {
-	// 		top: '0px',
-	// 		bottom: '55px', //
-	// 		scrollIndicator: 'none'
-	// 	};
-	// }
+	
 	var aniShow = {};
+	var subpages = ['pages/home.html','pages/task.html','pages/flow.html', 'pages/mine.html'];
 	mui.plusReady(function() {
+		
+		
+		
+		
+		if(mui.os.ios && (screen.height == 812 && screen.width == 375)) {
+			var subpage_style = {
+				top: '0',
+				bottom: '45px', //89px
+				// scrollIndicator: 'none',
+				style: {
+					"render": "always"
+				}
+			}; 
+		} else {
+			var subpage_style = {
+				top: '0px',
+				bottom: '55px', //
+				scrollIndicator: 'none'
+			};
+		}
+		
+		
+		
 		var self = plus.webview.currentWebview();
 		for(var i = 0; i < 4; i++) {
 			var temp = {};
