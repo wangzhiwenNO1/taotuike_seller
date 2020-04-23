@@ -140,14 +140,29 @@
 			var subpages = ['pages/home.html', 'pages/task.html', 'pages/flow.html', 'pages/mine.html'];
 
 			mui.plusReady(function() {
-				if (mui.os.ios && screen.height >= 812 ) {
-					console.log(screen.height);
-					var subpage_style = {
-						top: '44px',
-						bottom: '89px', //89px
-						scrollIndicator: 'none',
-						style: {
-							"render": "always"
+				// if (mui.os.ios && screen.height >= 812 ) {
+				// 	console.log(screen.height);
+				// 	var subpage_style = {
+				// 		top: '44px',
+				// 		bottom: '89px', //89px
+				// 		scrollIndicator: 'none',
+				// 		style: {
+				// 			"render": "always"
+				// 		}
+				// 	};
+				// } else {
+				// 	var subpage_style = {
+				// 		top: '0px',
+				// 		bottom: '55px', //
+				// 		scrollIndicator: 'none'
+				// 	};
+				// }
+				if (isIPhoneX()) {
+					subpage_style = {
+						top: '0px',
+						bottom: '88px',
+						styles: {
+							"render": "always", //一直渲染
 						}
 					};
 				} else {
