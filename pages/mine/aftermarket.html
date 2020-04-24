@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
 		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../js/load/mescroll.min.css" />
 		<style type="text/css">
 			.mui-icon-left-nav {
 				color: #666;
@@ -232,18 +232,22 @@
 				background-size: cover;
 
 			}
-			.orderUl{
+
+			.orderUl {
 				display: flex;
 				flex-wrap: wrap;
 			}
+
 			.orderUl li {
-				width:50%;
+				width: 50%;
 				line-height: 1.8rem;
 			}
-			.orderUl li:first-child{
-				width:100%;
-				
+
+			.orderUl li:first-child {
+				width: 100%;
+
 			}
+
 			.timeBox {
 				display: flex;
 				justify-content: space-between;
@@ -252,15 +256,17 @@
 				padding: 0.3rem 0;
 				border-bottom: 1px solid #EEEEEE;
 			}
-			.timeBox>div{
+
+			.timeBox>div {
 				display: flex;
 				align-items: center;
 			}
+
 			.timeBox i {
 				display: inline-block;
 				width: 1rem;
 				height: 1rem;
-				
+
 				margin-right: 0.5rem;
 			}
 
@@ -277,14 +283,43 @@
 				font-size: 0.8rem;
 				color: rgba(255, 166, 61, 1);
 			}
-			
-			
-			.textareaBox{
-				padding:0 1rem;
+
+
+			.textareaBox {
+				padding: 0 1rem;
 				height: 5rem;
 			}
-			.textareaBox textarea{
+
+			.textareaBox textarea {
 				height: 100%;
+			}
+
+			.infoBtnRow {
+				background-color: #FFF;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 2rem;
+				position: relative;
+			}
+
+			.infoBtnRow>div {
+				width: 5.56rem;
+				height: 2rem;
+				background: rgba(255, 255, 255, 1);
+				box-shadow: 0rem 0.13rem 0.25rem 0rem rgba(0, 0, 0, 0.16);
+				border-radius: 1rem;
+				position: absolute;
+				top: -1rem;
+				text-align: center;
+				color: rgba(51, 51, 51, 1);
+				font-size: 0.8rem;
+				line-height: 2rem;
+			}
+
+			.infoBtnRow>div .mui-icon {
+				font-size: 1.1rem;
+				margin-left: 0.2rem;
 			}
 		</style>
 	</head>
@@ -302,7 +337,7 @@
 						<div>售后类型</div>
 						<span>{{taskStatusText}}<i class="mui-icon mui-icon-arrowright"></i></span>
 					</div>
-					
+
 				</div>
 			</div>
 			<div class="fukuan">
@@ -348,10 +383,11 @@
 						</div>
 					</li>
 				</ul>
-				
-				
+
+
 				<button class="tijiao" id="doDiv" @tap="saleSubmit">提交</button>
-				
+
+
 				<!-- dingdan  -->
 				<div class="orderList">
 					<div class="titles">
@@ -359,7 +395,22 @@
 						<div>我的售后订单</div>
 						<i></i>
 					</div>
-					<div class="orderInfo" v-for="(item,index) in orderData" :key="index" @tap="changeUrl(index)">
+					<div class="orderInfo" v-for="(item,index) in orderData" v-if="index<=2&&isShow" :key="index" @tap="changeUrl(index)">
+						<div class="timeBox">
+							<div><i></i>日期<span>{{formatDate(item.createtime*1000,'yyyy-MM-DD')}}</span></div>
+							<div class="examine" v-if="item.status==10">审核中</div>
+							<div class="examine" v-else-if="item.status==20">审核完成</div>
+							<div class="examine" v-else="item.status==30">审核驳回</div>
+						</div>
+						<ul class="orderUl">
+							<li>售后类型：{{statusList[item.type].text}}</li>
+							<li>订单号：{{item.order_no}}</li>
+							<li>旺旺号：{{item.wangwang}}</li>
+							<li>付款价：￥{{item.fukuan_price}}</li>
+							<li>修改价：<span>￥{{item.xiugai_price}}</span></li>
+						</ul>
+					</div>
+					<div class="orderInfo" v-for="(item,index) in orderData" v-if="!isShow" :key="index" @tap="changeUrl(index)">
 						<div class="timeBox">
 							<div><i></i>日期<span>{{formatDate(item.createtime*1000,'yyyy-MM-DD')}}</span></div>
 							<div class="examine" v-if="item.status==10">审核中</div>
@@ -375,7 +426,9 @@
 						</ul>
 					</div>
 
-
+					<div class="infoBtnRow">
+						<div @tap="showPage">详情<i class="mui-icon mui-icon-arrowdown" v-if="isShow"></i><i class="mui-icon mui-icon mui-icon-arrowup" v-else></i></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -426,6 +479,7 @@
 						orderData:[],
 						
 						isType:true,
+						isShow:true,
 					}
 				},
 				created() {
@@ -463,6 +517,9 @@
 					this.getOrderList();
 				},
 				methods: {
+					showPage(){
+						this.isShow=!this.isShow;
+					},
 					load() {
 						this.mescroll = new MeScroll("body", {
 							down: {
@@ -478,7 +535,8 @@
 									num:0,
 									size: this.pageSize
 								},
-								htmlNodata: '<p class="upwarp-nodata">-- 没有数据啦 --</p>'
+								htmlNodata: '',
+								// <p class="upwarp-nodata">-- 没有数据啦 --</p>
 							}
 						});
 					},

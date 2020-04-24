@@ -280,7 +280,7 @@
 						taskDateEnd:"",//任务结束日期
 						dateList:[1,3,7,10,15,30],//快速选择时间列表
 						fastDay:1,//天数
-						periodList:[this.periodItem()],
+						periodList:[this.periodItem("")],
 						numList:[this.numItem()],
 						duration:1,//任务时长
 						// 0-app流量，1-pc流量，2-直访流量
@@ -308,6 +308,7 @@
 								text:'深度浏览'
 							}],
 						
+						shopUrl:"",//返回的商品链接
 						
 					}
 				},
@@ -362,7 +363,7 @@
 									app.periodList[num].target = e.detail.url;
 								}
 								
-								
+								app.shopUrl=e.detail.url;
 							}
 						});
 					});
@@ -378,12 +379,12 @@
 				},
 				methods:{
 
-					periodItem(){
+					periodItem(url){
 						return {
 							links:"",//链接
 							infoNum:100,//数量
 							allocationNum:100,//已分配
-							target:"",//淘宝链接
+							target:url,//淘宝链接
 							keyword:"",//关键词
 							isShowTime:false,
 							paixia:0,
@@ -428,7 +429,7 @@
 						this.periodList[index].isShowTime=!this.periodList[index].isShowTime;
 					},
 					resetData(){
-						this.periodList=[this.periodItem()];
+						this.periodList=[this.periodItem("")];
 						this.numList=[this.numItem()];
 					},
 					changePriceType(index){
@@ -524,7 +525,11 @@
 					
 					// 添加任务详情
 					addPeriod(){
-						this.periodList.push(this.periodItem());
+						let data=this.periodItem(this.shopUrl);
+						
+						console.log(JSON.stringify(this.shopUrl));
+						console.log(234);
+						this.periodList.push(data);
 						let length=this.periodList.length-1;
 						
 						this.numList.push(this.numItem());
