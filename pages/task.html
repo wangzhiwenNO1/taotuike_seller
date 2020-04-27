@@ -78,6 +78,10 @@
 				font-size: 16px;
 				font-weight: bold;
 			}
+			.titleTwo{
+				display: flex;
+				justify-content: space-between;
+			}
 
 			.title img{
 				width:19px;
@@ -746,8 +750,14 @@
 				</ul>
 			</div>
 			<div class="tiaojian">
-				<p class="title"><img src="../img/note.png" alt="">搜索要求</p>
-				<div class="shuadan leibiao danpin">
+				<div class="title titleTwo" @tap="changeRequirement">
+					<div>
+						<img src="../img/note.png" alt="">搜索要求
+					</div>
+					<i class="mui-icon mui-icon-arrowdown"></i>
+					
+				</div>
+				<div class="shuadan leibiao danpin" v-if="requirement">
 					<ul>
 						<li>
 							<div class="mui-input-row mui-checkbox">
@@ -890,7 +900,8 @@
 						},{
 							value:1,
 							text:'价格优先'
-						}]
+						}],
+						requirement:false,
 					}
 				},
 				computed:{
@@ -1137,6 +1148,10 @@
 								ca.prompt(res.msg);
 							}
 						})
+					},
+					// 显示搜索要求
+					changeRequirement(){
+						this.requirement=!this.requirement;
 					},
 					// 跳转发表过的商品列表
 					chooseCommodity(){

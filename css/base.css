@@ -292,3 +292,19 @@
 }
  * { touch-action: pan-y; }
  
+/* html {
+   background-color: #ff0000;
+   padding-top: 20px;
+   padding-top: constant(safe-area-inset-top);
+ }
+ 
+ .mui-bar.mui-bar-nav {
+   background-color: #ff0000;
+   box-shadow: none;
+   top: 20px;
+   top: constant(safe-area-inset-top);
+ }
+ 
+ .mui-bar.mui-bar-nav .mui-title {
+   color: #FFFFFF;
+ } */

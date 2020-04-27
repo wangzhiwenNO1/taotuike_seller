@@ -77,6 +77,11 @@
 				color: #333;
 				font-size: 16px;
 				font-weight: bold;
+				
+			}
+			.titleTwo{
+				display: flex;
+				justify-content: space-between;
 			}
 
 			.title img{
@@ -722,8 +727,14 @@
 				</ul>
 			</div>
 			<div class="tiaojian">
-				<p class="title"><img src="../../img/note.png" alt="">搜索要求</p>
-				<div class="shuadan leibiao danpin">
+				<div class="title titleTwo" @tap="changeRequirement">
+					<div>
+						<img src="../../img/note.png" alt="">搜索要求
+					</div>
+					<i class="mui-icon mui-icon-arrowdown"></i>
+					
+				</div>
+				<div class="shuadan leibiao danpin" v-if="requirement">
 					<ul>
 						<li>
 							<div class="mui-input-row mui-checkbox">
@@ -734,7 +745,7 @@
 						<li>
 							<div class="mui-input-row mui-checkbox">
 								<label>卡销量</label>
-								<input name="checkbox2"  v-model="task.is_card_sales" type="checkbox" @tap="isSetStatus(task,'is_card_sales')">
+								<input name="checkbox2"  v-model="task.is_card_sales" type="checkbox" @tap.stop="isSetStatus(task,'is_card_sales')">
 							</div>
 						</li>
 <!--						<li>-->
@@ -861,7 +872,8 @@
 					},{
 						value:1,
 						text:'价格优先'
-					}]
+					}],
+					requirement:false,//是否显示搜索要求
 				}
 			},
 			computed:{
@@ -1045,6 +1057,10 @@
 							ca.prompt(res.msg);
 						}
 					})
+				},
+				// 显示搜索要求
+				changeRequirement(){
+					this.requirement=!this.requirement;
 				},
 				// 获取店铺列表
 				getStore(isAuto){
