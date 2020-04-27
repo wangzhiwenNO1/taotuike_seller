@@ -44,18 +44,18 @@
     "plus" : {
         "launchwebview" : {
             "statusbar" : {
-				"immersed": true
-				// "background": "#FF3333" 
-				// "style": "#FF3333"
+                "immersed" : true
             }
         },
+        // "background": "#FF3333" 
+        // "style": "#FF3333"
         "safearea" : {
             "background" : "#ffffff", // 安全区域外的背景颜色，默认值为"#FFFFFF"
             "top" : {
                 // tou部安全区域配置
                 "offset" : "auto",
                 "z-index" : 2,
-				"background": "#FFFFFF" 
+                "background" : "#FFFFFF"
             },
             "bottom" : {
                 // 底部安全区域配置
