@@ -250,30 +250,30 @@
 					},
 					// 获取邀请码
 					getAskCode(){
-						if(this.register.phone == ''){
-							 ca.prompt('请输入手机号');
-							 return;
-						}
-						if(!(/^1[3-9][0-9]{9}$/.test(this.register.phone.replace(/(^\s*)|(\s*$)/g, "")))) {
-							ca.prompt('手机号格式不正确');
-							return;
-						}
-						if(this.register.yzm == '') {
-							ca.prompt("请输入验证码");
-							return;
-						}
-						if(this.register.pwd == '') {
-							ca.prompt("请输入密码");
-							return;
-						}
-						if(this.register.pwd.length < 6) {
-							ca.prompt("密码长度至少6位");
-							return;
-						}
-						if(this.register.pwd.length > 12) {
-							ca.prompt("密码长度最多12位");
-							return;
-						}
+						// if(this.register.phone == ''){
+						// 	 ca.prompt('请输入手机号');
+						// 	 return;
+						// }
+						// if(!(/^1[3-9][0-9]{9}$/.test(this.register.phone.replace(/(^\s*)|(\s*$)/g, "")))) {
+						// 	ca.prompt('手机号格式不正确');
+						// 	return;
+						// }
+						// if(this.register.yzm == '') {
+						// 	ca.prompt("请输入验证码");
+						// 	return;
+						// }
+						// if(this.register.pwd == '') {
+						// 	ca.prompt("请输入密码");
+						// 	return;
+						// }
+						// if(this.register.pwd.length < 6) {
+						// 	ca.prompt("密码长度至少6位");
+						// 	return;
+						// }
+						// if(this.register.pwd.length > 12) {
+						// 	ca.prompt("密码长度最多12位");
+						// 	return;
+						// }
 						var _this = this;
 						Axios.post('/api/others/index',{}).then(function(res){
 							if(res.code == 1){

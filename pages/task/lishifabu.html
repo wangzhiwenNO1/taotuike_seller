@@ -97,9 +97,6 @@
 				margin-top: 10px;
 			}
 			
-			.msg div {
-				width: 50%;
-			}
 			
 			.msg div p {
 				color: #333;
@@ -219,6 +216,46 @@
 				text-align: center;
 				padding-bottom: 20px;
 			}
+			
+			.msg .listBox{
+				display: flex;
+				width: 100%;
+				justify-content: space-between;
+				margin-bottom: 0.5rem;
+			}
+			.keyBox{
+				flex:3;
+			}
+			.keyItem{
+				flex:6;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: flex-end;
+			}
+			.keyItem>div{
+				margin: 0 0.2rem 0.3rem;
+				
+			}
+			.keyItem span{
+				margin-left:0.2rem;
+			}
+			.totolaPrice{
+				color: #FEB258;
+				text-align: right;
+				padding-bottom: 0.5rem;
+			}
+			.totolaPrice span{
+				font-size: 1.2rem;
+			}
+			.dateIcon{
+				display: inline-block;
+				width:1.2rem;
+				height: 1.2rem;
+				background-color: pink;
+				margin-right: 0.3rem;
+				background: url(../../img/icon_date.png) no-repeat;
+				background-size: cover;
+			}
 		</style>
 	</head>
 
@@ -233,10 +270,21 @@
 				<ul>
 					<li class="" v-for="(item,index) in orderData">
 						<div class="top ">
-							<p class="f_left">订单编号：{{item.order_no}}</p>
+							<p class="f_left"><i class="dateIcon"></i>任务日期：{{item.task_date}}</p>
 						</div>
 						<div class="msg clearfix">
-							<div class="f_left">
+							<div class="listBox">
+								<div>店铺名称</div>
+								<div>温州德乐</div>
+							</div>
+							<div class="listBox">
+								<div class="keyBox">关键词</div>
+								<div class="keyItem">
+									<div v-for="item in 6">{{item}}.帽子<span>x1</span></div>
+								</div>
+							</div>
+							<div class="totolaPrice">合计<span>￥69.00</span></div>
+							<!-- <div class="f_left">
 								<p>关键词①：{{item.shuadan_keyword}}</p>
 								<p>单品价格：￥{{item.danpin_price}}</p>
 								<p>任务数量：{{item.shuadan_number}}单</p>
@@ -245,7 +293,7 @@
 								<p>标签：{{item.tag}}</p>
 								<p>任务日期：{{item.task_date}}</p>
 								<p>完成时间：2019-02-22</p>
-							</div>
+							</div> -->
 						</div>
 						<div class="xiangqing">
 							<div class="mui-table-view-cell mui-collapse goods_wrap " :class="{'mui-active':index === 0}">

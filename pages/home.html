@@ -624,7 +624,7 @@
 				<img class="mui-pull-left tao" src="../img/icon-logo.png" alt="">
 				<div class="search" @tap="toSearchPage">
 					<label class="mui-icon mui-icon-search"></label>
-					<div class="inline-search">订单编号/推手手机号/刷手手机号</div>
+					<div class="inline-search">订单编号/推手手机号/刷手旺旺号</div>
 				</div>
 				<i class="mui-pull-right xiaoxi iconfont icon-xiaoxi1" :class="{xiaoxi2:gonggao}" @tap="toMessageList">
 <!--					<span class="">1</span>-->
@@ -682,7 +682,7 @@
 					</div>
 					<div class="order_wrap" id="mescroll" class="mescroll">
 						<ul>
-							<li class="" v-for="(item,index) in orderData" @tap="toDetail(item.order_status,item.id)">
+							<li class="" v-for="(item,index) in orderData" @tap="toDetail(item.order_status,item.ids)">
 								<div class="top ">
 									<p class="f_left">
 										<img src="../img/order.png" alt="">
@@ -1029,6 +1029,7 @@
 					},
 					// 跳转至订单付款、完成明细
 					toDetail(status,id){
+						console.log(id);
 						if(status == 5){
 							ca.newInterface({
 								url:'./task/tijiaodingdan.html?ids=' + id + '&page=home',

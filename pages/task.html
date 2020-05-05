@@ -669,7 +669,7 @@
 							<div class="count-add" @tap="setAuctionNum(2,index)">+</div> -->
 							
 							<button class="count-desc" type="button" @tap="setAuctionNum(1,index)">-</button>
-							<input class="count-input" v-model="order.paixia" type="number" pattern="[0-9]*"/>
+							<input class="count-input" v-model="order.paixia||1" type="number" pattern="[0-9]*"/>
 							<button class="count-add" type="button" @tap="setAuctionNum(2,index)">+</button>
 						</div>
 					</li>
@@ -924,23 +924,12 @@
 						
 						let discount=this.userLevel.discount;
 						let price=parseFloat(this.task.danpin_price) ;
+						_this.configData.fee.forEach((item)=>{
+							if(price>=item.min_price&&price<=item.max_price){
+								discount=item.shuadan_price;
+							}
+						});
 						
-						if(price>=0&&price<=99){
-							discount=15;
-						}else if(price>=100&&price<=299){
-							discount=16;
-						}else if(price>=300&&price<=499){
-							discount=17;
-						}else if(price>=500&&price<=799){
-							discount=20;
-						}else if(price>=800&&price<=999){
-							discount=22;
-						}else if(price>=1000&&price<=1499){
-							discount=25;
-						}else{
-							discount=30;
-						}
-
 						if(this.validateNumber(_this.task.danpin_price)){
 							_this.task.shuadan_info.forEach(function(item,index){
 								var postFee = _this.task.is_express ? 0 : (_this.task.express_price || 0) ;
@@ -954,38 +943,36 @@
 						
 						return (_this.totalFee).toFixed(2);
 						
+						// this.task.shuadan_info.forEach(function(item,index){
+						// 	_this.orderTotalNum = _this.orderTotalNum + parseInt(item.shuadan_number);
+						// });
+						// for(var i = this.configData.fee.length -1 ;i >= 0;i--){
+						// 	var item = this.configData.fee[i];
+						// 	if(this.validateNumber(this.task.danpin_price)){
+						// 		if(parseFloat(this.task.danpin_price) > parseFloat(item.min_price)){
+						// 			this.shuaFee = parseFloat(item.shuadan_price);
+						// 			break;
+						// 		}
+						// 	}
+						// }
 						
-						
-						this.task.shuadan_info.forEach(function(item,index){
-							_this.orderTotalNum = _this.orderTotalNum + parseInt(item.shuadan_number);
-						});
-						for(var i = this.configData.fee.length -1 ;i >= 0;i--){
-							var item = this.configData.fee[i];
-							if(this.validateNumber(this.task.danpin_price)){
-								if(parseFloat(this.task.danpin_price) > parseFloat(item.min_price)){
-									this.shuaFee = parseFloat(item.shuadan_price);
-									break;
-								}
-							}
-						}
-						
-						var paixiaNum=0;
-						this.task.shuadan_info.forEach(item=>{
-							paixiaNum+=parseInt(item.paixia);
-						});
-						paixiaNum==0?1:paixiaNum;
+						// var paixiaNum=0;
+						// this.task.shuadan_info.forEach(item=>{
+						// 	paixiaNum+=parseInt(item.paixia);
+						// });
+						// paixiaNum==0?1:paixiaNum;
 						
 						
 						
-						if(this.validateNumber(this.task.danpin_price)){
-							var postFee = this.task.is_express ? 0 : (this.task.express_price || 0) ;
-							this.totalFee = (parseFloat(this.task.danpin_price)*paixiaNum + this.shuaFee * parseInt(this.userLevel.discount) / 10 + postFee)*this.orderTotalNum;
-						}else{
-							this.totalFee = 0;
-						}
+						// if(this.validateNumber(this.task.danpin_price)){
+						// 	var postFee = this.task.is_express ? 0 : (this.task.express_price || 0) ;
+						// 	this.totalFee = (parseFloat(this.task.danpin_price)*paixiaNum + this.shuaFee * parseInt(this.userLevel.discount) / 10 + postFee)*this.orderTotalNum;
+						// }else{
+						// 	this.totalFee = 0;
+						// }
 						
 						
-						return (this.totalFee).toFixed(2);
+						// return (this.totalFee).toFixed(2);
 					}
 				},
 				methods:{
@@ -1572,7 +1559,7 @@
 					mui.init({
 						swipeBack:false ,//启用右滑关闭功能
 					});
-					ca.init();
+					// ca.init();
 					mui.previewImage();
 					var _this = this;
 					_this.task.shuadan_info[0].shuadan_start_time = this.comStartTime();
@@ -1596,7 +1583,6 @@
 						// alert( "窗口标识: "+ws.id );
 						ca.receiveNotice('task',function (event) {
 							_this.task.goods_image = event.detail.imgUrl;
-							
 						});
 						
 						

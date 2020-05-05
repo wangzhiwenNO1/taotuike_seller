@@ -262,7 +262,7 @@
 				<div class="orderTop">
 					<div>订单编号：{{orderInfo.order_no}}</div>
 					<div>发布日期：{{orderInfo.createtime}}</div>
-					<div class="">共{{orderInfo.shuadan_number}}单任务，合计￥<span>{{orderInfo.total_price}}</span></div>
+					<div class="">共{{orderInfo.shuadan_number}}单任务，合计￥{{orderInfo.total_price}}</div>
 				</div>
 				
 				<div class="orderInfoBox">
@@ -273,8 +273,8 @@
 							<div>标签：{{orderInfo.tag}}</div>
 							<div>件数：{{orderInfo.shuadan_number}}</div>
 							<div>佣金：￥{{orderInfo.shuadan_price*orderInfo.shuadan_number}}</div>
-							<div>本金：￥{{orderInfo.danpin_price*orderInfo.shuadan_number*orderInfo.paixia}}</div>
-							<div>运费预留：{{orderInfo.express_price}}</div>
+							<div>本金：￥{{principal}}</div>
+							<div>运费预留：{{orderInfo.express_price*orderInfo.shuadan_number}}</div>
 						</li>
 					</ul>
 					
@@ -308,7 +308,7 @@
 				<div class="title" v-if="isShow">
 					<div>已完成</div>
 					<div class="orderStatus">
-						<div><span>{{orderInfo.finished_number}}</span>/{{orderInfo.shuadan_number}}</div>
+						<div><span v-if="orderInfo.brush_list">{{orderInfo.brush_list.length}}</span>/{{orderInfo.shuadan_number}}</div>
 						<div class="statusBtn" v-if="orderInfo.order_status==5">待付款</div>
 						<div class="statusBtn" v-else-if="orderInfo.order_status==10">进行中</div>
 						<div class="statusBtn" v-else-if="orderInfo.order_status==20">已完成</div>
@@ -344,7 +344,7 @@
 				</ul>
 				<div class="actual" v-if="orderInfo.brush_list&&orderInfo.brush_list.length>0&&isShow">实际付款：￥<span>{{payPrice.toFixed(2)}}</span></div>
 				<div class="footerBox">
-					<div class="disparity">差价：￥<span>{{(parseFloat(orderInfo.danpin_price*orderInfo.shuadan_number*orderInfo.paixia)-payPrice).toFixed(2)}}</span></div>
+					<div class="disparity">差价：￥<span>{{(chajia).toFixed(2)}}</span></div>
 					<div class="btnRow" v-if="orderInfo.order_status==20">
 						<div><i></i><span>{{nowTime}}</span></div>
 						<div class="btns" @tap="confirmorder">确认订单</div>
@@ -396,6 +396,13 @@
 					}
 					
 					return num;
+				},
+				// 本金
+				principal(){
+					return this.orderInfo.total_price-(this.orderInfo.shuadan_price*this.orderInfo.shuadan_number)-(this.orderInfo.express_price*this.orderInfo.shuadan_number)
+				},
+				chajia(){
+					return this.orderInfo.total_price-(this.orderInfo.shuadan_price*this.orderInfo.shuadan_number)-this.payPrice;
 				},
 				nowTime(){
 					
