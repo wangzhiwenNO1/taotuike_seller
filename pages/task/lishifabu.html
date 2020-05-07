@@ -299,6 +299,7 @@
 					<li class="" v-for="(item,index) in orderData">
 						<div class="top ">
 							<p class="f_left"><i class="dateIcon"></i>任务日期：{{item.task_date}}</p>
+							<p class="f_right"><span class="pie" :id="'pie' + index"></span> <button :class="item.order_status == 10 ? 'jinxing' : item.order_status == 20||item.order_status == 25 ? 'wancheng' : item.order_status == 5 ? 'daifu' : 'guoqi'">{{item.order_status == 10 ? '进行中' : item.order_status == 20 ? '已完成' : item.order_status == 30 ? '已过期' : item.order_status == 5 ? '待付款' : item.order_status == 25 ?"已确认":""}}</button></p>
 						</div>
 						<div class="msg clearfix">
 							<div class="listBox">
@@ -328,7 +329,7 @@
 							</div> -->
 						</div>
 						<div class="xiangqing">
-							<div class="mui-table-view-cell mui-collapse goods_wrap " :class="{'mui-active':index === 0}">
+							<div class="mui-table-view-cell mui-collapse goods_wrap " >
 								<div class="mui-collapse-content ">
 									<div class="clearfix goods">
 										<div class="f_left goodsImg">

@@ -199,6 +199,7 @@
 				display: block;
 				justify-content: center;
 				text-align: center;
+				
 			}
 			.xiangxi i {
 				color: #66D1CF;
@@ -209,9 +210,8 @@
 			}
 			
 			.mingxi {
-				margin-top: 15px;
 				position: absolute;
-				bottom: 16px;
+				bottom: 20px;
 				right: 2.6%;
 			}
 			
@@ -352,7 +352,7 @@
 					<li class="">
 						<div class="top ">
 							<p class="f_left">订单编号：{{orderDetail.order_no}}</p>
-							<p  class="f_right">任务日期：{{orderDetail.task_date}}</p>
+							
 						</div>
 						<div class="msg clearfix">
 							<div class="itemBox">
@@ -398,7 +398,7 @@
 							</div> -->
 						</div>
 						<div class="xiangqing">
-							<div class="mui-table-view-cell goods_wrap mui-collapse mui-active">
+							<div class="mui-table-view-cell goods_wrap mui-collapse ">
 								<div class="mui-collapse-content ">
 									<div class="clearfix goods">
 										<div class="f_left goodsImg">
@@ -423,10 +423,11 @@
 									<i class="iconOrder"></i>
 									<span>详情</span>
 								</a>
+								<!-- <p  class="f_right">任务日期：{{orderDetail.task_date}}</p> -->
 							</div>
-							<!-- <div class=" mingxi">
-								<p>发布时间：{{orderDetail.createtime}}</p>
-							</div> -->
+							<div class=" mingxi">
+								<p>任务日期：{{orderDetail.createtime}}</p>
+							</div>
 						</div>
 					</li>
 				</ul>
