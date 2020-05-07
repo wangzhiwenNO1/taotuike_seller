@@ -172,15 +172,17 @@
 				font-size: 12px;
 			}
 			
-			.xiagnxi {
+			.xiangxi {
 				color: #999;
 				font-size: 14px;
+				display: flex;
+				align-items: flex-end;
+				height: 2rem;
+				font-size: 0.8rem;
 			}
 			
 			.xiangxi i {
 				color: #66D1CF;
-				margin-left: 4px;
-				margin-right: 5px;
 			}
 			
 			.mingxi {
@@ -231,21 +233,30 @@
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: flex-end;
+				
 			}
 			.keyItem>div{
 				margin: 0 0.2rem 0.3rem;
-				
+				display: flex;
+				align-items: center;
 			}
 			.keyItem span{
-				margin-left:0.2rem;
+				margin-left:0.3rem;
+			}
+			.totolaPriceBox{
+				display: flex;
+				justify-content: flex-end;
+				align-items: flex-end;
+				height: 2rem;
+				padding-bottom: 0.3rem;
 			}
 			.totolaPrice{
-				color: #FEB258;
 				text-align: right;
-				padding-bottom: 0.5rem;
+				margin-left: 0.1rem;
 			}
 			.totolaPrice span{
 				font-size: 1.2rem;
+				color: #FEB258;
 			}
 			.dateIcon{
 				display: inline-block;
@@ -254,6 +265,23 @@
 				background-color: pink;
 				margin-right: 0.3rem;
 				background: url(../../img/icon_date.png) no-repeat;
+				background-size: cover;
+			}
+			.yuan{
+				border: 0.5px solid ;
+				border-radius: 50%;
+				display: inline-block;
+				width:1.2rem;
+				height: 1.2rem;
+				font-size: 0.75rem;
+				text-align: center;
+				line-height: 15px;
+			}
+			.icon-biao{
+				display: inline-block;
+				width: 1rem;
+				height: 1rem;
+				background: url(../../img/biao.png) no-repeat;
 				background-size: cover;
 			}
 		</style>
@@ -275,15 +303,19 @@
 						<div class="msg clearfix">
 							<div class="listBox">
 								<div>店铺名称</div>
-								<div>温州德乐</div>
+								<div>{{item.store_name}}</div>
 							</div>
 							<div class="listBox">
 								<div class="keyBox">关键词</div>
 								<div class="keyItem">
-									<div v-for="item in 6">{{item}}.帽子<span>x1</span></div>
+									<div v-for="(it,idex) in item.all_keyword"><span class="yuan">{{idex+1}}</span>{{it.shuadan_keyword}}<span>x{{it.shuadan_number}}</span></div>
 								</div>
 							</div>
-							<div class="totolaPrice">合计<span>￥69.00</span></div>
+							<div class="totolaPriceBox">
+								<div>共{{item.shuadan_number}}单，</div>
+								<div class="totolaPrice">合计<span>￥{{item.total_price.toFixed(2)}}</span></div>
+								
+							</div>
 							<!-- <div class="f_left">
 								<p>关键词①：{{item.shuadan_keyword}}</p>
 								<p>单品价格：￥{{item.danpin_price}}</p>
@@ -357,6 +389,9 @@
 						pageIndex:0,
 						pageSize:5
 					}
+				},
+				computed:{
+					
 				},
 				created(){
 					mui.init();

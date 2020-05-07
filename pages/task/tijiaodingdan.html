@@ -205,8 +205,7 @@
 				margin-left: 4px;
 				display: inline-block;
 				width: 1rem;
-				height: 1rem;
-				background-color: pink;
+				height: 1.1rem;
 			}
 			
 			.mingxi {
@@ -326,6 +325,18 @@
 				font-size: 1.1rem;
 				margin-top:1rem;
 			}
+			.moreBox{
+				display: flex;
+				justify-content: center;
+				padding:0.5rem 0;
+			}
+			.moreBox i{
+				font-size: 0.8rem;
+			}
+			.iconOrder{
+				background: url(../../img/flowIcon.png) no-repeat;
+				background-size: cover;
+			}
 		</style>
 	</head>
 
@@ -346,25 +357,35 @@
 						<div class="msg clearfix">
 							<div class="itemBox">
 								<div>标签</div>
-								<div>女生</div>
+								<div>{{orderDetail.tag}}</div>
 							</div>
 							<div class="itemBox botDashed">
 								<div>商品单价</div>
-								<div>￥69.90</div>
+								<div>￥{{orderDetail.danpin_price}}</div>
 							</div>
 							<div>
 								<div>关键词</div>
-								<div class="itemBox items">
-									<div>1.帽子</div>
-									<div class="itemCenter">x1</div>
-									<div class="itemEnd">￥89.90</div>
+								<div class="itemBox items" v-for="(item,idex) in orderDetail.all_keyword" v-if="!isMore&&orderDetail.all_keyword.length<3">
+									<div>{{idex+1}}. {{item.shuadan_keyword}}</div>
+									<div class="itemCenter">x{{item.shuadan_number}}</div>
+									<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
+								</div>
+								<div class="itemBox items" v-for="(item,idex) in orderDetail.all_keyword" v-else>
+									<div>{{idex}}. {{item.shuadan_keyword}}</div>
+									<div class="itemCenter">x{{item.shuadan_number}}</div>
+									<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
+								</div>
+								<div class="moreBox" @tap="changeKeyword" v-if="orderDetail.all_keyword.length>3">
+									<i class="mui-icon mui-icon-arrowdown"></i>
 								</div>
 							</div>
+							
 							<div class="itemBox items totalBox">
 								<div>合计</div>
-								<div class="itemCenter">x4</div>
-								<div class="itemEnd">$349.00</div>
+								<div class="itemCenter">x{{totalNum}}</div>
+								<div class="itemEnd">${{totalPrice}}</div>
 							</div>
+							
 							<!-- <div class="f_left">
 								<p>关键词①：{{orderDetail.shuadan_keyword}}</p>
 								<p>单品价格：￥{{orderDetail.danpin_price}}</p>
@@ -399,7 +420,7 @@
 									</div>
 								</div>
 								<a class="xiangxi" href="#">
-									<i class=""></i>
+									<i class="iconOrder"></i>
 									<span>详情</span>
 								</a>
 							</div>
@@ -460,10 +481,28 @@
 					return {
 						orderInfo:[],
 						mescroll:{},
-						payRule:{}
+						payRule:{},
+						isMore:false,//是否显示更多关键词
 					}
 				},
-
+				computed:{
+					// 合计数量
+					totalNum(){
+						let num=0;
+						this.orderInfo.order_list[0].all_keyword.forEach((item,index)=>{
+							num+=parseFloat(item.shuadan_number);
+						})
+						return num;
+					},
+					// 合计价格
+					totalPrice(){
+						let price=this.orderInfo.order_list[0].danpin_price;
+						
+						let num=this.totalNum;
+						console.log(num);
+						return price*num;
+					},
+				},
 				mounted(){
 					mui.init();
 					ca.init();
@@ -497,12 +536,15 @@
 							}
 						});
 					},
+					changeKeyword(){
+						this.isMore=!this.isMore;
+					},
 					// 获取订单详情
 					getOrderDetail(){
 						let params = {
 							token:storage.get("token") || "",
 							// ids:GetQueryString("ids").split(',') || [],
-							ids:[455,456]
+							ids:[425,426]
 						};
 						// console.log(GetQueryString("ids").split(','));
 						var _this = this;
