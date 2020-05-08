@@ -278,6 +278,6 @@
         },
         "screenOrientation" : [ "portrait-primary" ]
     },
-    "fullscreen" : false,
+    "fullscreen" : true,
     "screenOrientation" : [ "portrait-primary" ]
 }

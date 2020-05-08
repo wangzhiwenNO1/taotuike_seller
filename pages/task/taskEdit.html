@@ -693,8 +693,8 @@
 							<!--							<input type="number" v-model="postFee" :disabled="task.is_express" class="order_you"  placeholder="请输入运费价格" />-->
 							<!--							<input name="checkbox0" v-model="task.is_express" type="checkbox" @tap="isSetStatus(task,'is_express')"/>-->
 							<!-- <button class="f_right not-put post" :class="task.is_express==1?'postActive':''{'postActive':!task.is_express}" @tap="task.is_express = false">不包邮</button> -->
-							<button class="f_right not-put post" :class="task.is_express==1?'postActive':''" @tap="task.is_express = 1">不包邮</button>
-							<button class="f_right post" :class="task.is_express==0?'postActive':''"  @tap="task.is_express = 0">包邮</button>
+							<button class="f_right not-put post" :class="!task.is_express?'':'postActive'" @tap="task.is_express = true">不包邮</button>
+							<button class="f_right post" :class="task.is_express?'':'postActive'"  @tap="task.is_express = false">包邮</button>
 						</div>
 
 						<!--						<i class="iconfont icon-wenti yiwen"></i>-->
@@ -905,7 +905,7 @@
 					
 					if(this.validateNumber(_this.task.danpin_price)){
 						_this.task.shuadan_info.forEach(function(item,index){
-							var postFee = _this.task.is_express ? 0 : (_this.task.express_price || 0) ;
+							var postFee = !_this.task.is_express ? 0 : (_this.task.express_price || 0) ;
 							
 							totalFee += (parseFloat(_this.task.danpin_price)*parseFloat(_this.task.shuadan_info[index].paixia)+ parseInt(discount)   + parseInt(postFee))*parseInt(item.shuadan_number) ;
 						});

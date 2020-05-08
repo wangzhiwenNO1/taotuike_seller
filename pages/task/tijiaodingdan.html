@@ -305,8 +305,13 @@
 				justify-content: space-between;
 				margin: 0.3rem 0;
 			}
+			.itemBoxTwo .items{
+				display: flex;
+				justify-content: space-between;
+			}
 			.items>div{
 				flex:1;
+				
 			}
 			.itemEnd{
 				text-align: right;
@@ -365,16 +370,19 @@
 							</div>
 							<div>
 								<div>关键词</div>
-								<div class="itemBox items" v-for="(item,idex) in orderDetail.all_keyword" v-if="!isMore&&orderDetail.all_keyword.length<3">
-									<div>{{idex+1}}. {{item.shuadan_keyword}}</div>
-									<div class="itemCenter">x{{item.shuadan_number}}</div>
-									<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
+								<div class="itemBoxTwo " v-for="(item,idex) in orderDetail.all_keyword" >
+									<div class="items" v-if="!isMore&&orderDetail.all_keyword.length<3">
+										<div>{{idex+1}}. {{item.shuadan_keyword}}</div>
+										<div class="itemCenter">x{{item.shuadan_number}}</div>
+										<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
+									</div>
+									<div class="items" v-else>
+										<div>{{idex+1}}. {{item.shuadan_keyword}}</div>
+										<div class="itemCenter">x{{item.shuadan_number}}</div>
+										<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
+									</div>
 								</div>
-								<div class="itemBox items" v-for="(item,idex) in orderDetail.all_keyword" v-else>
-									<div>{{idex}}. {{item.shuadan_keyword}}</div>
-									<div class="itemCenter">x{{item.shuadan_number}}</div>
-									<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
-								</div>
+								
 								<div class="moreBox" @tap="changeKeyword" v-if="orderDetail.all_keyword.length>3">
 									<i class="mui-icon mui-icon-arrowdown"></i>
 								</div>
@@ -544,8 +552,8 @@
 					getOrderDetail(){
 						let params = {
 							token:storage.get("token") || "",
-							// ids:GetQueryString("ids").split(',') || [],
-							ids:[425,426]
+							ids:GetQueryString("ids").split(',') || [],
+							// ids:[425,426]
 						};
 						// console.log(GetQueryString("ids").split(','));
 						var _this = this;
