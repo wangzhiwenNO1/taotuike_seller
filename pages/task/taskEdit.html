@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>任务发布</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
 		<link href="../../css/mui.imageViewers.css" rel="stylesheet" />
@@ -693,14 +693,14 @@
 							<!--							<input type="number" v-model="postFee" :disabled="task.is_express" class="order_you"  placeholder="请输入运费价格" />-->
 							<!--							<input name="checkbox0" v-model="task.is_express" type="checkbox" @tap="isSetStatus(task,'is_express')"/>-->
 							<!-- <button class="f_right not-put post" :class="task.is_express==1?'postActive':''{'postActive':!task.is_express}" @tap="task.is_express = false">不包邮</button> -->
-							<button class="f_right not-put post" :class="!task.is_express?'':'postActive'" @tap="task.is_express = true">不包邮</button>
-							<button class="f_right post" :class="task.is_express?'':'postActive'"  @tap="task.is_express = false">包邮</button>
+							<button class="f_right not-put post" :class="task.is_express?'':'postActive'" @tap="task.is_express = false">不包邮</button>
+							<button class="f_right post" :class="!task.is_express?'':'postActive'"  @tap="task.is_express = true">包邮</button>
 						</div>
 
 						<!--						<i class="iconfont icon-wenti yiwen"></i>-->
 					</li>
 					<li>
-						<p  class="not-info" v-if="!task.is_express">因各地运费差异，预留{{ task.express_price || 0 }}元/单。 最终按实际运费系统多退少补。</p>
+						<p  class="not-info" v-if="!task.is_express">因各地运费差异，预留20元/单。 最终按实际运费系统多退少补。</p>
 					</li>
 <!--					<li>-->
 <!--						<div class="mui-input-row mui-checkbox">-->
@@ -818,7 +818,7 @@
 				return {
 					task:{
 						shuadan_price:'', //  刷单单价
-						// express_price:'', //  运费单价
+						express_price:20, //  运费单价
 						task_date:this.getNowFormatDate(), //  任务日期
 						tao_password:'', //  淘口令
 						goods_image:'', //  商品图片
@@ -905,7 +905,7 @@
 					
 					if(this.validateNumber(_this.task.danpin_price)){
 						_this.task.shuadan_info.forEach(function(item,index){
-							var postFee = !_this.task.is_express ? 0 : (_this.task.express_price || 0) ;
+							var postFee = _this.task.is_express ? 0 : (20 || 0) ;
 							
 							totalFee += (parseFloat(_this.task.danpin_price)*parseFloat(_this.task.shuadan_info[index].paixia)+ parseInt(discount)   + parseInt(postFee))*parseInt(item.shuadan_number) ;
 						});
@@ -1131,9 +1131,8 @@
 							_this.configData.tag = res.data[32];
 							_this.configData.fee = res.data["unit_price"];
 							_this.configData.address = res.data['address_list'];
-							_this.task.express_price = res.data.express_price;
+							_this.task.express_price = 20;
 							
-							console.log(_this.task.express_price);
 							if(_this.danId){
 								_this.getOrderInfo();
 							}
@@ -1178,6 +1177,11 @@
 								res.data.is_card_price = true;
 							}else{
 								res.data.is_card_price = false;
+							}
+							if(res.data.is_express==0){
+								res.data.is_express=false;
+							}else{
+								res.data.is_express=true;
 							}
 							if(res.data.is_card_address==0){
 								res.data.is_card_address=false;

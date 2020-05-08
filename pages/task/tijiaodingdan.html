@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>提交订单</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/video-js.min.css" />
@@ -391,7 +391,7 @@
 							<div class="itemBox items totalBox">
 								<div>合计</div>
 								<div class="itemCenter">x{{totalNum}}</div>
-								<div class="itemEnd">${{totalPrice}}</div>
+								<div class="itemEnd">￥{{totalPrice}}</div>
 							</div>
 							
 							<!-- <div class="f_left">
@@ -574,18 +574,24 @@
 							token:storage.get("token") || "",
 							ids:GetQueryString("ids").split(',') || [],
 						};
-						Axios.post('/api/order/pay_order',params).then(function(res){
-							if(res.code == 1){
-								var parentId = '';
-								mui.plusReady(function () {
-									parentId = plus.webview.currentWebview().opener().id;
-									popToTargetAndRefresh(parentId,true,'orderToRefresh');
-									ca.prompt(res.msg);
-								});
-							}else{
-								ca.prompt(res.msg);
+						
+						mui.confirm("是否确认付款？", "提示", ["确认", "取消"], function(e) {
+							if(e.index == 0) {
+								Axios.post('/api/order/pay_order',params).then(function(res){
+									if(res.code == 1){
+										var parentId = '';
+										mui.plusReady(function () {
+											parentId = plus.webview.currentWebview().opener().id;
+											popToTargetAndRefresh(parentId,true,'orderToRefresh');
+											ca.prompt(res.msg);
+										});
+									}else{
+										ca.prompt(res.msg);
+									}
+								})
 							}
-						})
+						});
+						
 					},
 					// 去充值
 					chongzhi(){
