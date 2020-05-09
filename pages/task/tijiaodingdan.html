@@ -370,18 +370,21 @@
 							</div>
 							<div>
 								<div>关键词</div>
-								<div class="itemBoxTwo " v-for="(item,idex) in orderDetail.all_keyword" >
-									<div class="items" v-if="!isMore&&orderDetail.all_keyword.length<3">
+								<div class="itemBoxTwo" v-if="!isMore">
+									<div class="items " v-for="(item,idex) in orderDetail.all_keyword" v-if="idex<3">
 										<div>{{idex+1}}. {{item.shuadan_keyword}}</div>
 										<div class="itemCenter">x{{item.shuadan_number}}</div>
-										<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
-									</div>
-									<div class="items" v-else>
-										<div>{{idex+1}}. {{item.shuadan_keyword}}</div>
-										<div class="itemCenter">x{{item.shuadan_number}}</div>
-										<div class="itemEnd">￥{{orderDetail.danpin_price}}</div>
+										<div class="itemEnd">￥{{parseFloat(orderDetail.danpin_price)*item.shuadan_number}}</div>
 									</div>
 								</div>
+								<div class=" itemBoxTwo" v-else>
+									<div class="items " v-for="(item,idex) in orderDetail.all_keyword" >
+										<div>{{idex+1}}. {{item.shuadan_keyword}}</div>
+										<div class="itemCenter">x{{item.shuadan_number}}</div>
+										<div class="itemEnd">￥{{parseFloat(orderDetail.danpin_price)*item.shuadan_number}}</div>
+									</div>
+								</div>
+								
 								
 								<div class="moreBox" @tap="changeKeyword" v-if="orderDetail.all_keyword.length>3">
 									<i class="mui-icon mui-icon-arrowdown"></i>
@@ -509,7 +512,7 @@
 						
 						let num=this.totalNum;
 						console.log(num);
-						return price*num;
+						return (price*num).toFixed(2);
 					},
 				},
 				mounted(){
