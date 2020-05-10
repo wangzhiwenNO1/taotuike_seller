@@ -454,17 +454,17 @@
 						</div>
 						<div class="zhuangtai ">
 							<div class="items" @tap="getCount()">
-								<p>预留运费（元）</p>
+								<p>预留运费</p>
 								<p>{{myInfo.myaccount.principal}}</p>
 							</div>
 							<div class="items " @tap="getCount()">
-								<p>已消费佣金（元）</p>
+								<p>已消费佣金</p>
 								<p>{{myInfo.myaccount.brokerage}}</p>
 							</div>
-							<div class="items" @tap="getCount()">
+							<!-- <div class="items" @tap="getCount()">
 								<p>退款</p>
 								<p>{{myInfo.myaccount.refund}}</p>
-							</div>
+							</div> -->
 						</div>
 						<div class="yue clearfix">
 							<p>账户余额： <span>￥{{myInfo.myaccount.account_money}}</span> <button class="f_right chongzhi" @tap="toChongZhi">充值</button></p>

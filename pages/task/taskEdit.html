@@ -776,9 +776,12 @@
 				</div>
 			</div>
 			<div class="jifei">
-				<p class="title"><img src="../../img/cpunt.png" alt="">计费方式</p>
-				<p  class="yingfu">应付 = (付款价格+每单费用*折扣) * 任务数量</p>
-				<ul>
+				<div class="title titleTwo" @tap="changePayType">
+					<div><img src="../../img/cpunt.png" alt="" >计费方式</div>
+					<i class="mui-icon mui-icon-arrowdown"></i>
+				</div>
+				<p  class="yingfu" v-if="isPayType">应付 = (付款价格+每单费用*折扣) * 任务数量</p>
+				<ul v-if="isPayType">
 					<li class="biao_h">
 						<p>单价</p>
 						<p>地推费用</p>
@@ -816,6 +819,8 @@
 			el:'#app',
 			data(){
 				return {
+					isPayType:false,
+					
 					task:{
 						shuadan_price:'', //  刷单单价
 						express_price:20, //  运费单价
@@ -919,13 +924,16 @@
 				}
 			},
 			methods:{
+				changePayType(){
+					this.isPayType=!this.isPayType;
+				},
 				// 发布任务
 				taskPublish(){
 					let params = {
 						token:storage.get("token") || "",
 						// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4",
 						shuadan_price:this.task.shuadan_price,
-						express_price:!this.task.is_express ? this.postFee : 0,
+						express_price:!this.task.is_express ? 20 : 0,
 						task_date:this.task.task_date,
 						tao_password:this.task.tao_password,
 						goods_image:this.task.goods_image,

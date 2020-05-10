@@ -230,12 +230,12 @@
 								storage.set('userInfo',res.data.userinfo);
 								storage.set('token',res.data.userinfo.token);
 								ca.prompt(res.msg);
-								setTimeout(function () {
-									openWebview({
-										url:'../mine/wanshanziliao.html?type=register',
-										id:'wanshanziliao.html'
-									})
-								},500)
+								// setTimeout(function () {
+								// 	openWebview({
+								// 		url:'../mine/wanshanziliao.html?type=register',
+								// 		id:'wanshanziliao.html'
+								// 	})
+								// },500)
 							}else{
 								ca.prompt(res.msg);
 							}
