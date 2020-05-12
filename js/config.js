@@ -147,7 +147,7 @@ function copyContent(content,tip) {
         var clip = main.getSystemService(context.CLIPBOARD_SERVICE);
         plus.android.invoke(clip, "setText", content);
         // 在上边都走完 给用户一个提示
-        mui.toast(tip || '复制成功')
+        mui.toast(content || '复制成功')
     }
 }
 
