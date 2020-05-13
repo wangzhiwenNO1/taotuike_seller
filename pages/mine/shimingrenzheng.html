@@ -127,13 +127,13 @@
 						<label>真实姓名</label>
 						<input type="text" v-model="card.true_name" id="name" placeholder="请输入您的真实姓名">
 					</li>
-					<!-- <li class="mui-input-row">
+					<li class="mui-input-row">
 						<label>身份证号</label>
 						<input type="text" v-model="card.idcard_num"  id="nameId" placeholder="请输入身份证号">
-					</li> -->
-					<li class="mui-input-row">
+					</li>
+					<!-- <li class="mui-input-row">
 						<label>身份证照片</label>
-						<!--<input type="text" class="mui-input-clear" id="phone" placeholder="请输入手机号">-->
+						<input type="text" class="mui-input-clear" id="phone" placeholder="请输入手机号">
 					</li>
 					<li class="jietu">
 						<div>身份证正面（国徽面）</div>
@@ -154,7 +154,7 @@
 								<span class="mui-icon mui-icon-close" @tap="delImage(2)"></span>
 							</div>
 						</div>
-					</li>
+					</li> -->
 				</ul>
 				<button class="tijiao" id="doDiv" @tap="cardSubmit">{{isSee ? '重新认证' : '提交认证'}}</button>
 			</div>
@@ -218,22 +218,22 @@
 							ca.prompt('请输入真实姓名');
 							return;
 						}
-						// if(this.card.idcard_num == '') {
-						// 	ca.prompt('请输入身份证号');
-						// 	return;
-						// }
-						// if(!(/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/.test(this.card.idcard_num))) {
-						// 	ca.prompt('身份证输入错误');
-						// 	return;
-						// }
-						if(this.card.idcard_face==''){
-							ca.prompt('请上传身份证正面照');
+						if(this.card.idcard_num == '') {
+							ca.prompt('请输入身份证号');
 							return;
 						}
-						if(this.card.idcard_con==''){
-							ca.prompt('请上传身份证反面照');
+						if(!(/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/.test(this.card.idcard_num))) {
+							ca.prompt('身份证输入错误');
 							return;
 						}
+						// if(this.card.idcard_face==''){
+						// 	ca.prompt('请上传身份证正面照');
+						// 	return;
+						// }
+						// if(this.card.idcard_con==''){
+						// 	ca.prompt('请上传身份证反面照');
+						// 	return;
+						// }
 						let params = this.card;
 						params.token = storage.get("token") || "";
 						Axios.post("/api/Auth/user_auth", params).then((res) => {

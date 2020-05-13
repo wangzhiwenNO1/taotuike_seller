@@ -792,15 +792,17 @@
 								</div>
 								<input name="checkbox3" v-model="task.is_card_price" type="checkbox" @tap="isSetStatus(task,'is_card_price')">
 							</div>
-
 						</li>
 					</ul>
 				</div>
 			</div>
 			<div class="jifei">
-				<p class="title"><img src="../img/cpunt.png" alt="">计费方式</p>
-				<p  class="yingfu">应付 = (付款价格+每单费用*折扣) * 任务数量</p>
-				<ul>
+				<div class="title titleTwo" @tap="changePayType">
+					<div><img src="../../img/cpunt.png" alt="" >计费方式</div>
+					<i class="mui-icon mui-icon-arrowdown"></i>
+				</div>
+				<p  class="yingfu" v-if="isPayType">应付 = (付款价格+每单费用*折扣) * 任务数量</p>
+				<ul v-if="isPayType">
 					<li class="biao_h">
 						<p>单价</p>
 						<p>计费</p>
@@ -840,6 +842,7 @@
 				el:'#app',
 				data(){
 					return {
+						isPayType:false,
 						isStart:1,
 						task:{
 							shuadan_price:'', //  刷单单价
@@ -976,6 +979,9 @@
 					}
 				},
 				methods:{
+					changePayType(){
+						this.isPayType=!this.isPayType;
+					},
 					// 发布任务
 					taskPublish(){
 						let params = {

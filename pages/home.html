@@ -724,7 +724,7 @@
 										</div>
 									</div>
 									<div class="mingxi">
-										<p class="">费用：<span>￥{{item.total_price}}</span></p>
+										<p class="">费用：<span>￥{{item.total_price.toFixed(2)}}</span></p>
 										<button class="wancheng_mingxi" v-if="item.order_status == 20">完成明细</button>
 										<button class="wancheng_mingxi payOrder" v-if="item.order_status == 5">去付款</button>
 									</div>
