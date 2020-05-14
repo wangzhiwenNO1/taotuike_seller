@@ -7,18 +7,18 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../../css/base.css" />
-		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../../icont/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css" />
 		<style type="text/css">
 			.mui-icon-left-nav {
 				color: #666;
 			}
-			
+
 			.mui-title {
 				font-size: 18px;
 				color: #333;
 			}
-			
+
 			.max-box {
 				position: fixed;
 				top: 44px;
@@ -28,12 +28,12 @@
 				display: none;
 				z-index: 999;
 			}
-			
+
 			body,
 			.mui-content {
 				background: #F2F2F2;
 			}
-			
+
 			.top {
 				width: 100%;
 				height: 36px;
@@ -42,23 +42,24 @@
 				line-height: 36px;
 				background-color: #FEFCEB;
 			}
-			
+
 			.top p {
 				width: 96%;
 				margin-left: 2%;
 				color: #F96A0E;
 			}
-			
+
 			.top p .mui-pull-right {
 				/*margin-top: 10px;*/
 			}
-			
+
 			.top span {
 				margin-left: 2%;
 				margin-right: 2%;
 			}
+
 			/*时间选择*/
-			
+
 			.min-box {
 				position: absolute;
 				top: 0px;
@@ -68,7 +69,7 @@
 				background: rgba(0, 0, 0, 0.5);
 				z-index: 2;
 			}
-			
+
 			.contents {
 				position: fixed;
 				top: 44px;
@@ -76,7 +77,7 @@
 				z-index: 3;
 				background-color: #fff;
 			}
-			
+
 			.contents p {
 				width: 96%;
 				margin-left: 2%;
@@ -84,7 +85,7 @@
 				line-height: 30px;
 				color: #000;
 			}
-			
+
 			.contents .xuan {
 				width: 96%;
 				margin-left: 2%;
@@ -94,14 +95,14 @@
 				margin-bottom: 10px;
 				overflow: hidden;
 			}
-			
+
 			.contents .xuan li {
 				width: 30%;
 				margin-right: 3%;
 				float: left;
 				position: relative;
 			}
-			
+
 			.contents .xuan li input,
 			.contents .xuan li em {
 				width: 80%;
@@ -112,13 +113,13 @@
 				display: inline-block;
 				border: 1px solid #DDDDDD;
 			}
-			
+
 			.contents .xuan li span {
 				float: right;
 				display: inline-block;
 				margin-top: 5px;
 			}
-			
+
 			.contents .xuan li i {
 				display: inline-block;
 				position: absolute;
@@ -128,24 +129,24 @@
 				height: 15px;
 				line-height: 15px;
 			}
-			
+
 			.contents .xuan li i.xia {
 				/*bottom: 5px;*/
 				bottom: 0px;
 			}
-			
+
 			.contents .xuan li i.shang {
 				bottom: 14px;
 				/*bottom: 18px;*/
 			}
-			
+
 			.contents .bottom {
 				width: 100%;
 				height: 40px;
 				line-height: 40px;
 				border-top: 1px solid #ccc;
 			}
-			
+
 			.contents .bottom span {
 				width: 50%;
 				display: inline-block;
@@ -154,56 +155,58 @@
 				line-height: 40px;
 				text-align: center;
 			}
-			
+
 			.contents .bottom span.quxiao {
 				background-color: #fff;
 			}
-			
+
 			.contents .bottom span.queding {
 				background-color: #66D1CF;
 				color: #fff;
 			}
+
 			/**/
-			
+
 			.cont_wrap {
 				/*margin-top: 150px;*/
-				padding:10px;
+				padding: 10px;
 			}
-			
+
 			.header {
 				margin-top: -85px;
 				width: 100%;
 				z-index: 3;
-				padding:10px 10px 0;
+				padding: 10px 10px 0;
 			}
-			.header .fenxiao-head{
+
+			.header .fenxiao-head {
 				background: #FFF;
 				border-radius: 10px;
 			}
-			
+
 			.h_nav {
 				border-bottom: 1px solid #E5E5E5;
 				padding-top: 10px;
 			}
-			
+
 			.h_nav p {
 				color: #333;
 				font-size: 16px;
 			}
-			
+
 			.h_nav p:first-child {
 				margin-left: 18.13%;
 			}
-			
+
 			.h_nav p:last-child {
 				margin-right: 18.13%;
 			}
-			
+
 			.h_nav .Hactive {
 				color: #66D1CF;
 				position: relative;
 			}
-			
+
 			.Hactive:after {
 				content: '';
 				width: 100%;
@@ -213,53 +216,56 @@
 				bottom: -10px;
 				left: 0px;
 			}
-			
+
 			.h_msg {
 				display: flex;
 				justify-content: space-around;
 				align-items: center;
 			}
-			
+
 			.h_msg div {
 				text-align: center;
 				padding: 10px 0;
 			}
-			
+
 			.h_msg div p {
 				margin-bottom: 0px;
 				color: #999;
-				font-size: 12px!important;
+				font-size: 12px !important;
 			}
-			.h_msg div p.fenXiao-num{
+
+			.h_msg div p.fenXiao-num {
 				font-weight: bold;
-				font-size: 19px!important;
-				color:#FFA63D;
+				font-size: 19px !important;
+				color: #FFA63D;
 			}
-			.h_msg div:nth-child(2) p.fenXiao-num{
-				color:#54D4D4;
+
+			.h_msg div:nth-child(2) p.fenXiao-num {
+				color: #54D4D4;
 			}
-			.h_msg div:nth-child(3) p.fenXiao-num{
-				color:#666;
+
+			.h_msg div:nth-child(3) p.fenXiao-num {
+				color: #666;
 			}
-			
+
 			.h_msg div P:first-child {
 				font-size: 12px;
 			}
-			
+
 			.h_msg div p:last-child {
 				font-size: 15px;
 			}
-			
+
 			.items {
 				background: #fff;
 				border-radius: 10px;
 
 			}
-			
+
 			.items ul li:last-child {
 				border-bottom: none;
 			}
-			
+
 			.items ul li {
 				padding: 0 10px;
 				display: flex;
@@ -268,13 +274,13 @@
 				padding-top: 5px;
 				border-bottom: 1px solid #E5E5E5;
 			}
-			
+
 			.touImg {
 				width: 50%;
 				overflow: hidden;
 				/*height: 100%;*/
 			}
-			
+
 			.touImg img {
 				width: 38px;
 				height: 38px;
@@ -282,103 +288,111 @@
 				float: left;
 				margin-right: 10px;
 			}
-			
+
 			.touImg p {
 				/*white-space: nowrap;*/
 				margin-bottom: 0px;
 				margin-left: 10px;
 			}
-			
+
 			.touImg p:nth-child(2) {
 				color: #333;
 				font-size: 15px;
 			}
-			
+
 			.touImg p:last-child {
 				font-size: 14px;
 				color: #999;
 			}
-			
+
 			.tou_msg {
 				text-align: right;
 			}
-			
+
 			.tou_msg p {
 				margin-bottom: 5px;
 				color: #999;
 				font-size: 12px;
 			}
+
 			
-			.zhishu {
-				display: none;
-			}
-			.empty img{
+
+			.empty img {
 				width: 113px;
 				height: auto;
 				display: block;
 				margin: 30px auto 10px;
 			}
-			.empty p{
+
+			.empty p {
 				text-align: center;
 				padding-bottom: 20px;
 			}
-			.rili{
+
+			.rili {
 				margin-top: 11px;
 				font-size: 20px;
-				color:#333;
+				color: #333;
 			}
-			.fenXiao{
-				width:100%;
-				height:226px;
+
+			.fenXiao {
+				width: 100%;
+				height: 226px;
 				background: url("../../img/tbg.png") left top no-repeat;
-				background-size:cover;
+				background-size: cover;
 			}
-			.fenXiao p{
+
+			.fenXiao p {
 				padding: 10px;
 				margin: auto;
-				color:#fff;
-				width:100px;
+				color: #fff;
+				width: 100px;
 				font-size: 14px;
 			}
-			.fenXiao .code-box{
+
+			.fenXiao .code-box {
 				background: #fff;
 				border-radius: 30px;
-				padding:5px 10px 5px 15px;
+				padding: 5px 10px 5px 15px;
 				margin: auto;
 				text-align: center;
 				display: block;
-				width:275px;
+				width: 275px;
 			}
-			.fenXiao .code-box b{
+
+			.fenXiao .code-box b {
 				font-size: 30px;
-				color:#66D1CF;
+				color: #66D1CF;
 				margin-right: 10px;
 				height: 40px;
 				line-height: 40px;
 				display: inline-block;
 			}
-			.fenXiao .code-box span{
-				background: linear-gradient(to right,rgb(242,226,208),rgb(237,204,178));
-				color:#7E560A;
+
+			.fenXiao .code-box span {
+				background: linear-gradient(to right, rgb(242, 226, 208), rgb(237, 204, 178));
+				color: #7E560A;
 				font-size: 14px;
 				text-align: center;
-				line-height:40px;
-				height:40px;
-				width:115px;
+				line-height: 40px;
+				height: 40px;
+				width: 115px;
 				border-radius: 20px;
 				display: inline-block;
-				position:relative;
+				position: relative;
 				top: -2px;
 			}
-			.fenxiao-time{
+
+			.fenxiao-time {
 				padding: 15px;
-				color:#fff;
+				color: #fff;
 				width: 300px;
 				margin: auto;
 				font-size: 14px;
 			}
-			.fenxiao-time span{
-				width:90px;
+
+			.fenxiao-time span {
+				width: 90px;
 				display: inline-block;
 				text-align: center;
 			}
@@ -411,30 +425,31 @@
 				<!--			</div>-->
 				<div class="header">
 					<div class="fenxiao-head">
-						<div class="h_nav clearfix" v-if="isSaleManage == 4">
+						<!-- <div class="h_nav clearfix" v-if="isSaleManage == 4">
 							<p class="f_left" :class="{'Hactive':selectedIndex == 1 }" @tap="changeList(1)">销售团队</p>
 							<p class="f_right" :class="{'Hactive':selectedIndex == 2 }" @tap="changeList(2)">直属商家</p>
-						</div>
+						</div> -->
 						<div class="h_msg">
 							<div>
 								<p class="fenXiao-num">{{ selectedIndex == 1 || isSaleManage == 5 ? fenxiao.total.shuadan_number :selectedIndex == 2 ? fenxiao.seller_total.shuadan_number : ''}}</p>
-								<p>刷单量</p>
+								<p>任务量</p>
 							</div>
-							<div>
-								<p class="fenXiao-num">{{ selectedIndex == 1 || isSaleManage == 5  ? fenxiao.total.shuadan_price : selectedIndex == 2 ? fenxiao.seller_total.shuadan_price : '' }}</p>
-								<p>刷单费用</p>
+							<div v-if="isSaleManage !== 5">
+								<p class="fenXiao-num">{{ selectedIndex == 1 || isSaleManage == 5  ? fenxiao.total.renshu : selectedIndex == 2 ? fenxiao.seller_total.renshu : '' }}</p>
+								<p>团队人数</p>
 							</div>
 							<div>
 								<p class="fenXiao-num">{{ selectedIndex == 1 || isSaleManage == 5  ? fenxiao.total.my_money : selectedIndex == 2 ? fenxiao.seller_total.my_money : '' }}</p>
-								<p>我的提成</p>
+								<p>我的收益</p>
 							</div>
 						</div>
 					</div>
 
 				</div>
 				<div class="cont_wrap" id="refreshContainer">
-					<div class="items" v-if="(selectedIndex == 1 || isSaleManage == 3) && fenxiao.sale_members.length ">
-						<ul class="tuandui">
+					<div class="items">
+
+						<ul class="tuandui" v-if="(selectedIndex == 1 || isSaleManage == 3) && fenxiao.sale_members.length ">
 							<li class="" v-for="(item,index) in fenxiao.sale_members">
 								<div class="touImg">
 									<img :src="item.avatar ? item.avatar :'../../img/8.jpeg'" alt="" />
@@ -442,13 +457,13 @@
 									<p class="">{{item.mobile}}</p>
 								</div>
 								<div class="tou_msg">
-									<p>刷单量：{{item.shuadan_number}}</p>
-									<p>刷单费用：￥{{item.shuadan_price}}</p>
-									<p>我的提成：￥{{item.my_money}}</p>
+									<p>任务量：{{item.shuadan_number}}</p>
+									<p v-if="!isSaleManage==5">团队人数：￥{{item.renshu}}</p>
+									<p>我的收益：￥{{item.my_money}}</p>
 								</div>
 							</li>
 						</ul>
-						<ul class="zhishu" v-if="selectedIndex == 2 && isSaleManage == 4 && fenxiao.seller_members.length">
+						<ul class="zhishu" v-if="selectedIndex == 2 && isSaleManage == 4  && fenxiao.seller_members.length>0">
 							<li class="" v-for="(item,index) in fenxiao.seller_members">
 								<div class="touImg">
 									<img :src="item.avatar ? item.avatar :'../../img/8.jpeg'" alt="" />
@@ -456,15 +471,15 @@
 									<p class="">{{item.mobile}}</p>
 								</div>
 								<div class="tou_msg">
-									<p>刷单量：{{item.shuadan_number}}</p>
-									<p>刷单费用：￥{{item.shuadan_price}}</p>
-									<p>我的提成：￥{{item.my_money}}</p>
+									<p>任务量：{{item.shuadan_number}}</p>
+									<p v-if="!isSaleManage==5">团队人数：￥{{item.renshu}}</p>
+									<p>我的收益：￥{{item.my_money}}</p>
 								</div>
 							</li>
 						</ul>
 					</div>
-					<ul class="empty"  v-if="fenxiao.sale_members.length == 0 || (selectedIndex == 2 && fenxiao.seller_members.length == 0)">
-						<img src="../../img/empty.png" >
+					<ul class="empty" v-if="fenxiao.sale_members.length == 0 || (selectedIndex == 2 && fenxiao.seller_members.length == 0)">
+						<img src="../../img/empty.png">
 						<p>暂无数据</p>
 					</ul>
 
@@ -517,8 +532,8 @@
 				<h1 class="share-tit">分享给好友</h1>
 				<p class="share-desc">分享邀请码给好友<b>&nbsp;可成为上级</b> 好友每笔任务可获得<b>{{codeInfo.jiangli}}</b>奖励</p>
 				<div class="scan-box">
-<!--					<p>扫码下载</p>-->
-<!--					<div id="qrcode"></div>-->
+					<!--					<p>扫码下载</p>-->
+					<!--					<div id="qrcode"></div>-->
 					<div class="scan-url">
 						<div class="scan-sys ewm_item">
 							<p>扫码下载</p>
@@ -709,7 +724,9 @@
 				created() {
 					mui.init();
 					ca.init();
-					this.isSaleManage = storage.get('userInfo')['group_id'] || '';
+					// this.isSaleManage = storage.get('userInfo')['group_id'] || '';
+					this.isSaleManage=4;
+					console.log(this.isSaleManage );
 					var _this = this;
 					_this.askCode();
 					_this.fenxiaoList();
@@ -752,7 +769,7 @@
 					},
 					// 去分享
 					toShare(){
-						copyContent(this.codeInfo.ke,this.codeInfo.invitecode);
+						copyContent(this.codeInfo.invitecode,this.codeInfo.ke);
 						document.location.href = 'weixin://';
 					},
 					// 分销列表
@@ -765,6 +782,7 @@
 						var _this = this;
 						Axios.get('/api/user/mychannel',params).then(function(res){
 							if(res.code == 1){
+								console.log(res);
 								if(_this.isSaleManage == 4){
 									if(res.data.seller_total){
 										_this.fenxiao.seller_total = res.data.seller_total;
@@ -786,6 +804,7 @@
 					},
 					changeList(index){
 						this.selectedIndex = index;
+						
 					},
 					confirm() {
 						$('.max-box').css('display', 'block')
