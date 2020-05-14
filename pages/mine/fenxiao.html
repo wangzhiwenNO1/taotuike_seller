@@ -449,7 +449,7 @@
 				<div class="cont_wrap" id="refreshContainer">
 					<div class="items">
 
-						<ul class="tuandui" v-if="(selectedIndex == 1 || isSaleManage == 3) && fenxiao.sale_members.length ">
+						<ul class="tuandui" v-if="isSaleManage == 3 && fenxiao.sale_members.length ">
 							<li class="" v-for="(item,index) in fenxiao.sale_members">
 								<div class="touImg">
 									<img :src="item.avatar ? item.avatar :'../../img/8.jpeg'" alt="" />
@@ -463,7 +463,7 @@
 								</div>
 							</li>
 						</ul>
-						<ul class="zhishu" v-if="selectedIndex == 2 && isSaleManage == 4  && fenxiao.seller_members.length>0">
+						<ul class="zhishu" v-if=" isSaleManage == 4  && fenxiao.seller_members.length>0">
 							<li class="" v-for="(item,index) in fenxiao.seller_members">
 								<div class="touImg">
 									<img :src="item.avatar ? item.avatar :'../../img/8.jpeg'" alt="" />
@@ -782,7 +782,7 @@
 						var _this = this;
 						Axios.get('/api/user/mychannel',params).then(function(res){
 							if(res.code == 1){
-								console.log(res);
+								console.log(JSON.stringify(res));
 								if(_this.isSaleManage == 4){
 									if(res.data.seller_total){
 										_this.fenxiao.seller_total = res.data.seller_total;

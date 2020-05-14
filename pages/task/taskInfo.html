@@ -414,6 +414,8 @@
 					let hours = Math.floor(leavel / (3600 * 1000)); // 计算剩余的小时数
 					let leavel2 = leavel % (3600 * 1000); // 计算剩余小时后剩余的毫秒数
 					let minutes = Math.floor(leavel2 / (60 * 1000)); // 计算剩余的分钟数
+					hours>0?hours:0;
+					minutes>0?minutes:0;
 					return hours + ':' + minutes;
 					
 				},
