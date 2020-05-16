@@ -431,10 +431,11 @@
 						</div> -->
 						<div class="h_msg">
 							<div>
+								<div>{{isSaleManage}}</div>
 								<p class="fenXiao-num">{{ selectedIndex == 1 || isSaleManage == 5 ? fenxiao.total.shuadan_number :selectedIndex == 2 ? fenxiao.seller_total.shuadan_number : ''}}</p>
 								<p>任务量</p>
 							</div>
-							<div v-if="isSaleManage !== 5">
+							<div v-if="isSaleManage != 5">
 								<p class="fenXiao-num">{{ selectedIndex == 1 || isSaleManage == 5  ? fenxiao.total.renshu : selectedIndex == 2 ? fenxiao.seller_total.renshu : '' }}</p>
 								<p>团队人数</p>
 							</div>
@@ -458,7 +459,7 @@
 								</div>
 								<div class="tou_msg">
 									<p>任务量：{{item.shuadan_number}}</p>
-									<p v-if="!isSaleManage==5">团队人数：￥{{item.renshu}}</p>
+									<p v-if="isSaleManage!=5">团队人数：￥{{item.renshu}}</p>
 									<p>我的收益：￥{{item.my_money}}</p>
 								</div>
 							</li>
@@ -472,7 +473,7 @@
 								</div>
 								<div class="tou_msg">
 									<p>任务量：{{item.shuadan_number}}</p>
-									<p v-if="!isSaleManage==5">团队人数：￥{{item.renshu}}</p>
+									<p v-if="isSaleManage!=5">团队人数：￥{{item.renshu}}</p>
 									<p>我的收益：￥{{item.my_money}}</p>
 								</div>
 							</li>
