@@ -530,7 +530,8 @@
 			<div class="share-box" v-show="modal">
 				<img class="close" src="../../img/close.png" alt="" @tap="modal = false">
 				<h1 class="share-tit">手机截图分享好友</h1>
-				<p class="share-desc">分享邀请码给好友<b>&nbsp;可成为上级</b> 好友每笔任务可获得<b>{{codeInfo.jiangli}}</b>奖励</p>
+				<!-- <p class="share-desc">分享邀请码给好友<b>&nbsp;可成为上级</b> 好友每笔任务可获得<b>{{codeInfo.jiangli}}</b>奖励</p> -->
+				<p class="share-desc" v-html="codeInfo.share_tip"></p>
 				<div class="scan-box">
 					<!--					<p>扫码下载</p>-->
 					<!--					<div id="qrcode"></div>-->
@@ -748,20 +749,25 @@
 								// 	colorDark : "#000000",
 								// 	colorLight : "#ffffff",
 								// });
-								var qrcode1 = new QRCode(document.getElementById("qrcode1"), {
-									text: _this.codeInfo.share_url,
-									width: 90,
-									height: 90,
-									colorDark : "#000000",
-									colorLight : "#ffffff",
-								});
-								// var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
-								// 	text: _this.codeInfo.ios_share_url,
-								// 	width: 90,
-								// 	height: 90,
-								// 	colorDark : "#000000",
-								// 	colorLight : "#ffffff",
-								// });
+								if(mui.os.ios){
+									var qrcode1 = new QRCode(document.getElementById("qrcode1"), {
+										text: _this.codeInfo.ios_share_url,
+										width: 90,
+										height: 90,
+										colorDark : "#000000",
+										colorLight : "#ffffff",
+									});
+								}else{
+									var qrcode1 = new QRCode(document.getElementById("qrcode1"), {
+										text: _this.codeInfo.share_url,
+										width: 90,
+										height: 90,
+										colorDark : "#000000",
+										colorLight : "#ffffff",
+									});
+								}
+								
+								
 							}else{
 								ca.prompt(res.msg);
 							}

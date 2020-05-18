@@ -56,11 +56,14 @@
 						}, 10)
 					}else{
 						plus.webview.open('tabbar.html','tabbar.html');
+						 
 					}
 				}
 			}
 			mui.plusReady(function() {
-				plus.navigator.closeSplashscreen();	//关闭splash页面;
+				setTimeout(()=>{
+					plus.navigator.closeSplashscreen();	//关闭splash页面;
+				},3000);
 				// plus.navigator.setFullscreen(true);	//设置沉浸式导航栏 
 				// plus.navigator.setStatusBarStyle('dark');
 				// plus.navigator.setStatusBarBackg round('#ffffff');	//设置系统状态栏背景色

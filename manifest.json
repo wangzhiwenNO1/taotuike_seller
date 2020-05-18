@@ -42,6 +42,10 @@
         "ignoreVersion" : true //true表示忽略版本检查提示框，HBuilderX1.9.0及以上版本支持  
     },
     "plus" : {
+        // "secondwebview" : {
+        //     "launch_path" : "pages/home.html",
+        //     "id" : "pages/home.html"
+        // },
         "launchwebview" : {
             "statusbar" : {
                 "immersed" : true
@@ -64,11 +68,11 @@
         },
         // "z-index" : 2
         "splashscreen" : {
-            "autoclose" : false,
+            "autoclose" : true,
             /*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
             "waiting" : true,
             /*是否在程序启动界面显示等待雪花，true表示显示，false表示不显示。*/
-            "delay" : 2800
+            "delay" : 3000
         },
         "popGesture" : "close",
         /*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/

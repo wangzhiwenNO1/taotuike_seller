@@ -162,6 +162,7 @@
 							password:this.pwd
 						};
 						Axios.post('/api/user/login',params).then((res)=>{
+							
 							if(res.code == 1){
 								var judge_status = res.data.userinfo.judge_status;
 								var parentId = '';

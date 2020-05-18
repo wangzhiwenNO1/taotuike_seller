@@ -204,12 +204,12 @@
 				$(this).addClass("mui-active").siblings().removeClass("mui-active");
 
 				if (mui.os.ios || aniShow[targetTab]) {
-					plus.webview.show(targetTab, "fade-in", 300);
+					plus.webview.show(targetTab, "fade-in", 100);
 				} else {
 					var temp = {};
 					temp[targetTab] = "true";
 					mui.extend(aniShow, temp);
-					plus.webview.show(targetTab, "fade-in", 300);
+					plus.webview.show(targetTab, "fade-in", 100);
 
 				}
 
