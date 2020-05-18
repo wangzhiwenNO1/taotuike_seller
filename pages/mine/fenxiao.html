@@ -431,7 +431,6 @@
 						</div> -->
 						<div class="h_msg">
 							<div>
-								<div>{{isSaleManage}}</div>
 								<p class="fenXiao-num">{{ selectedIndex == 1 || isSaleManage == 5 ? fenxiao.total.shuadan_number :selectedIndex == 2 ? fenxiao.seller_total.shuadan_number : ''}}</p>
 								<p>任务量</p>
 							</div>
@@ -453,7 +452,7 @@
 						<ul class="tuandui" v-if="isSaleManage == 3 && fenxiao.sale_members.length ">
 							<li class="" v-for="(item,index) in fenxiao.sale_members">
 								<div class="touImg">
-									<img :src="item.avatar ? item.avatar :'../../img/8.jpeg'" alt="" />
+									<img :src="item.avatar ? item.avatar :'../../img/touImg.png'" alt="" />
 									<p class="">{{item.username}}</p>
 									<p class="">{{item.mobile}}</p>
 								</div>
@@ -530,7 +529,7 @@
 			</div>
 			<div class="share-box" v-show="modal">
 				<img class="close" src="../../img/close.png" alt="" @tap="modal = false">
-				<h1 class="share-tit">分享给好友</h1>
+				<h1 class="share-tit">手机截图分享好友</h1>
 				<p class="share-desc">分享邀请码给好友<b>&nbsp;可成为上级</b> 好友每笔任务可获得<b>{{codeInfo.jiangli}}</b>奖励</p>
 				<div class="scan-box">
 					<!--					<p>扫码下载</p>-->
@@ -770,7 +769,8 @@
 					},
 					// 去分享
 					toShare(){
-						copyContent(this.codeInfo.invitecode,this.codeInfo.ke);
+						let str="注册邀请码："+this.codeInfo.invitecode+",下载：http://t.cn/A6AgjBsH,这是我用过最安全靠谱的资源。免费运营  被抓包赔  本地服务"
+						copyContent(str,"复制成功");
 						document.location.href = 'weixin://';
 					},
 					// 分销列表
