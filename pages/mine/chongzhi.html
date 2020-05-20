@@ -234,8 +234,8 @@
 				max-height:200px;
 			}
 			.hasPingZheng img{
-				width:100%;
-				height: 100%;
+				width:150px;
+				height:200px;
 				min-height: 80px;
 				border:1px dotted #66D1CF;
 				display: block;
@@ -391,6 +391,7 @@
 		</style>
 		<script src="../../js/jquery-3.2.1.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/qs.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/mui.previewimage.js"></script>
 		<script src="../../js/mui.zoom.js"></script>
 		<script src="../../js/castapp.js" type="text/javascript" charset="utf-8"></script>
@@ -438,6 +439,7 @@
 						var copy_content = _this.paySet.pay_code;
 						copyContent(copy_content);
 					})
+					this.seeBankInfo();
 				},
 				methods: {
 					// 获取充值支付方式配置
@@ -451,11 +453,27 @@
 						Axios.get('/api/Rech/get_pay_set', params).then((res) => {
 							if (res.code == 1) {
 								this.paySet = res.data;
+								
+							} else {
+								ca.prompt(res.msg);
+							}
+						})
+					},
+					// 查看银行卡
+					seeBankInfo() {
+						let params = {
+							token:storage.get("token") || ""
+							// token:"870bc868-10c5-45fe-a479-31a7aef0f1b4"
+						};
+						console.log(params)
+						var that = this;
+						Axios.get("/api/Auth/my_bank", params).then(function(res) {
+							if (res.code == 1) {
 								that.chongzhi={
 									re_num:0,
-									re_pic:'',
-									re_code:res.data.pay_code,
-									re_name:res.data.name,
+									re_pic:res.data.bank_card_image,
+									re_code:res.data.bank_card_num,
+									re_name:res.data.card_name,
 									bind_type:1
 								}
 							} else {
@@ -463,7 +481,6 @@
 							}
 						})
 					},
-
 					// 充值凭证裁切上传
 					uploadFile(){
 						openWebview({

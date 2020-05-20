@@ -12,98 +12,108 @@
 			.mui-icon-left-nav {
 				color: #666;
 			}
-			
+
 			.mui-title {
 				font-size: 18px;
 				color: #333;
 			}
-			
+
 			body {
 				background: #F2F2F2;
 			}
-			
+
 			.mui-content {
 				background: #F2F2F2;
 			}
-			
+
 			.jine {
 				background: #fff;
 				padding: 0 3.2%;
 			}
-			
+
 			.jine_t {
 				color: #333;
 				font-size: 14px;
 				padding-top: 20px;
 				margin-bottom: 24px;
 			}
-			
+
 			.inputJine {
 				padding-bottom: 23px;
 				border-bottom: 1px solid #E5E5E5;
-				
+
 			}
-			.inputJine input::-webkit-input-placeholder{
+
+			.inputJine input::-webkit-input-placeholder {
 				font-size: 12px;
 			}
-			.inputJine input::-moz-placeholder{
+
+			.inputJine input::-moz-placeholder {
 				font-size: 12px;
 			}
-			.inputJine input:-ms-input-placeholder{
+
+			.inputJine input:-ms-input-placeholder {
 				font-size: 12px;
 			}
+
 			.inputJine label {
 				float: none;
 				padding: 0;
 				font-size: 30px;
 				color: #333;
 			}
-			
+
 			.jine .inputJine input {
 				float: none;
 				font-size: 48px;
 				color: #333;
-				width:85%;
+				width: 85%;
 				height: auto;
 			}
+
 			.mui-input-row .mui-input-clear~.mui-icon-clear,
 			.mui-input-row .mui-input-password~.mui-icon-eye,
 			.mui-input-row .mui-input-speech~.mui-icon-speech {
 				top: 25px;
 			}
-			
+
 			.minTixian {
 				color: #999;
 				font-size: 12px;
 				padding-bottom: 10px;
 				margin-bottom: 0px;
 			}
-			
+
 			.minTixian span {
 				color: #333;
 			}
-			
+
 			.minTixian em {
 				color: #66D1CF;
 			}
-			.zhuangtai{
+
+			.zhuangtai {
 				background: #fff;
 				margin-top: 10px;
 				padding: 0px 3.2% 5px;
 			}
-			.zhuangtai .zhuangtai_t{
+
+			.zhuangtai .zhuangtai_t {
 				color: #333;
 				font-size: 14px;
 				padding-top: 15px;
 			}
-			.shiming p{
+
+			.shiming p {
 				color: #66D1CF;
 				margin-bottom: 0px;
 			}
-			.zhanghu p{
+
+			.zhanghu p {
 				color: #999;
 			}
-			.tixian{
+
+			.tixian {
 				width: 93.6%;
 				margin-left: 3.2%;
 				height: 40px;
@@ -115,6 +125,7 @@
 				border-radius: 40px;
 				border: none;
 			}
+
 			.zhifu {
 				background: #fff;
 				margin-top: 10px;
@@ -140,6 +151,7 @@
 				top: 22px;
 				left: 0px;
 			}
+
 			.zhifu ul li {
 				padding-left: 3.2%;
 			}
@@ -156,6 +168,7 @@
 				color: #333;
 				font-size: 14px;
 			}
+
 			.mui-checkbox,
 			.mui-radio {
 				position: relative;
@@ -201,27 +214,32 @@
 			}
 
 			.jutiMsg {}
-			.keti{
-				 margin-top: 10px;
-				 margin-bottom: 0;
-				 font-size: 14px;
+
+			.keti {
+				margin-top: 10px;
+				margin-bottom: 0;
+				font-size: 14px;
 			}
-			.keti b{
-				color:#FFA940;
+
+			.keti b {
+				color: #FFA940;
 			}
-			.allTixian{
-				color:#66D1CF;
+
+			.allTixian {
+				color: #66D1CF;
 			}
-			.bind-status img{
+
+			.bind-status img {
 				display: block;
 				margin: 10px auto;
-				width:40px;
-				height:40px;
+				width: 40px;
+				height: 40px;
 			}
-			.bind-status p{
+
+			.bind-status p {
 				padding: 0 0 10px;
 				text-align: center;
-				color:#999;
+				color: #999;
 				font-size: 14px;
 			}
 		</style>
@@ -241,9 +259,9 @@
 				</div>
 				<p class="keti">可提现金额<b>￥{{yueInfo.last_money}}</b><em class="allTixian" v-if="yueInfo.last_money > 0" @tap="cash_num = yueInfo.last_money">，全部提现</em></p>
 				<p class="minTixian">
-<!--					最低提现100元起，当前余额 <span>￥{{yueInfo.last_money}}</span>-->
-<!--					<em class="allTixian" v-if="yueInfo.last_money > 0" @tap="cash_num = yueInfo.last_money">，全部提现</em>-->
-					提示：支持提现5万额度，预计1~2个工作日到账！
+					<!--					最低提现100元起，当前余额 <span>￥{{yueInfo.last_money}}</span>-->
+					<!--					<em class="allTixian" v-if="yueInfo.last_money > 0" @tap="cash_num = yueInfo.last_money">，全部提现</em>-->
+					提示：仅支持银行卡提现，预计10~30分钟内到账！（节假日延迟）
 				</p>
 
 			</div>
@@ -291,24 +309,24 @@
 				</div>
 				<!--				<p class="more">展开更多 <i class="mui-icon mui-icon-arrowdown"></i></p>-->
 			</div>
-<!--			<div class="zhuangtai">-->
-<!--				<div class="shiming">-->
-<!--					<p class="zhuangtai_t">实名状态</p>-->
-<!--					<p :class="{'zhuangtai_t':!yueInfo.real_authentication}">{{yueInfo.real_authentication ? '已实名' : '未实名'}}</p>-->
-<!--				</div>-->
-<!--				<div class="zhagnhu">-->
-<!--					<p class="zhuangtai_t">到账账户</p>-->
-<!--					<div v-if="yueInfo.bank_card_num">-->
-<!--						<p>持卡人姓名：{{yueInfo.card_name}}</p>-->
-<!--						<p>开户行名称：{{yueInfo.bank_name}}</p>-->
-<!--						<p>银行卡号：{{yueInfo.bank_card_num}}</p>-->
-<!--					</div>-->
-<!--					<p v-else>-->
-<!--						未绑定银行卡-->
-<!--					</p>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--			<button class="tixian" v-if="!yueInfo.real_authentication" @tap="toAuthName">实名认证</button>-->
+			<!--			<div class="zhuangtai">-->
+			<!--				<div class="shiming">-->
+			<!--					<p class="zhuangtai_t">实名状态</p>-->
+			<!--					<p :class="{'zhuangtai_t':!yueInfo.real_authentication}">{{yueInfo.real_authentication ? '已实名' : '未实名'}}</p>-->
+			<!--				</div>-->
+			<!--				<div class="zhagnhu">-->
+			<!--					<p class="zhuangtai_t">到账账户</p>-->
+			<!--					<div v-if="yueInfo.bank_card_num">-->
+			<!--						<p>持卡人姓名：{{yueInfo.card_name}}</p>-->
+			<!--						<p>开户行名称：{{yueInfo.bank_name}}</p>-->
+			<!--						<p>银行卡号：{{yueInfo.bank_card_num}}</p>-->
+			<!--					</div>-->
+			<!--					<p v-else>-->
+			<!--						未绑定银行卡-->
+			<!--					</p>-->
+			<!--				</div>-->
+			<!--			</div>-->
+			<!--			<button class="tixian" v-if="!yueInfo.real_authentication" @tap="toAuthName">实名认证</button>-->
 			<div class="zhuanzhang">
 				<span @tap="isAgree = !isAgree" :class="{'disagree':isAgree}"><img v-if="isAgree" src="../../img/choose.png" alt=""></span>
 				勾选表示您已阅读并同意 <b @tap="toRule">《提现规则》</b>
