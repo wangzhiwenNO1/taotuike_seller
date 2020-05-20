@@ -209,7 +209,7 @@
 				padding: 13px 0px;
 			}
 			
-			.mui-input-row label~input,
+			/* .mui-input-row label~input, */
 			.mui-input-row label~select,
 			.mui-input-row label~textarea {
 				color: #ccc;
@@ -442,6 +442,7 @@
 				methods: {
 					// 获取充值支付方式配置
 					getPaySet(type) {
+						let that=this;
 						this.chongzhi.bind_type = type;
 						let params = {
 							token: storage.get("token") || "",
@@ -450,6 +451,13 @@
 						Axios.get('/api/Rech/get_pay_set', params).then((res) => {
 							if (res.code == 1) {
 								this.paySet = res.data;
+								that.chongzhi={
+									re_num:0,
+									re_pic:'',
+									re_code:res.data.pay_code,
+									re_name:res.data.name,
+									bind_type:1
+								}
 							} else {
 								ca.prompt(res.msg);
 							}
