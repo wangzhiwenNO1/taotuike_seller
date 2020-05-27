@@ -4,7 +4,8 @@ var config = {
     // base_url: "http://taotuike.zzqcnz.com",  // 线上测试地址
     // base_url: "http://taotuike.hncjne.com",
     // base_url: "https://taotuike.hncjne.com",	//犇犇测试地址
-	base_url:"http://39.106.231.193",
+	// base_url:"http://39.106.231.193",
+	base_url:"http://112.126.69.114",
 	
     // base_url: "https://taotuike.57t45.cn",		// -- 备案过审-已废弃
     // base_url: "https://taotuike.dianqiandai.com/",		//客户地址
